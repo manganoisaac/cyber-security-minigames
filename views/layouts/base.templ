@@ -1,0 +1,25 @@
+package layouts
+
+templ Base() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>Document</title>
+			<link rel="stylesheet" href="/public/css/styles.css"/>
+		</head>
+		<body>
+			<nav>
+				<h3 class="logo">CyberQuest</h3>
+				<ul>
+					<li><a href="">Lives: 5</a></li>
+					<li><a href="">Time Left: 19s</a></li>
+					<li><a href="">Coins: 20,000</a></li>
+					<li><a href="">Progress: 72%</a></li>
+				</ul>
+			</nav>
+			{ children... }
+		</body>
+	</html>
+}

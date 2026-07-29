@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a,
+p,
+h4 {
+  color: #aaa;
+}
+
+h1,
+h2,
+h3 {
+  color: #ccc;
+}
+
+main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.5rem;
+  background-color: darkblue;
+  border-radius: 10px;
+  color: #eee;
+}
+
+nav {
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  background-color: #222;
+  padding: 1rem;
+}
+
+ul {
+  flex: 1;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+.logo {
+  margin-right: auto;
+}
