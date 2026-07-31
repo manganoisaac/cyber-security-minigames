@@ -18,9 +18,13 @@ RUN go mod download
 COPY . .
 
 # Generate *_templ.go from *.templ.
-# Running the CLI via `go run` pins it to the templ version in go.mod,
-# so the generator and the runtime library can never drift apart.
-RUN go run github.com/a-h/templ/cmd/templ generate
+# Install the templ CLI at the version pinned in go.mod. The @version form
+# resolves the CLI's OWN dependencies independently of this project's go.mod —
+# plain `go run github.com/a-h/templ/cmd/templ` fails because the CLI pulls in
+# modules (LSP, file watcher, etc.) that aren't in the app's go.sum.
+# If you bump templ in go.mod, bump this version to match.
+RUN go install github.com/a-h/templ/cmd/templ@v0.3.1020
+RUN templ generate
 
 # Build a fully static binary (CGO off -> no libc dependency at runtime).
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app/server ./cmd/server

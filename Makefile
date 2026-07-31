@@ -28,12 +28,12 @@ logs:
 
 # Regenerate *_templ.go from *.templ (needed after editing a .templ, if not using `make dev`).
 generate:
-	go run github.com/a-h/templ/cmd/templ generate
+	go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate
 
 # Live-reload dev server (needs Go). Edits to .templ/.go refresh the browser automatically.
 # Open http://localhost:7331  (the app itself runs on :3000; 7331 is templ's reload proxy).
 dev:
-	go run github.com/a-h/templ/cmd/templ generate \
+	go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate \
 		--watch \
 		--proxy="http://localhost:3000" \
 		--cmd="go run ./cmd/server" \

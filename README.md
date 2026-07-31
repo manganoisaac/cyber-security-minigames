@@ -118,7 +118,7 @@ browser to refresh automatically, use the live-reload dev server. This one needs
 ```bash
 make dev
 # or, without make:
-go run github.com/a-h/templ/cmd/templ generate \
+go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate \
     --watch --proxy="http://localhost:3000" --cmd="go run ./cmd/server" --open-browser=false
 ```
 
@@ -131,7 +131,7 @@ If you edited a `.templ` and are **not** using live reload, regenerate the Go co
 
 ```bash
 make generate
-# or: go run github.com/a-h/templ/cmd/templ generate
+# or: go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate
 ```
 
 ---
