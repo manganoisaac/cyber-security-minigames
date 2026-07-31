@@ -4,11 +4,15 @@
 #
 # Windows without `make`? Just run the command after the ":" for the target you want.
 
-.PHONY: up rebuild build down logs generate dev
+.PHONY: up watch rebuild build down logs generate dev
 
 # Run the app in Docker. Open http://localhost:3000
 up:
 	docker compose up
+
+# Develop in Docker: auto-rebuild + restart on save (only Docker needed).
+watch:
+	docker compose watch
 
 # Rebuild the image, then run. Use this after pulling new code.
 rebuild:

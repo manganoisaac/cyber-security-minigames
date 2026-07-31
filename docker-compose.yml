@@ -17,3 +17,16 @@ services:
       timeout: 3s
       retries: 3
       start_period: 5s
+    # Dev loop: `docker compose watch` rebuilds + restarts on every source save.
+    # Docker Desktop does the file-watching on the HOST, so this works reliably
+    # on Windows/Mac/Linux (unlike watching from inside the container).
+    # Ignored by plain `docker compose up`. Needs Docker Compose v2.22+.
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+          ignore:
+            - .git/
+            - tmp/
+            - "*.md"
+            - .env

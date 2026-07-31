@@ -9,12 +9,15 @@ The whole thing runs as one container.
 
 ## What you need
 
-Just **Docker Desktop**. No Go, no Node, nothing else.
+Just **Docker Desktop**. No Go, no Node, nothing else — for both running *and* developing the app.
 
 - **Windows / macOS:** install Docker Desktop → https://www.docker.com/products/docker-desktop/
 - **Linux:** install Docker Engine + the Docker Compose plugin.
 
 Make sure Docker Desktop is **running** before you start.
+
+(There's one *optional* power-user dev mode further down that needs Go installed. You can ignore it —
+everything works with Docker alone.)
 
 ---
 
@@ -43,6 +46,7 @@ You do **not** need Go installed for this — everything is built inside the con
 | I want to…                     | Command                        |
 | ------------------------------ | ------------------------------ |
 | Start the app                  | `docker compose up`            |
+| Develop (auto-rebuild on save) | `docker compose watch`         |
 | Start after pulling new code   | `docker compose up --build`    |
 | Stop it                        | `Ctrl + C` (or `docker compose down` in another terminal) |
 | See the logs                   | `docker compose logs -f`       |
@@ -109,30 +113,44 @@ Two things worth knowing:
 
 ---
 
-## Active development (live reload)
+## Developing (auto-rebuild on save) — only Docker
 
-`docker compose up` is great for *running* the app. But if you're **editing code** and want the
-browser to refresh automatically, use the live-reload dev server. This one needs **Go installed**
-(https://go.dev/dl/ — version 1.26 or newer):
+When you're **editing code**, use `docker compose watch` instead of `docker compose up`:
 
 ```bash
-make dev
-# or, without make:
-go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate \
-    --watch --proxy="http://localhost:3000" --cmd="go run ./cmd/server" --open-browser=false
+docker compose watch
 ```
 
-Then open **http://localhost:7331** — note that's **7331**, not 3000. That's templ's live-reload
-proxy. Edit a `.templ` or `.go` file, save, and the page refreshes on its own.
+Now edit any `.templ`, `.go`, or file under `public/`, save, and Docker automatically rebuilds and
+restarts the app. Refresh **http://localhost:3000** to see the change. Stop with **Ctrl + C**.
+
+This needs **only Docker** — Docker Desktop watches your files on the host side and rebuilds, which
+works reliably on Windows, Mac, and Linux. (It needs Docker Compose v2.22 or newer; check with
+`docker compose version`.) The first rebuild after a change takes a few seconds; thanks to build
+caching, later ones are faster.
+
+> **Tip:** keep the `docker compose watch` terminal open while you work. When you save, watch the
+> log — you'll see it rebuild, then "listening on port 3000" — then refresh the browser.
+
+### Optional: instant hot reload with auto browser refresh (needs Go)
+
+If you're doing heavy front-end work and want *sub-second* reload with the browser refreshing on its
+own (no manual refresh), there's a faster loop — but it needs **Go installed**
+(https://go.dev/dl/ — 1.26+). Stop Docker first (`docker compose down`), since both use port 3000,
+then from the repo root:
+
+```bash
+go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate --watch --proxy="http://localhost:3000" --cmd="go run ./cmd/server" --open-browser=false
+```
+
+Open **http://localhost:7331** (that's templ's reload proxy, not 3000). Shortcuts for the same
+command: `make dev` (macOS/Linux, or Windows via `winget install ezwinports.make`), or `dev` on
+Windows (runs `dev.cmd`). Wait for `listening on port 3000` in the terminal before refreshing.
 
 > Live reload only injects itself into pages with a closing `</body>` tag, so keep that in the layout.
 
-If you edited a `.templ` and are **not** using live reload, regenerate the Go code once:
-
-```bash
-make generate
-# or: go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate
-```
+If you edited a `.templ` and want to regenerate the Go code once without running any watcher (needs
+Go): `go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate`.
 
 ---
 
@@ -166,9 +184,25 @@ lead developer (Isaac) for review before it's merged to `main`. Don't commit str
   `cmd/server/main.go`, update the right-hand port in `docker-compose.yml` and the `EXPOSE`/health
   check to match.
 - **Port 3000 already in use** — set `HOST_PORT` in `.env` (see "Changing the port").
-- **Edited a `.templ` but nothing changed** — regenerate: `make generate`, or run with `make dev`.
-  If you're on the Docker path, rebuild: `docker compose up --build`.
+- **`docker compose watch` says it's not a valid command** — your Docker Compose is older than
+  v2.22. Update Docker Desktop. In the meantime you can still develop with `docker compose up --build`
+  after each change.
+- **`docker compose watch` isn't picking up my saves** — make sure you started it with `watch`
+  (not `up`), and give it a few seconds — it rebuilds on each save. Editing a file it's told to
+  ignore (`*.md`, `.env`, `tmp/`, `.git/`) won't trigger a rebuild, by design.
+- **Edited a `.templ`/`.go` but nothing changed** — if you're using `docker compose up`, it doesn't
+  auto-rebuild; use `docker compose watch`, or stop and run `docker compose up --build`.
 - **Old code still showing after `git pull`** — force a rebuild: `docker compose up --build`.
+
+Optional Go hot-reload path only:
+
+- **Live dev server won't load at localhost:7331** — the app behind the proxy couldn't start,
+  almost always because **Docker is still running and holding port 3000**. Stop it
+  (`docker compose down`) and start the dev server again. Also wait for `listening on port 3000`
+  in the terminal before refreshing.
+- **`go` is not recognised / `make` is not recognised** — you don't have Go (or make) installed.
+  This optional path needs Go; the rest of the project doesn't. Use `docker compose watch` instead,
+  or install Go from https://go.dev/dl/ (and open a fresh terminal afterwards).
 
 ---
 
