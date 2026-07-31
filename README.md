@@ -9,14 +9,14 @@ The whole thing runs as one container.
 
 ## What you need
 
-Just **Docker Desktop**. No Go, no Node, nothing else — for both running *and* developing the app.
+Just **Docker Desktop**. No Go, no Node, nothing else - for both running *and* developing the app.
 
 - **Windows / macOS:** install Docker Desktop → https://www.docker.com/products/docker-desktop/
 - **Linux:** install Docker Engine + the Docker Compose plugin.
 
 Make sure Docker Desktop is **running** before you start.
 
-(There's one *optional* power-user dev mode further down that needs Go installed. You can ignore it —
+(There's one *optional* power-user dev mode further down that needs Go installed. You can ignore it unless confident,
 everything works with Docker alone.)
 
 ---
@@ -37,7 +37,7 @@ Then open **http://localhost:3000** in your browser.
 The first run takes a minute or two while it downloads the base image and builds. Later runs
 are much faster. Press **Ctrl + C** in the terminal to stop it.
 
-You do **not** need Go installed for this — everything is built inside the container.
+You do **not** need Go installed for this, everything is built inside the container.
 
 ---
 
@@ -135,7 +135,7 @@ caching, later ones are faster.
 ### Optional: instant hot reload with auto browser refresh (needs Go)
 
 If you're doing heavy front-end work and want *sub-second* reload with the browser refreshing on its
-own (no manual refresh), there's a faster loop — but it needs **Go installed**
+own (no manual refresh), there's a faster loop, but it needs **Go installed**
 (https://go.dev/dl/ — 1.26+). Stop Docker first (`docker compose down`), since both use port 3000,
 then from the repo root:
 
