@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    image: gu-cyber-minigames:local
+    # Left of the colon = port on YOUR machine (change via HOST_PORT in .env).
+    # Right of the colon = the port the app listens on inside the container.
+    # main.go binds to :3000, so the right side stays 3000.
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      - PORT=3000
+    restart: unless-stopped
+    # Basic liveness check. Adjust the path if the app has no route at "/".
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s

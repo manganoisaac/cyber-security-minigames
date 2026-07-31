@@ -1,0 +1,19 @@
+# Version control
+.git
+.gitignore
+
+# Local env / secrets (never bake into the image)
+.env
+
+# Dev + build artifacts
+tmp/
+*.log
+
+# Files not needed inside the image
+README.md
+Makefile
+docker-compose*.yml
+Dockerfile
+
+# Node stuff, if any tooling ever gets added
+node_modules/
