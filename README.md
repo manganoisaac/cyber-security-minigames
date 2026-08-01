@@ -164,7 +164,7 @@ Each activity is a page (or a few pages) plus its handlers:
 4. Run `make generate` (or use `make dev`) and check it in the browser.
 
 Keep each activity self-contained so it can be played on its own — that's a core design
-requirement (the "Previously…" recap model).
+requirement.
 
 ---
 
@@ -210,4 +210,4 @@ Optional Go hot-reload path only:
 
 Deployment to the client's server is coordinated by the Integration / Deployment lead. Because the
 app is a single container with no database, deploying is essentially "build the image and run it on
-the target host." Check with Jeremy before pushing anything to a live server.
+the target host."
