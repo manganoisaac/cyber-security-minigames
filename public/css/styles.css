@@ -57,3 +57,188 @@ a {
 .logo {
   margin-right: auto;
 }
+
+/* --- Case file banners (activities list) --- */
+/* Replaces every earlier .activity-list / .activity-card / .case-frame
+   / .corner* / .status-pill* rule. Delete any older versions of these
+   selectors from styles.css first so this is the only one left. */
+
+.activities {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-list li {
+  width: 100%;
+}
+
+.activity-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: inherit;
+  border: 2px solid #b06a2e;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.case-frame {
+  position: relative;
+  width: 220px;
+  min-width: 220px;
+  height: 140px;
+  background: #1b2430;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}
+.corner-tl { top: 8px; left: 8px; border-top: 2px solid #b06a2e; border-left: 2px solid #b06a2e; }
+.corner-tr { top: 8px; right: 8px; border-top: 2px solid #b06a2e; border-right: 2px solid #b06a2e; }
+.corner-bl { bottom: 8px; left: 8px; border-bottom: 2px solid #b06a2e; border-left: 2px solid #b06a2e; }
+.corner-br { bottom: 8px; right: 8px; border-bottom: 2px solid #b06a2e; border-right: 2px solid #b06a2e; }
+
+.activity-card-body {
+  flex: 1;
+  padding: 22px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.activity-card-body .num {
+  font-size: 13px;
+  color: #5f5e5a;
+}
+
+.activity-card-body .title {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.status-pill {
+  display: inline-block;
+  width: fit-content;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-top: 2px;
+}
+.status-incomplete { background: #FCEBEB; color: #791F1F; }
+.status-complete   { background: #EAF3DE; color: #27500A; }
+/* --- Hero banner (landing page + activities menu) --- */
+
+.hero {
+  position: relative;
+  background: url("/public/images/hero-banner.svg") center center / cover no-repeat;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  padding: 32px 24px;
+  box-sizing: border-box;
+}
+
+/* Darkening overlay so text stays readable regardless of the image's
+   own contrast at that point — belt-and-braces alongside the white text. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.hero h1,
+.hero .btn {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: 32px;
+  margin: 0;
+}
+
+.hero .btn {
+  background: #e0a45c;
+  color: #1b2430;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hero .btn:hover {
+  background: #f0b46c;
+}
+
+/* Same hero image used as a shorter banner above the activities list */
+.activities-hero {
+  position: relative;
+  background: url("/public/images/hero-banner.svg") center center / cover no-repeat;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.activities-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.activities-hero h1 {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  margin: 0;
+}
+.hero {
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 720px !important;
+  background: url("/public/images/hero-banner.svg") center center / cover no-repeat; !important
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
