@@ -97,6 +97,7 @@ internal/handlers/   games.go — request handlers (routes / game logic)
 views/
   layouts/           base.templ — shared page shell
   pages/             landing.templ etc. — individual pages
+  components/        banners.templ - contains inline .svg for the icons for each case on activites page
   *_templ.go         GENERATED from the .templ files — do not edit by hand
 public/
   css/styles.css     styles
