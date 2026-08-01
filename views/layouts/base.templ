@@ -1,25 +1,48 @@
 package layouts
 
-templ Base() {
+import "strconv"
+
+templ Base(title string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>Document</title>
+			<title>{ title }</title>
 			<link rel="stylesheet" href="/public/css/styles.css"/>
+			<script src="/public/js/htmx.js"></script>
 		</head>
-		<body>
-			<nav>
-				<h3 class="logo">CyberQuest</h3>
-				<ul>
-					<li><a href="">Lives: 5</a></li>
-					<li><a href="">Time Left: 19s</a></li>
-					<li><a href="">Coins: 20,000</a></li>
-					<li><a href="">Progress: 72%</a></li>
-				</ul>
-			</nav>
-			{ children... }
+		<body hx-boost="true">
+			@SiteNav()
+			<main>
+				{ children... }
+			</main>
 		</body>
 	</html>
+}
+
+// SiteNav is the menu shown on every page. hx-boost on the body (above)
+// makes these links swap the page smoothly instead of a full reload,
+// while still working as normal links if JavaScript is unavailable.
+templ SiteNav() {
+	<nav class="site-nav">
+		<a href="/" class="logo">CyberQuest</a>
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/activities">Activities</a></li>
+			<li><a href="/credits">Credits</a></li>
+		</ul>
+	</nav>
+}
+
+// HUD is the in-game status bar (your original nav content, kept as a
+// component so it isn't lost). It is NOT shown by default — drop it into
+// an activity page once the progression system exists, e.g. @layouts.HUD(...).
+templ HUD(lives int, timeLeft string, coins int, progress int) {
+	<div class="hud">
+		<span>Lives: { strconv.Itoa(lives) }</span>
+		<span>Time: { timeLeft }</span>
+		<span>Coins: { strconv.Itoa(coins) }</span>
+		<span>Progress: { strconv.Itoa(progress) }%</span>
+	</div>
 }

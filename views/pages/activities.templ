@@ -1,0 +1,47 @@
+package pages
+
+import (
+	"strconv"
+
+	"cyber-security-minigames/views/layouts"
+)
+
+// ActivityLink is a single entry in the activities menu.
+type ActivityLink struct {
+	Slug   string
+	Number int
+	Title  string
+	Topic  string
+}
+
+// Activities is the ordered list of activities. Both the menu below and
+// the routes in internal/handlers/games.go are built from this one list,
+// so adding an activity here wires it up everywhere. Titles/topics are
+// placeholders — adjust to match the final narrative.
+var Activities = []ActivityLink{
+	{Slug: "phishing", Number: 1, Title: "Phishing Investigation", Topic: "Email security"},
+	{Slug: "password", Number: 2, Title: "Password & Environmental", Topic: "Password security"},
+	{Slug: "privacy", Number: 3, Title: "Online Privacy", Topic: "Digital footprint"},
+	{Slug: "encryption", Number: 4, Title: "Encryption Bridge", Topic: "Encryption"},
+	{Slug: "network", Number: 5, Title: "Network Defence", Topic: "Network security"},
+	{Slug: "investigation", Number: 6, Title: "Final Investigation", Topic: "Evidence & reasoning"},
+}
+
+templ ActivitiesIndex() {
+	@layouts.Base("Activities") {
+		<section class="activities">
+			<h1>Case Files</h1>
+			<ul class="activity-list">
+				for _, a := range Activities {
+					<li>
+						<a class="activity-card" href={ templ.SafeURL("/activity/" + a.Slug) }>
+							<span class="num">Case { strconv.Itoa(a.Number) }</span>
+							<span class="title">{ a.Title }</span>
+							<span class="topic">{ a.Topic }</span>
+						</a>
+					</li>
+				}
+			</ul>
+		</section>
+	}
+}
