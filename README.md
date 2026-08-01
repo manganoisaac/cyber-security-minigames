@@ -101,6 +101,7 @@ views/
 public/
   css/styles.css     styles
   js/htmx.js         htmx library
+  images/hero-banner.svg  hero banner image
 go.mod / go.sum      Go dependencies
 ```
 
