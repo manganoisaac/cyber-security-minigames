@@ -1,18 +1,21 @@
 package main
 
 import (
-	"cyber-security-minigames/views/pages"
 	"fmt"
 	"net/http"
+	"os"
 
-	"github.com/a-h/templ"
+	"cyber-security-minigames/internal/handlers"
 )
 
 func main() {
-	fs := http.FileServer(http.Dir("public"))
-	http.Handle("/public/", http.StripPrefix("/public/", fs))
-	component := pages.Landing()
-	http.Handle("/", templ.Handler(component))
-	fmt.Println("listening on port 3000")
-	http.ListenAndServe(":3000", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	fmt.Println("listening on port " + port)
+	if err := http.ListenAndServe(":"+port, handlers.Routes()); err != nil {
+		fmt.Println("server error:", err)
+	}
 }
