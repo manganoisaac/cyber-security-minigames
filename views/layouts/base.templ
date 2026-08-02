@@ -1,7 +1,5 @@
 package layouts
 
-import "strconv"
-
 templ Base(title string) {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -9,40 +7,14 @@ templ Base(title string) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>{ title }</title>
+			<style>
+      @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+      </style>
 			<link rel="stylesheet" href="/public/css/styles.css"/>
 			<script src="/public/js/htmx.js"></script>
 		</head>
-		<body hx-boost="true">
-			@SiteNav()
-			<main>
-				{ children... }
-			</main>
+		<body>
+			{ children... }
 		</body>
 	</html>
-}
-
-// SiteNav is the menu shown on every page. hx-boost on the body (above)
-// makes these links swap the page smoothly instead of a full reload,
-// while still working as normal links if JavaScript is unavailable.
-templ SiteNav() {
-	<nav class="site-nav">
-		<a href="/" class="logo">CyberQuest</a>
-		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/activities">Activities</a></li>
-			<li><a href="/credits">Credits</a></li>
-		</ul>
-	</nav>
-}
-
-// HUD is the in-game status bar (your original nav content, kept as a
-// component so it isn't lost). It is NOT shown by default — drop it into
-// an activity page once the progression system exists, e.g. @layouts.HUD(...).
-templ HUD(lives int, timeLeft string, coins int, progress int) {
-	<div class="hud">
-		<span>Lives: { strconv.Itoa(lives) }</span>
-		<span>Time: { timeLeft }</span>
-		<span>Coins: { strconv.Itoa(coins) }</span>
-		<span>Progress: { strconv.Itoa(progress) }%</span>
-	</div>
 }

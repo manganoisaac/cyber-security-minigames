@@ -3,10 +3,13 @@ package pages
 import "cyber-security-minigames/views/layouts"
 
 templ Landing() {
-	@layouts.Base("Home") {
-		<section class="hero">
-			<h1>Are You Ready???</h1>
-			<a class="btn" href="/activities">Let's Begin</a>
-		</section>
+	@layouts.Base("Cyber Security Minigames") {
+		<main id="landing-page-bg">
+			<section class="menu">
+				<img src="../../public/images/Title.png" class="heading-img"/>
+				<button class="img-button">Start Investigation</button>
+				<button class="img-button">Start Chapter</button>
+			</section>
+		</main>
 	}
 }
