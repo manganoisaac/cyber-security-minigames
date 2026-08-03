@@ -22,6 +22,7 @@ func Routes() http.Handler {
 	// Core pages. "GET /{$}" matches only the exact root path, so it
 	// doesn't swallow every other route.
 	mux.Handle("GET /{$}", templ.Handler(pages.Landing()))
+	mux.Handle("GET /chapter-select", templ.Handler(pages.ChapterSelect()))
 
 	return mux
 }

@@ -1,6 +1,17 @@
 * {
   margin: 0;
   padding: 0;
+  user-select: none;
+}
+
+@font-face {
+  font-family: "American Cursive";
+  src: url("../fonts/americancursive.ttf");
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 button,
@@ -36,6 +47,17 @@ a {
   align-items: flex-end;
 }
 
+#chapter-select-bg {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url("../images/Chapter Select 2.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 section.menu {
   display: flex;
   flex-direction: column;
@@ -50,7 +72,10 @@ img.heading-img {
   margin-bottom: 3rem;
 }
 
-button.img-button {
+a.img-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background:
     linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
     url("../images/Button.png");
@@ -60,19 +85,72 @@ button.img-button {
   height: 4rem;
   margin-bottom: 1rem;
 }
+
+a.back-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    url("../images/Back Arrow.png");
+  background-size: 100% 100%;
+  border: 0;
+  width: 110px;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 70px;
+  margin: 2rem;
+  font-size: 1.2rem;
+}
 /* TODO: add on-hover styles for button */
 
-button.img-button:hover {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("../images/Button.png");
-  background-size: 100% 100%;
+a:hover,
+button:hover {
+  filter: brightness(0.7);
   cursor: pointer;
 }
 
-button.img-button:active {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-    url("../images/Button.png");
-  background-size: 100% 100%;
+a:active,
+button:hover {
+  filter: brightness(0.5);
+}
+
+h3.chapter-select {
+  position: fixed;
+  font-family: "American Cursive";
+  left: 20%;
+  transition: transform 0.2s ease;
+}
+
+h3.chapter-select:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+h3.chapter-select:active {
+  transform: scale(0.95);
+}
+
+h3.cs-1 {
+  top: 26%;
+}
+
+h3.cs-2 {
+  top: 35%;
+}
+
+h3.cs-3 {
+  top: 44%;
+}
+
+h3.cs-4 {
+  top: 53%;
+}
+
+h3.cs-5 {
+  top: 62%;
+}
+
+h3.cs-6 {
+  top: 70%;
 }
