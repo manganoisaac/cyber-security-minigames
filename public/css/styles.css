@@ -12,6 +12,7 @@
 a {
   color: inherit;
   text-decoration: none;
+  transition: transform 0.2s ease;
 }
 
 button,
@@ -64,6 +65,7 @@ a {
   background-size: cover;
   background-position: center;
   height: 600px;
+  /* height: 550px; */
   width: 800px;
 }
 
@@ -114,16 +116,17 @@ a.back-arrow {
   margin: 2rem;
   font-size: 1.2rem;
 }
-/* TODO: add on-hover styles for button */
 
 a:hover,
 button:hover {
   filter: brightness(0.7);
+  transform: scale(1.05);
   cursor: pointer;
 }
 
 a:active,
 button:hover {
+  transform: scale(0.95);
   filter: brightness(0.5);
 }
 
@@ -131,6 +134,7 @@ h3.chapter-select {
   position: absolute;
   font-family: "American Cursive";
   left: 15%;
+  /*font-size: 1.5rem; */
   transition: transform 0.2s ease;
 }
 
@@ -165,4 +169,17 @@ h3.cs-5 {
 
 h3.cs-6 {
   top: 70%;
+}
+
+.loading-state {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: black;
+  z-index: 100;
+  visibility: hidden;
+}
+
+.htmx-request .loading-state {
+  visibility: visible;
 }
