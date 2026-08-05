@@ -1,8 +1,20 @@
 package components
 
+import (
+	"strconv"
+	"strings"
+)
+
+var email_text = `
+				some test text. some test text. some test text. some test text. 
+				some test text. some test text. some test text. some test text. 
+				some test text. some test text. some test text. some test text. 
+`
+
 templ EmailList() {
 	<div class="email-list-container">
 		<div class="email-sidebar">
+			// TODO: give EmailItem a DTO struct input for details. use for loop.
 			@EmailItem()
 			@EmailItem()
 			@EmailItem()
@@ -13,6 +25,19 @@ templ EmailList() {
 			@EmailItem()
 			@EmailItem()
 		</div>
-		<div class="email-details"></div>
+		<div class="email-details">
+			// TODO: make dynamic
+			<p class="email-content">
+				for i, word := range strings.Split(email_text, " ") {
+					<span
+						hx-post={ "/email-word/" + strconv.Itoa(i) }
+						hx-trigger="click"
+						hx-swap="outerHTML"
+						class="email-word"
+						id={ "email-word-" + strconv.Itoa(i) }
+					>{ word }</span>{ " " }
+				}
+			</p>
+		</div>
 	</div>
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/a-h/templ"
 
+	"cyber-security-minigames/views/components"
 	"cyber-security-minigames/views/pages"
 )
 
@@ -24,6 +25,7 @@ func Routes() http.Handler {
 	mux.Handle("GET /{$}", templ.Handler(pages.Landing()))
 	mux.Handle("GET /chapter-select", templ.Handler(pages.ChapterSelect()))
 	mux.Handle("GET /email-client", templ.Handler(pages.EmailClient()))
+	mux.Handle("POST /email-word/{id}", templ.Handler(components.EmailWord("replaced")))
 
 	return mux
 }

@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Pixelify+Sans:wght@400..700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -15,6 +18,13 @@
 @font-face {
   font-family: "American Cursive";
   src: url("../fonts/americancursive.ttf");
+}
+
+.jetbrains-mono {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 a {
@@ -167,7 +177,7 @@ button:hover {
   filter: brightness(0.5);
 }
 
-h3.chapter-select {
+a.chapter-select {
   position: absolute;
   font-family: "American Cursive";
   left: 15%;
@@ -175,36 +185,36 @@ h3.chapter-select {
   transition: transform 0.2s ease;
 }
 
-h3.chapter-select:hover {
+a.chapter-select:hover {
   cursor: pointer;
   transform: scale(1.1);
 }
 
-h3.chapter-select:active {
+a.chapter-select:active {
   transform: scale(0.95);
 }
 
-h3.cs-1 {
+a.cs-1 {
   top: 26%;
 }
 
-h3.cs-2 {
+a.cs-2 {
   top: 35%;
 }
 
-h3.cs-3 {
+a.cs-3 {
   top: 44%;
 }
 
-h3.cs-4 {
+a.cs-4 {
   top: 53%;
 }
 
-h3.cs-5 {
+a.cs-5 {
   top: 62%;
 }
 
-h3.cs-6 {
+a.cs-6 {
   top: 70%;
 }
 
@@ -226,6 +236,10 @@ section.email-client-bg {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+section.email-client-bg * {
+  font-family: sans-serif;
 }
 
 .email-item-container {
@@ -257,10 +271,30 @@ section.email-client-bg {
 .email-list-container {
   width: 90%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   border-radius: 10px;
   border: 2px solid var(--text-muted);
   max-height: 90vh;
+}
+
+.email-details {
+  text-wrap: wrap;
+  width: 60%;
+  padding: 1rem;
+}
+
+p.email-content {
+  font-size: 1.5rem;
+}
+
+span.email-word:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  color: yellow;
+}
+
+span.email-word-selected {
+  color: red;
 }
 
 .email-sidebar {
