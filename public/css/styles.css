@@ -2,6 +2,14 @@
   margin: 0;
   padding: 0;
   user-select: none;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #ccc;
+  --bg-light: #ddd;
+  --text: #222;
+  --text-muted: #444;
 }
 
 @font-face {
@@ -27,6 +35,28 @@ a {
   font-weight: 700;
   font-size: 1.7rem;
   font-style: normal;
+  color: var(--text);
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+h4 {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+p {
+  font-size: 0.6rem;
+  font-weight: 300;
+  color: var(--text-muted);
+}
+
+b {
+  color: var(--text);
+  font-weight: 700;
 }
 
 .pixelify-sans {
@@ -189,4 +219,51 @@ h3.cs-6 {
 
 .htmx-request .loading-state {
   visibility: visible;
+}
+
+section.email-client-bg {
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.email-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 5.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--text);
+  background: var(--bg);
+  transition: all 0.2s ease;
+  gap: 1rem;
+  background: var(--bg-light);
+}
+
+.email-item-container:hover {
+  filter: brightness(0.95);
+}
+
+.email-item-container:active {
+  filter: brightness(0.9);
+}
+
+.email-item-text {
+  flex: 1;
+}
+
+.email-list-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 2px solid var(--text-muted);
+  max-height: 90vh;
+}
+
+.email-sidebar {
+  width: 40%;
+  overflow-y: scroll;
 }

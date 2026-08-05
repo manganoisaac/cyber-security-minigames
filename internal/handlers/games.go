@@ -23,6 +23,7 @@ func Routes() http.Handler {
 	// doesn't swallow every other route.
 	mux.Handle("GET /{$}", templ.Handler(pages.Landing()))
 	mux.Handle("GET /chapter-select", templ.Handler(pages.ChapterSelect()))
+	mux.Handle("GET /email-client", templ.Handler(pages.EmailClient()))
 
 	return mux
 }
