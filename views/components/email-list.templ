@@ -1,41 +1,19 @@
 package components
 
-import (
-	"strconv"
-	"strings"
-)
+import "cyber-security-minigames/data"
+import "strings"
 
-var email_text = `
-				some test text. some test text. some test text. some test text. 
-				some test text. some test text. some test text. some test text. 
-				some test text. some test text. some test text. some test text. 
-`
-
-templ EmailList() {
-	<div class="email-list-container">
+templ EmailList(selectedID int) {
+	<div class="email-list-container" id="email-list-container">
 		<div class="email-sidebar">
-			// TODO: give EmailItem a DTO struct input for details. use for loop.
-			@EmailItem()
-			@EmailItem()
-			@EmailItem()
-			@EmailItem()
-			@EmailItem()
-			@EmailItem()
-			@EmailItem()
-			@EmailItem()
-			@EmailItem()
+			for i, email := range data.EmailContent {
+				@EmailItem(i, email, i == selectedID)
+			}
 		</div>
 		<div class="email-details">
-			// TODO: make dynamic
 			<p class="email-content">
-				for i, word := range strings.Split(email_text, " ") {
-					<span
-						hx-post={ "/email-word/" + strconv.Itoa(i) }
-						hx-trigger="click"
-						hx-swap="outerHTML"
-						class="email-word"
-						id={ "email-word-" + strconv.Itoa(i) }
-					>{ word }</span>{ " " }
+				for i, word := range strings.Split(data.EmailContent[selectedID].Content, " ") {
+					@EmailWord(word, false, i)
 				}
 			</p>
 		</div>

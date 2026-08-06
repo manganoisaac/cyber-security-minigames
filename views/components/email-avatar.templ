@@ -1,0 +1,7 @@
+package components
+
+import "cyber-security-minigames/utils/avatar"
+
+templ EmailAvatar(index int, subject string) {
+	<div class="email-avatar" style={ "background-color: " + avatar.Color(index) }>{ avatar.Letter(subject) }</div>
+}

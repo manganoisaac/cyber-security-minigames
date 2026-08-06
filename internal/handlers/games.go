@@ -1,12 +1,10 @@
 package handlers
 
 import (
+	"cyber-security-minigames/views/pages"
 	"net/http"
 
 	"github.com/a-h/templ"
-
-	"cyber-security-minigames/views/components"
-	"cyber-security-minigames/views/pages"
 )
 
 // Routes wires up all page routes plus static asset serving and returns
@@ -25,7 +23,8 @@ func Routes() http.Handler {
 	mux.Handle("GET /{$}", templ.Handler(pages.Landing()))
 	mux.Handle("GET /chapter-select", templ.Handler(pages.ChapterSelect()))
 	mux.Handle("GET /email-client", templ.Handler(pages.EmailClient()))
-	mux.Handle("POST /email-word/{id}", templ.Handler(components.EmailWord("replaced")))
+	mux.HandleFunc("GET /email/{id}", HandleEmailSelect)
+	mux.HandleFunc("POST /email-word/{id}/{select}/{word}", HandleEmailWord)
 
 	return mux
 }

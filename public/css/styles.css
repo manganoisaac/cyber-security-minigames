@@ -11,6 +11,7 @@
 :root {
   --bg: #ccc;
   --bg-light: #ddd;
+  --bg-selected: #bfbfbf;
   --text: #222;
   --text-muted: #444;
 }
@@ -254,10 +255,29 @@ section.email-client-bg * {
   transition: all 0.2s ease;
   gap: 1rem;
   background: var(--bg-light);
+  overflow: hidden;
+}
+
+.email-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 
 .email-item-container:hover {
   filter: brightness(0.95);
+  cursor: pointer;
+}
+
+.email-item-container.email-item-selected {
+  background: var(--bg-selected);
 }
 
 .email-item-container:active {
@@ -295,6 +315,10 @@ span.email-word:hover {
 
 span.email-word-selected {
   color: red;
+}
+
+span.email-word-selected:hover {
+  cursor: pointer;
 }
 
 .email-sidebar {

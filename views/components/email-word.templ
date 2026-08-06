@@ -1,7 +1,21 @@
 package components
 
-templ EmailWord(word string) {
-	<span
-		class="email-word-selected"
-	>{ word }</span>{ " " }
+import "strconv"
+
+templ EmailWord(word string, isClicked bool, i int) {
+	if isClicked == true {
+		<span
+			hx-post={ "/email-word/" + strconv.Itoa(i) + "/deselect/" + word }
+			hx-swap="outerHTML"
+			id={ "email-word-" + strconv.Itoa(i) }
+			class="email-word-selected"
+		>{ word }</span>{ " " }
+	} else {
+		<span
+			hx-post={ "/email-word/" + strconv.Itoa(i) + "/select/" + word }
+			hx-swap="outerHTML"
+			class="email-word"
+			id={ "email-word-" + strconv.Itoa(i) }
+		>{ word }</span>{ " " }
+	}
 }
