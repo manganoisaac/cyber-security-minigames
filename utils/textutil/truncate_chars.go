@@ -1,4 +1,4 @@
-package textmanipulation
+package textutil
 
 func TruncateChars(s string, n int) string {
 	r := []rune(s)

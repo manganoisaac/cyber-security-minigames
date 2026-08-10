@@ -1,0 +1,13 @@
+.email-word:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  color: yellow;
+}
+
+.email-word--selected {
+  color: red;
+}
+
+.email-word--selected:hover {
+  cursor: pointer;
+}

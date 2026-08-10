@@ -1,0 +1,14 @@
+.email-avatar {
+  --avatar-size: 2.5rem;
+  --avatar-radius: 50%;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  min-width: var(--avatar-size);
+  border-radius: var(--avatar-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  font-weight: 500;
+  font-size: var(--size-l);
+}

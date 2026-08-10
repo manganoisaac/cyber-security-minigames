@@ -4,15 +4,15 @@ import "cyber-security-minigames/views/layouts"
 
 templ ChapterSelect() {
 	@layouts.Base("Cyber Security Minigames") {
-		<main id="chapter-select-bg">
-			<a class="back-arrow" href="/">Home</a>
-			<div class="book">
-				<a class="chapter-select cs-1" href="/email-client">Phishing</a>
-				<a class="chapter-select cs-2">Passwords</a>
-				<a class="chapter-select cs-3">Online Privacy</a>
-				<a class="chapter-select cs-4">Encryption</a>
-				<a class="chapter-select cs-5">Network & Defense</a>
-				<a class="chapter-select cs-6">Digital<br/>Investigation</a>
+		<main class="chapter-select">
+			<a class="chapter-select__back-arrow" href="/">Home</a>
+			<div class="chapter-select__book">
+				<a class="chapter-select__link chapter-select__link--1" href="/email-client">Phishing</a>
+				<a class="chapter-select__link chapter-select__link--2">Passwords</a>
+				<a class="chapter-select__link chapter-select__link--3">Online Privacy</a>
+				<a class="chapter-select__link chapter-select__link--4">Encryption</a>
+				<a class="chapter-select__link chapter-select__link--5">Network & Defense</a>
+				<a class="chapter-select__link chapter-select__link--6">Digital<br/>Investigation</a>
 			</div>
 		</main>
 	}

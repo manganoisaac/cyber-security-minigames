@@ -1,23 +1,41 @@
-# AGENTS.md
+## Rules
 
-Single Go web server (module `cyber-security-minigames`, Go 1.26.5) rendering HTML with templ + htmx. No database, no frontend build step.
+### CSS Organization
 
-## Commands
-- `make generate` — regenerates `*_templ.go` from `.templ` sources. **Run after every `.templ` edit**; `go build` silently ignores `.templ` changes.
-- `go build ./...` — the only verification step; there are no tests in this repo.
-- `make dev` — templ watch + live-reload proxy: browser on `:7331`, app on `:3000` (needs Go, Docker stopped). Docker alternative: `docker compose watch`.
+- All CSS lives in `public/css/`.
+- `index.css` contains **only** `@import` statements (Google Fonts first, then `./themes.css`, then feature files).
+- `themes.css` contains only `:root` CSS variables, `@font-face` declarations, and global element/utility styles.
+- Feature-specific tokens may be scoped on the feature's container selector in its own `features/*.css` file (e.g. `--details-width` on `.email-list-container`); the shared `--size-*` scale stays in `themes.css`.
+- Each feature/component gets its own file in `public/css/features/<feature>.css` (e.g. `email-list.css`, `chapter-select.css`).
+- Image URLs inside `public/css/features/*` must use `../../images/...`; in `themes.css` use `../fonts/...`.
+- New CSS must be wired into `index.css` via `@import` — never added inline to templates or another file.
+- Use the BEM naming convention (classic `Block__element--modifier`) for all CSS classes, e.g. `.email-item__text`, `.chapter-select--1`.
 
-## Architecture
-- Entrypoint `cmd/server/main.go` is a thin shell. **Routes and static-file serving are wired in `internal/handlers/games.go` (`Routes()`)** — register new routes there, not in main.go.
-- Game content data lives in `data/` (`EmailContent`), shared DTO structs in `types/` (`EmailItemProps`: Title/Subject/Content/IsMalware), shared helpers in `utils/` (`textmanipulation.TruncateChars`).
-- `views/*.templ` are the source of truth; sibling `*_templ.go` files are generated — never edit them by hand.
-- Static assets served from `./public` under `/public/...` via `http.FileServer`.
+### File Naming
 
-## Conventions
-- templ imports are one per line (`import "cyber-security-minigames/data"`), no grouped blocks. Use `templ.KV("class", cond)` for conditional classes and `{ expr }` for attribute values.
-- Routes use Go 1.22 ServeMux patterns (`GET /email/{id}`); read params with `r.PathValue("id")`. ServeMux `{id}` matches a single segment.
-- `<body hx-boost="true">` is set in `views/layouts/base.templ`. htmx is loaded from `public/js/htmx.js`.
-- Email-client pattern: `GET /email-client` renders the page; clicking an item does `GET /email/{id}` which re-renders the whole `EmailList` fragment, swapped via `hx-target="#email-list-container" hx-swap="outerHTML"` (highlight + details in one round trip, selection defaulting to index 0).
+- Go source files (`.go`), templ source files (`.templ`), and their generated `*_templ.go` files use `snake_case` — multi-word names joined with underscores. Underscores are the de-facto Go convention (`lowercase_with_underscores.go`) and match templ's generated `_templ.go` suffix, e.g. `email_client.go`, `chapter_select.templ`, `email_list_templ.go`.
+- CSS files use kebab-case (hyphens) so filenames match the BEM classes they style, e.g. `features/email-list.css` styles `.email-list__*`, `features/chapter-select.css` styles `.chapter-select`.
+- JS asset files use kebab-case to match conventional web-asset naming and the CSS they complement, e.g. `public/js/htmx-extensions.js`.
 
-## Workflow
-- Feature branch + PR to Isaac for review; never commit to `main`.
+### Sizing Tokens
+
+- Recurring sizes use semantic `:root` tokens in `themes.css`: `--size-xs` (0.6rem), `--size-s` (0.8rem), `--size-m` (1rem), `--size-l` (1.2rem), `--size-xl` (1.5rem), `--size-2xl` (1.7rem), `--size-3xl` (2rem).
+- Use `var(--size-*)` for matching `font-size` and spacing (`margin`/`padding`/`gap`) values that fit the scale.
+- All other sizes (e.g. `2.5rem`, `3rem`, `4rem`, `5.5rem`, `px` dimensions, and `vw`/`vh`/`%` values) must be declared as scoped variables on their feature's container selector in `features/*.css` — no hardcoded values in rule bodies.
+- Use `calc()` when a size is derived from or related to another size (e.g. `calc(var(--size-m) * 2)`) instead of hardcoding the result.
+
+### Templ Components
+
+- Components receive data as typed parameters (prop drilling); never read package globals (e.g. `data.Emails`) from inside a component — pass the data in from the caller.
+- Pass page-scoped data explicitly down the tree; reserve `context` for genuinely app-wide data (user/session/theme).
+- Use `context` sparingly — Go's `context` is untyped and errors surface at runtime; prefer explicit params.
+- Layouts wrap content with `{ children... }`; components that render slots accept a `templ.Component` parameter.
+
+### htmx
+
+- Keep the hypermedia model: the server returns HTML fragments, not JSON — state lives in the HTML.
+- Express interactivity in markup with `hx-*` attributes (`hx-get`/`hx-post`, `hx-target`, `hx-swap`, `hx-trigger`); avoid hand-written JS.
+- htmx requests should render only the affected component/fragment and swap it in (use `templ.WithFragments` + `templ.Fragment` when a page has multiple fragments).
+- Use the `HX-Request` header to distinguish fragment requests from full page loads.
+- Use `hx-boost` on links/forms for smooth navigation; wrap interactive inputs in a `<form>` for progressive enhancement (no-JS fallback).
+- Integrate any client scripting through htmx events (e.g. `htmx:beforeSwap`, `htmx:afterSwap`) rather than ad-hoc DOM manipulation.

@@ -1,0 +1,18 @@
+.email-submit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  --submit-padding: var(--size-s) var(--size-m);
+  --submit-radius: 8px;
+  --submit-border: 2px;
+  padding: var(--submit-padding);
+  border-radius: var(--submit-radius);
+  border: var(--submit-border) solid var(--text-muted);
+  background: var(--success);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.email-submit__count {
+  margin-left: var(--size-s);
+}

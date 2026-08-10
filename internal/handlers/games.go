@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"cyber-security-minigames/data"
 	"cyber-security-minigames/views/pages"
 	"net/http"
 
@@ -22,9 +23,10 @@ func Routes() http.Handler {
 	// doesn't swallow every other route.
 	mux.Handle("GET /{$}", templ.Handler(pages.Landing()))
 	mux.Handle("GET /chapter-select", templ.Handler(pages.ChapterSelect()))
-	mux.Handle("GET /email-client", templ.Handler(pages.EmailClient()))
+	mux.Handle("GET /email-client", templ.Handler(pages.EmailClient(data.Emails, 0, 0)))
 	mux.HandleFunc("GET /email/{id}", HandleEmailSelect)
-	mux.HandleFunc("POST /email-word/{id}/{select}/{word}", HandleEmailWord)
+	mux.HandleFunc("POST /email-word/{emailIndex}/{wordIndex}/{select}/{word}", HandleEmailWord)
+	mux.HandleFunc("POST /email-submit/{emailIndex}", HandleEmailSubmit)
 
 	return mux
 }

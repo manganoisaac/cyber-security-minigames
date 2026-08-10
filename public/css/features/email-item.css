@@ -1,0 +1,34 @@
+.email-item {
+  --item-width: 100%;
+  --item-height: 5.5rem;
+  --item-border-bottom: 1px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: var(--item-width);
+  height: var(--item-height);
+  padding: var(--size-m);
+  border-bottom: var(--item-border-bottom) solid var(--text);
+  background: var(--bg);
+  transition: all 0.2s ease;
+  gap: var(--size-m);
+  background: var(--bg-light);
+  overflow: hidden;
+}
+
+.email-item:hover {
+  filter: brightness(0.95);
+  cursor: pointer;
+}
+
+.email-item.email-item--selected {
+  background: var(--bg-selected);
+}
+
+.email-item:active {
+  filter: brightness(0.9);
+}
+
+.email-item__text {
+  flex: 1;
+}

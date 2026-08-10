@@ -1,0 +1,23 @@
+package email
+
+import "cyber-security-minigames/types"
+import "cyber-security-minigames/utils/textutil"
+import "strconv"
+
+templ EmailItem(index int, email types.Email, selected bool) {
+	<div
+		class={ "email-item", templ.KV("email-item--selected", selected) }
+		hx-get={ "/email/" + strconv.Itoa(index) }
+		hx-target="#email-list-container"
+		hx-swap="outerHTML"
+		hx-trigger="click"
+	>
+		@EmailAvatar(index, email.Subject)
+		<div class="email-item__text">
+			<h3>{ textutil.TruncateChars(email.Title, 20) }</h3>
+			<h4>{ textutil.TruncateChars(email.Subject, 30) }</h4>
+			<p>{ textutil.TruncateChars(email.Content, 50) }</p>
+		</div>
+		<p class="email-item__timestamp"><b>{ email.Timestamp }</b></p>
+	</div>
+}

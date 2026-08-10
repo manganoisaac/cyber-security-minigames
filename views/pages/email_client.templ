@@ -1,13 +1,14 @@
 package pages
 
 import "cyber-security-minigames/views/layouts"
-import "cyber-security-minigames/views/components"
+import "cyber-security-minigames/views/components/email"
+import "cyber-security-minigames/types"
 
-templ EmailClient() {
+templ EmailClient(emails []types.Email, selectedIndex int, wordsSelected int) {
 	@layouts.Base("Cyber Security Minigames") {
-		<section class="email-client-bg">
+		<section class="email-client">
 			<h1>CyberMail</h1>
-			@components.EmailList(0)
+			@email.EmailList(emails, selectedIndex, wordsSelected)
 		</section>
 	}
 }

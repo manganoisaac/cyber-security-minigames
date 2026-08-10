@@ -1,0 +1,96 @@
+.chapter-select {
+  --page-min-height: 100vh;
+  --page-width: 100%;
+  --book-height: 600px;
+  --book-width: 800px;
+  --back-arrow-width: 110px;
+  --back-arrow-height: 70px;
+  --link-left: 15%;
+  --link-top-base: 26%;
+  --link-top-step: 9%;
+  min-height: var(--page-min-height);
+  width: var(--page-width);
+  background-image: url("../../images/Chapter Select Desk.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chapter-select__book {
+  position: relative;
+  background-image: url("../../images/Chapter Select Book.png");
+  background-size: cover;
+  background-position: center;
+  height: var(--book-height);
+  width: var(--book-width);
+  filter: brightness(0.9);
+  transition: all 0.2s ease;
+}
+
+.chapter-select__book:hover {
+  filter: brightness(1);
+  transform: scale(1.02);
+}
+
+.chapter-select__back-arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    url("../../images/Back Arrow.png");
+  background-size: 100% 100%;
+  border: 0;
+  width: var(--back-arrow-width);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: var(--back-arrow-height);
+  margin: var(--size-3xl);
+  font-size: var(--size-l);
+}
+
+.chapter-select__link {
+  position: absolute;
+  font-family: "American Cursive";
+  left: var(--link-left);
+  transition: transform 0.2s ease;
+}
+
+.chapter-select__link:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.chapter-select__link:active {
+  transform: scale(0.95);
+}
+
+.chapter-select__link--1 {
+  top: var(--link-top-base);
+}
+
+.chapter-select__link--2 {
+  top: calc(var(--link-top-base) + var(--link-top-step));
+}
+
+.chapter-select__link--3 {
+  top: calc(var(--link-top-base) + var(--link-top-step) * 2);
+}
+
+.chapter-select__link--4 {
+  top: calc(var(--link-top-base) + var(--link-top-step) * 3);
+}
+
+.chapter-select__link--5 {
+  top: calc(var(--link-top-base) + var(--link-top-step) * 4);
+}
+
+.chapter-select__link--6 {
+  top: calc(var(--link-top-base) + var(--link-top-step) * 5);
+}

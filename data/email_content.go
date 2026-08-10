@@ -1,0 +1,86 @@
+package data
+
+import "cyber-security-minigames/types"
+
+var Emails = []types.Email{
+	{
+		Title:              "Password change confirmation",
+		Subject:            "Your password was successfully updated",
+		Content:            "This is a confirmation that the password for your account was changed earlier today. If this was you, no further action is needed. If you did not make this change, please contact support.",
+		IsMalware:          false,
+		Timestamp:          "1 Aug",
+		CorrectWordIndexes: []int{},
+	},
+	{
+		Title:              "Weekly status report",
+		Subject:            "Status report for the past week",
+		Content:            "Attached is the weekly status report summarizing completed tasks, ongoing work, and items pending review. Please review and reach out with any questions.",
+		IsMalware:          false,
+		Timestamp:          "2 Aug",
+		CorrectWordIndexes: []int{},
+	},
+	{
+		Title:              "Team meeting reminder",
+		Subject:            "Reminder: sync meeting at 3pm",
+		Content:            "A quick reminder that the team sync is scheduled for 3pm today in the usual conference room. Bring any updates you would like to share.",
+		IsMalware:          false,
+		Timestamp:          "2 Aug",
+		CorrectWordIndexes: []int{},
+	},
+	{
+		Title:              "Invoice from provider",
+		Subject:            "Invoice #10482 attached",
+		Content:            "This email contains invoice #10482 for services rendered last month. Payment is due within 30 days. Let us know if you have any questions about the charges.",
+		IsMalware:          false,
+		Timestamp:          "3 Aug",
+		CorrectWordIndexes: []int{},
+	},
+	{
+		Title:              "Event invitation",
+		Subject:            "You are invited to the annual review",
+		Content:            "You are cordially invited to the annual review event next Friday. Registration is open and seats are limited. Follow the link to reserve your spot.",
+		IsMalware:          false,
+		Timestamp:          "3 Aug",
+		CorrectWordIndexes: []int{},
+	},
+	{
+		Title:              "Document update notice",
+		Subject:            "A shared document was updated",
+		Content:            "One of your shared documents was recently updated. No action is required unless you are listed as a reviewer. Check the revision history for details.",
+		IsMalware:          false,
+		Timestamp:          "4 Aug",
+		CorrectWordIndexes: []int{},
+	},
+	{
+		Title:              "Security newsletter",
+		Subject:            "Monthly security tips digest",
+		Content:            "Your monthly digest of security tips is ready. This edition covers safe browsing habits, password hygiene, and recent updates to our security policy.",
+		IsMalware:          false,
+		Timestamp:          "4 Aug",
+		CorrectWordIndexes: []int{},
+	},
+	{
+		Title:              "Urgent account suspension",
+		Subject:            "Your account will be suspended",
+		Content:            "Your account is scheduled for suspension within 24 hours. To avoid losing access, verify your credentials immediately using the link provided. Failure to act may result in permanent lockout.",
+		IsMalware:          true,
+		Timestamp:          "5 Aug",
+		CorrectWordIndexes: []int{13, 15, 19},
+	},
+	{
+		Title:              "You have won a prize",
+		Subject:            "Congratulations, you are a winner!",
+		Content:            "Congratulations! Your email was randomly selected to receive a free prize. Claim your reward within the next 24 hours by providing your bank details. This offer is limited to today only.",
+		IsMalware:          true,
+		Timestamp:          "5 Aug",
+		CorrectWordIndexes: []int{10, 11, 13, 22, 23},
+	},
+	{
+		Title:              "Reset your password now",
+		Subject:            "Immediate action required on your account",
+		Content:            "We detected suspicious activity on your account. Click the link below to reset your password and confirm your identity. Failure to do so may result in restricted access to your account.",
+		IsMalware:          true,
+		Timestamp:          "5 Aug",
+		CorrectWordIndexes: []int{7, 9, 12, 14, 16},
+	},
+}
