@@ -19,5 +19,6 @@ templ EmailItem(index int, email types.Email, selected bool) {
 			<p>{ textutil.TruncateChars(email.Content, 50) }</p>
 		</div>
 		<p class="email-item__timestamp"><b>{ email.Timestamp }</b></p>
+		<input type="checkbox" id={ "email-item-checkbox-" + strconv.Itoa(index) } class="email-item__checkbox" hx-preserve/>
 	</div>
 }

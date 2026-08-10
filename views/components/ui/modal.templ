@@ -1,0 +1,11 @@
+package ui
+
+templ Modal(message string) {
+	<div class="modal">
+		<div class="modal__backdrop" hx-delete="/email-client/modal" hx-target="closest .modal" hx-swap="delete" aria-label="Close"></div>
+		<div class="modal__dialog" role="dialog" aria-modal="true">
+			<p class="modal__text">{ message }</p>
+			<a class="modal__button" hx-delete="/email-client/modal" hx-target="closest .modal" hx-swap="delete">Okay</a>
+		</div>
+	</div>
+}

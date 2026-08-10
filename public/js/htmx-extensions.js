@@ -19,23 +19,38 @@ htmx.on("htmx:beforeRequest", (event) => {
 });
 
 // ------------------------------------------------------------
-// Email selected-word count
-// Word toggles pass the current number of selected words to the
-// server so it can keep the submit-button badge in sync. The count
-// is read from the DOM before the request is configured, so it's
-// always current regardless of which word was clicked.
+// Email badge counts
+// The submit-button badge counts selected words, the checked-email
+// badge counts checked checkboxes. Both counts are read from the
+// DOM before the request is configured.
+//
+// Word toggles need a server-side increment/decrement because the
+// word's --selected class is only applied after the response swaps
+// in, so the DOM count lags the click. A native checkbox flips its
+// checked state before the click handler runs instead, so by the
+// time the request is configured the DOM count already reflects the
+// toggle — the checked-email badge needs no adjustment.
 // ------------------------------------------------------------
 htmx.on("htmx:configRequest", (event) => {
   const elt = event.detail.elt;
   if (elt.matches(".email-word, .email-word--selected")) {
-    event.detail.parameters["selectedCount"] =
-      document.querySelectorAll(".email-word--selected").length;
+    event.detail.parameters["selectedCount"] = document.querySelectorAll(
+      ".email-word--selected",
+    ).length;
   } else if (elt.matches(".email-submit")) {
     event.detail.parameters["selectedIndexes"] = [
       ...document.querySelectorAll(".email-word--selected"),
     ]
       .map((el) => el.id.replace("email-word-", ""))
       .join(",");
+  } else if (elt.matches(".email-checked")) {
+    event.detail.parameters["checkedCount"] = document.querySelectorAll(
+      ".email-item__checkbox:checked",
+    ).length;
+  } else if (elt.closest(".email-item")) {
+    event.detail.parameters["checkedCount"] = document.querySelectorAll(
+      ".email-item__checkbox:checked",
+    ).length;
   }
 });
 

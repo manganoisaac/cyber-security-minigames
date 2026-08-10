@@ -3,6 +3,8 @@ package handlers
 import (
 	"cyber-security-minigames/data"
 	"cyber-security-minigames/views/components/email"
+	"cyber-security-minigames/views/components/ui"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,7 +17,11 @@ func HandleEmailSelect(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "invalid email id", http.StatusBadRequest)
 		return
 	}
-	component := email.EmailList(data.Emails, id, 0)
+	checkedCount, err := strconv.Atoi(r.URL.Query().Get("checkedCount"))
+	if err != nil || checkedCount < 0 {
+		checkedCount = 0
+	}
+	component := email.EmailList(data.Emails, id, 0, checkedCount)
 	component.Render(r.Context(), w)
 }
 
@@ -97,4 +103,14 @@ func HandleEmailSubmit(w http.ResponseWriter, r *http.Request) {
 		log.Printf("email-submit: incorrect (%d/%d) for %q", score, len(em.CorrectWordIndexes), em.Title)
 	}
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func HandleEmailChecked(w http.ResponseWriter, r *http.Request) {
+	count, err := strconv.Atoi(r.PostFormValue("checkedCount"))
+	if err != nil || count < 0 {
+		count = 0
+	}
+	msg := fmt.Sprintf("email-checked: %d emails checked", count)
+	log.Print(msg)
+	ui.Modal(msg).Render(r.Context(), w)
 }

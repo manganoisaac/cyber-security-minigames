@@ -8,3 +8,5 @@
 @import "./features/email-avatar.css";
 @import "./features/email-word.css";
 @import "./features/email-submit.css";
+@import "./features/email-checked.css";
+@import "./features/modal.css";
