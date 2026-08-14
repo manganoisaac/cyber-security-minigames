@@ -1,0 +1,4 @@
+.email-sidebar {
+  width: calc(100% - var(--details-width));
+  overflow-y: scroll;
+}

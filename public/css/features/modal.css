@@ -36,6 +36,8 @@
 .modal__text {
   margin-bottom: var(--size-l);
   font-size: var(--size-m);
+  font-weight: 400;
+  font-family: sans-serif;
 }
 
 .modal__button {

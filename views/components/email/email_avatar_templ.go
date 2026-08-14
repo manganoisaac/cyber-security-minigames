@@ -8,9 +8,10 @@ package email
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import "cyber-security-minigames/types"
 import "cyber-security-minigames/utils/avatar"
 
-func EmailAvatar(index int, subject string) templ.Component {
+func EmailAvatar(email types.Email) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -36,9 +37,9 @@ func EmailAvatar(index int, subject string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background-color: " + avatar.Color(index))
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background-color: " + avatar.Color(email.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_avatar.templ`, Line: 6, Col: 77}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_avatar.templ`, Line: 7, Col: 80}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -49,9 +50,9 @@ func EmailAvatar(index int, subject string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(avatar.Letter(subject))
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(avatar.Letter(email.Subject))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_avatar.templ`, Line: 6, Col: 104}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_avatar.templ`, Line: 7, Col: 113}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {

@@ -14,14 +14,16 @@ pages.Landing()
 pages.ChapterSelect()
 └─ layouts.Base
 
-pages.EmailClient()
+pages.EmailClientPage(emails, active, selectedPhrases, level)
 └─ layouts.Base
-   └─ components.EmailList(data.Emails, selectedIndex, selectedCount, checkedCount)
-      ├─ EmailItem(index, email, selected) ×N
-      │  └─ EmailAvatar(index, email.Subject)
-      ├─ EmailWord(word, selected, wordIndex, emailIndex) ×words
-      ├─ EmailCheckedButton(label, checkedCount)
-      └─ EmailSubmit(label, selectedCount, oob, emailIndex)
+   └─ <section class="email-client"> + <div id="modal-root">
+      └─ components.EmailClient(emails, active, selectedPhrases)
+         ├─ EmailSidebar(emails, active)
+         │  └─ EmailItem(email, active, oob) ×N
+         │     └─ EmailAvatar(email)
+         ├─ EmailDetails(email, selectedPhrases)
+         │  └─ EmailPhrase(phrase, selected, phraseIndex, emailID) ×phrases
+         └─ EmailSubmit(label, selectedCount, oob, emailID)
 ```
 
 ## Component Spec
@@ -31,10 +33,12 @@ pages.EmailClient()
 | `Base` | `views/layouts/base.templ` | `Base(title string)` | Global layout: HTML document shell, stylesheet/script tags, and a `{ children... }` slot rendered into `<body hx-boost="true">`. |
 | `Landing` | `views/pages/landing.templ` | `Landing()` | Landing page. Wraps the landing menu in `layouts.Base`. |
 | `ChapterSelect` | `views/pages/chapter_select.templ` | `ChapterSelect()` | Chapter selection page. Wraps the chapter book and links in `layouts.Base`. |
-| `EmailClient` | `views/pages/email_client.templ` | `EmailClient(emails []types.Email, selectedIndex int, wordsSelected int, checkedCount int)` | Email minigame page. Wraps the email section in `layouts.Base` and passes `emails`, `selectedIndex`, `wordsSelected`, and `checkedCount` into `EmailList`. |
-| `EmailList` | `views/components/email/email_list.templ` | `EmailList(emails []types.Email, selectedIndex int, selectedCount int, checkedCount int)` | Two-pane email layout. Renders an `EmailItem` per email, an `EmailWord` per word of the selected email's content, the `EmailCheckedButton`, and the `EmailSubmit` button. |
-| `EmailItem` | `views/components/email/email_item.templ` | `EmailItem(index int, email types.Email, selected bool)` | A single email row in the sidebar. Renders an `EmailAvatar` plus truncated title/subject/content text. |
-| `EmailAvatar` | `views/components/email/email_avatar.templ` | `EmailAvatar(index int, subject string)` | Circular avatar showing the subject's first letter with a color derived from the index. |
-| `EmailWord` | `views/components/email/email_word.templ` | `EmailWord(word string, selected bool, i int, emailIndex int)` | A clickable word in the selected email's content; renders the `--selected` modifier variant when selected. `emailIndex` is threaded into the word-toggle URLs. |
-| `EmailCheckedButton` | `views/components/email/email_checked_button.templ` | `EmailCheckedButton(label string, checkedCount int)` | Counter button showing the number of checked emails. Posts the checked-email count to `/email-checked`. Hidden with `display: none` for now; only one of this and `EmailSubmit` will show at a time in the future. |
-| `EmailSubmit` | `views/components/email/email_submit.templ` | `EmailSubmit(label string, selectedCount int, oob bool, emailIndex int)` | Submit button showing the selected-word count. `oob=true` emits `hx-swap-oob` so word toggles update the badge out-of-band; `false` (the full `EmailList` render) keeps it inside the container swap when switching emails. `emailIndex` is threaded into the submit URL. |
+| `EmailClientPage` | `views/pages/email_client.templ` | `EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int)` | Email minigame page. Renders the `EmailClient` component inside `layouts.Base`, a level indicator, and the `#modal-root` target that verdict modals swap into. |
+| `EmailClient` | `views/components/email/email_client.templ` | `EmailClient(emails []types.Email, active types.Email, selectedPhrases map[int]bool)` | Two-pane email layout. Renders an `EmailItem` per email via `EmailSidebar`, an `EmailPhrase` per phrase of the active email's content, and the `EmailSubmit` button. |
+| `EmailSidebar` | `views/components/email/email_sidebar.templ` | `EmailSidebar(emails []types.Email, active types.Email)` | Renders one `EmailItem` per email, marking the active one with the `--active` modifier. |
+| `EmailItem` | `views/components/email/email_item.templ` | `EmailItem(email types.Email, active bool, oob bool)` | A single email row in the sidebar. Renders an `EmailAvatar`, truncated title/subject/content text, and a checkbox that posts `/email-check/{id}` and swaps the verdict modal into `#modal-root`. `oob=true` emits `hx-swap-oob`. |
+| `EmailAvatar` | `views/components/email/email_avatar.templ` | `EmailAvatar(email types.Email)` | Circular avatar showing the subject's first letter with a color derived from the email id via `avatar.Color`. |
+| `EmailDetails` | `views/components/email/email_details.templ` | `EmailDetails(email types.Email, selectedPhrases map[int]bool)` | Renders the active email's content as clickable `EmailPhrase`s. |
+| `EmailPhrase` | `views/components/email/email_phrase.templ` | `EmailPhrase(phrase string, selected bool, i int, emailID string)` | A clickable phrase in the selected email's content; renders the `--selected` modifier variant when selected. `emailID` is threaded into the phrase-toggle URLs. |
+| `EmailSubmit` | `views/components/email/email_submit.templ` | `EmailSubmit(label string, selectedCount int, oob bool, emailID string)` | Submit button showing the selected-phrase count. `oob=true` emits `hx-swap-oob` so phrase toggles update the badge out-of-band; `false` (the full `EmailClient` render) keeps it inside the container swap when switching emails. `emailID` is threaded into the submit URL. |
+| `Modal` | `views/components/ui/modal.templ` | `Modal(message string, url string)` | Overlay modal with a backdrop and an "Okay" button. Empty `url` dismisses via `DELETE /email-client/modal`; a non-empty `url` makes closing GET that URL with `hx-target="body"` so the page re-renders (used for the level-change refresh after finding the phishing email). |

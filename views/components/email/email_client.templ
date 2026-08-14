@@ -1,0 +1,17 @@
+package email
+
+import "cyber-security-minigames/types"
+
+templ EmailClient(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int) {
+	<div class="email-client__container" id="email-client-container">
+		<div class={ "email-client__list", templ.KV("email-client__list--details-only", level >= 2) }>
+			if level < 2 {
+				@EmailSidebar(emails, active)
+			}
+			@EmailDetails(active, selectedPhrases, level)
+			if level >= 2 {
+				@EmailSubmit("Submit", len(selectedPhrases), false, active.ID)
+			}
+		</div>
+	</div>
+}

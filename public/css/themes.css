@@ -114,13 +114,3 @@ button:hover {
 .htmx-request .loading-state {
   visibility: visible;
 }
-input[type="checkbox"] {
-  width: var(--size-l);
-  height: var(--size-l);
-  border: var(--size-xs) solid var(--bg);
-  cursor: pointer;
-}
-
-input[type="checkbox"]:checked {
-  background-color: green;
-}

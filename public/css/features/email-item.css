@@ -21,7 +21,7 @@
   cursor: pointer;
 }
 
-.email-item.email-item--selected {
+.email-item.email-item--active {
   background: var(--bg-selected);
 }
 
@@ -31,4 +31,24 @@
 
 .email-item__text {
   flex: 1;
+}
+
+.email-item__checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-muted);
+  font-weight: 500;
+  width: var(--size-s);
+  height: var(--size-s);
+  border-radius: 50%;
+  border: var(--size-xs) solid orange;
+  box-shadow: 0 0 10px 2px orange;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.email-item__checkbox:hover {
+  box-shadow: 0 0 15px 5px orange;
+  transform: scale(1.1);
 }

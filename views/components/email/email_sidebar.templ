@@ -1,0 +1,11 @@
+package email
+
+import "cyber-security-minigames/types"
+
+templ EmailSidebar(emails []types.Email, active types.Email) {
+	<div class="email-sidebar">
+		for _, email := range emails {
+			@EmailItem(email, email.ID == active.ID, false)
+		}
+	</div>
+}

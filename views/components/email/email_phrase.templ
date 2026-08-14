@@ -1,0 +1,21 @@
+package email
+
+import "strconv"
+
+templ EmailPhrase(phrase string, selected bool, i int, emailID string, correct bool) {
+	if selected {
+		<span
+			hx-post={ "/email-phrase/" + emailID + "/" + strconv.Itoa(i) + "/deselect" }
+			hx-swap="outerHTML"
+			id={ "email-phrase-" + strconv.Itoa(i) }
+			class={ "email-phrase--selected", templ.KV("email-phrase--correct", correct) }
+		>{ phrase }</span>{ " " }
+	} else {
+		<span
+			hx-post={ "/email-phrase/" + emailID + "/" + strconv.Itoa(i) + "/select" }
+			hx-swap="outerHTML"
+			class="email-phrase"
+			id={ "email-phrase-" + strconv.Itoa(i) }
+		>{ phrase }</span>{ " " }
+	}
+}

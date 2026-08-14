@@ -1,6 +1,9 @@
 package avatar
 
-import "strings"
+import (
+	"hash/fnv"
+	"strings"
+)
 
 var colors = []string{
 	"#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5",
@@ -8,8 +11,12 @@ var colors = []string{
 	"#607d8b", "#ff5722",
 }
 
-func Color(i int) string {
-	return colors[i%len(colors)]
+// Color picks a palette entry deterministically from an id string so the
+// colour is stable regardless of where the email sits in the list.
+func Color(id string) string {
+	h := fnv.New32a()
+	h.Write([]byte(id))
+	return colors[h.Sum32()%uint32(len(colors))]
 }
 
 func Letter(subject string) string {

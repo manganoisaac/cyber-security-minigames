@@ -1,10 +1,14 @@
 package types
 
 type Email struct {
-	Title              string
-	Subject            string
-	Content            string
-	IsMalware          bool
-	Timestamp          string
-	CorrectWordIndexes []int
+	ID                   string
+	Title                string
+	Subject              string
+	To                   string
+	From                 string
+	Content              string
+	Reason               string
+	IsMalware            bool
+	Timestamp            string
+	CorrectPhraseIndexes []int
 }

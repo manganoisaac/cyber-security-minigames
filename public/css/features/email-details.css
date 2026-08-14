@@ -1,0 +1,47 @@
+.email-details {
+  --details-padding: var(--size-m);
+  --title-weight: 600;
+  --subject-weight: 500;
+  text-wrap: wrap;
+  width: var(--details-width);
+  padding: var(--details-padding);
+  overflow-y: scroll;
+}
+
+.email-details b {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.email-details__title {
+  color: var(--text);
+  font-weight: var(--title-weight);
+  font-size: var(--size-xl);
+}
+
+.email-details__description {
+  font-weight: var(--subject-weight);
+  margin-top: var(--size-m);
+  font-size: var(--size-l);
+}
+
+.email-details__content {
+  font-size: var(--size-m);
+}
+
+.email-details__to {
+  font-size: var(--size-s);
+}
+.email-details__from {
+  font-size: var(--size-s);
+}
+
+.email-details__content-container {
+  display: flex;
+  margin: var(--size-m);
+  flex-direction: column;
+  gap: var(--size-xs);
+  padding: var(--size-m);
+  background: var(--bg-light);
+  border-radius: var(--size-m);
+}

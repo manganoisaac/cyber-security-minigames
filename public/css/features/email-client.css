@@ -1,0 +1,26 @@
+.email-client__container {
+  --container-height: 85vh;
+  min-height: var(--container-height);
+  display: flex;
+  justify-content: center;
+}
+
+.email-client__list {
+  --details-width: 60%;
+  --list-width: 90%;
+  --list-radius: 10px;
+  --list-border: 2px;
+  --list-max-height: 80vh;
+  position: relative;
+  width: var(--list-width);
+  display: flex;
+  flex-direction: row;
+  border-radius: var(--list-radius);
+  border: var(--list-border) solid var(--text-muted);
+  max-height: var(--list-max-height);
+  overflow: hidden;
+}
+
+.email-client__list--details-only .email-details {
+  width: 100%;
+}

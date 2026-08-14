@@ -1,0 +1,17 @@
+.email-phrase:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  color: yellow;
+}
+
+.email-phrase--selected {
+  color: red;
+}
+
+.email-phrase--selected.email-phrase--correct {
+  color: green;
+}
+
+.email-phrase--selected:hover {
+  cursor: pointer;
+}

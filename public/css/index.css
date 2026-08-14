@@ -3,10 +3,12 @@
 @import "./themes.css";
 @import "./features/landing.css";
 @import "./features/chapter-select.css";
-@import "./features/email-list.css";
 @import "./features/email-item.css";
 @import "./features/email-avatar.css";
-@import "./features/email-word.css";
+@import "./features/email-phrase.css";
 @import "./features/email-submit.css";
-@import "./features/email-checked.css";
+@import "./features/email-details.css";
+@import "./features/email-sidebar.css";
+@import "./features/email-client.css";
+@import "./features/email-client-page.css";
 @import "./features/modal.css";

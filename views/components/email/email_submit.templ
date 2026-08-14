@@ -1,16 +1,16 @@
 package email
 
-import "strconv"
-
-templ EmailSubmit(label string, selectedCount int, oob bool, emailIndex int) {
+templ EmailSubmit(label string, selectedCount int, oob bool, emailID string) {
 	<button
 		id="email-submit"
-		hx-post={ "/email-submit/" + strconv.Itoa(emailIndex) }
+		hx-post={ "/email-submit/" + emailID }
+		hx-target="#modal-root"
+		hx-swap="innerHTML"
 		if oob {
 			hx-swap-oob="true"
 		}
 		class="email-submit"
 	>
-		{ label }<span class="email-submit__count">({ selectedCount })</span>
+		{ label }
 	</button>
 }

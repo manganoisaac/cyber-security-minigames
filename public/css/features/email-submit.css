@@ -1,8 +1,7 @@
 .email-submit {
-  display: none;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: var(--size-s);
+  right: var(--size-s);
   --submit-padding: var(--size-s) var(--size-m);
   --submit-radius: 8px;
   --submit-border: 2px;

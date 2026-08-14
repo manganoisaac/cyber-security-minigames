@@ -1,0 +1,56 @@
+package email
+
+import "cyber-security-minigames/types"
+import "cyber-security-minigames/utils/emailtext"
+
+templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) {
+	<div class="email-details" id="email-details">
+		<p class="email-details__title">
+			if level >= 2 {
+				@EmailPhrases(email, 0, selectedPhrases)
+			} else {
+				{ email.Title }
+			}
+		</p>
+		<div class="email-details__content-container">
+			<p class="email-details__to">
+				<b>To: </b>
+				if level >= 2 {
+					@EmailPhrases(email, 1, selectedPhrases)
+				} else {
+					{ email.To }
+				}
+			</p>
+			<p class="email-details__from">
+				<b>From: </b>
+				if level >= 2 {
+					@EmailPhrases(email, 2, selectedPhrases)
+				} else {
+					{ email.From }
+				}
+			</p>
+			<p class="email-details__description">
+				if level >= 2 {
+					@EmailPhrases(email, 3, selectedPhrases)
+				} else {
+					{ email.Subject }
+				}
+			</p>
+			<p class="email-details__content">
+				if level >= 2 {
+					@EmailPhrases(email, 4, selectedPhrases)
+				} else {
+					for _, phrase := range emailtext.SplitUnits(email.Content) {
+						<span>{ phrase }</span>{ " " }
+					}
+				}
+			</p>
+		</div>
+	</div>
+}
+
+templ EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool) {
+	for i, phrase := range emailtext.FieldPhrases(email, field) {
+		@EmailPhrase(phrase, selectedPhrases[emailtext.FieldStart(email, field)+i], emailtext.FieldStart(email, field)+i, email.ID, emailtext.CorrectSet(email)[emailtext.FieldStart(email, field)+i])
+	}
+}

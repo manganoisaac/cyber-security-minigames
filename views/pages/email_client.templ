@@ -5,12 +5,17 @@ import "cyber-security-minigames/views/components/email"
 import "cyber-security-minigames/views/components/ui"
 import "cyber-security-minigames/types"
 
-templ EmailClient(emails []types.Email, selectedIndex int, wordsSelected int, checkedCount int) {
+templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, instructions string) {
 	@layouts.Base("Cyber Security Minigames") {
-		<section class="email-client">
+		<section class="email-client-page">
 			<h1>CyberMail</h1>
-			@email.EmailList(emails, selectedIndex, wordsSelected, checkedCount)
+			<p class="email-client-page__level">Level { level }</p>
+			@email.EmailClient(emails, active, selectedPhrases, level)
 		</section>
-		@ui.Modal("Hello")
+		<div id="modal-root">
+			if instructions != "" {
+				@ui.Modal(instructions, "")
+			}
+		</div>
 	}
 }

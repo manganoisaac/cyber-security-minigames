@@ -5,8 +5,8 @@
 - All CSS lives in `public/css/`.
 - `index.css` contains **only** `@import` statements (Google Fonts first, then `./themes.css`, then feature files).
 - `themes.css` contains only `:root` CSS variables, `@font-face` declarations, and global element/utility styles.
-- Feature-specific tokens may be scoped on the feature's container selector in its own `features/*.css` file (e.g. `--details-width` on `.email-list-container`); the shared `--size-*` scale stays in `themes.css`.
-- Each feature/component gets its own file in `public/css/features/<feature>.css` (e.g. `email-list.css`, `chapter-select.css`).
+- Feature-specific tokens may be scoped on the feature's container selector in its own `features/*.css` file (e.g. `--details-width` on `.email-client__list`); the shared `--size-*` scale stays in `themes.css`.
+- Each feature/component gets its own file in `public/css/features/<feature>.css` (e.g. `email-details.css`, `chapter-select.css`). A page and a component may share a block prefix only if they also share the component name (e.g. `email_client.templ`); otherwise the page gets its own block (`email-client-page`).
 - Image URLs inside `public/css/features/*` must use `../../images/...`; in `themes.css` use `../fonts/...`.
 - New CSS must be wired into `index.css` via `@import` — never added inline to templates or another file.
 - Use the BEM naming convention (classic `Block__element--modifier`) for all CSS classes, e.g. `.email-item__text`, `.chapter-select--1`.
@@ -14,7 +14,7 @@
 ### File Naming
 
 - Go source files (`.go`), templ source files (`.templ`), and their generated `*_templ.go` files use `snake_case` — multi-word names joined with underscores. Underscores are the de-facto Go convention (`lowercase_with_underscores.go`) and match templ's generated `_templ.go` suffix, e.g. `email_client.go`, `chapter_select.templ`, `email_list_templ.go`.
-- CSS files use kebab-case (hyphens) so filenames match the BEM classes they style, e.g. `features/email-list.css` styles `.email-list__*`, `features/chapter-select.css` styles `.chapter-select`.
+- CSS files use kebab-case (hyphens) so filenames match the BEM classes they style, e.g. `features/email-details.css` styles `.email-details__*`, `features/chapter-select.css` styles `.chapter-select`.
 - JS asset files use kebab-case to match conventional web-asset naming and the CSS they complement, e.g. `public/js/htmx-extensions.js`.
 
 ### Sizing Tokens
