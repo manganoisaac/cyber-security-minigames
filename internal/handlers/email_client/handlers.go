@@ -14,7 +14,7 @@ import (
 )
 
 func HandlePage(w http.ResponseWriter, r *http.Request) {
-	state := sessions.get(w, r)
+	state := getState(w, r)
 	active, _, ok := data.EmailByID(state.activeEmail())
 	if !ok || state.level() >= 2 {
 		active, _, _ = data.PhishingEmail()
@@ -29,7 +29,7 @@ func HandleSelect(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "invalid email id", http.StatusBadRequest)
 		return
 	}
-	state := sessions.get(w, r)
+	state := getState(w, r)
 	old, _, oldOK := data.EmailByID(state.activeEmail())
 	state.setActiveEmail(em.ID)
 
@@ -53,7 +53,7 @@ func HandlePhrase(w http.ResponseWriter, r *http.Request) {
 	}
 	sel := r.PathValue("select") == "select"
 
-	state := sessions.get(w, r)
+	state := getState(w, r)
 	if sel {
 		state.selectPhrase(em.ID, phraseIndex)
 	} else {
@@ -77,7 +77,7 @@ func HandleSubmit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	state := sessions.get(w, r)
+	state := getState(w, r)
 	selected := state.selectedPhraseIndexes(em.ID)
 
 	correct := make(map[int]bool, len(em.CorrectPhraseIndexes))
@@ -158,7 +158,7 @@ func HandleCheck(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "invalid email id", http.StatusBadRequest)
 		return
 	}
-	state := sessions.get(w, r)
+	state := getState(w, r)
 	verdict := fmt.Sprintf("This email is not suspicious. %s", em.Reason)
 	var url string
 	if em.IsMalware {

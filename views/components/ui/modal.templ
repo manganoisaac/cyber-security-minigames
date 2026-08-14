@@ -5,14 +5,18 @@ templ Modal(message string, url string) {
 		if url != "" {
 			<div class="modal__backdrop" hx-get={ url } hx-target="body" hx-swap="outerHTML" hx-push-url="true" aria-label="Close"></div>
 			<div class="modal__dialog" role="dialog" aria-modal="true">
-				<p class="modal__text">{ message }</p>
-				<a class="modal__button" hx-get={ url } hx-target="body" hx-swap="outerHTML" hx-push-url="true">Okay</a>
+				<div class="modal__text-container">
+					<p class="modal__text">{ message }</p>
+				</div>
+				<button class="modal__button" hx-get={ url } hx-target="body" hx-swap="outerHTML" hx-push-url="true">Okay</button>
 			</div>
 		} else {
 			<div class="modal__backdrop" hx-delete="/email-client/modal" hx-target="closest .modal" hx-swap="delete" aria-label="Close"></div>
 			<div class="modal__dialog" role="dialog" aria-modal="true">
-				<p class="modal__text">{ message }</p>
-				<a class="modal__button" hx-delete="/email-client/modal" hx-target="closest .modal" hx-swap="delete">Okay</a>
+				<div class="modal__text-container">
+					<p class="modal__text">{ message }</p>
+				</div>
+				<button class="modal__button" hx-delete="/email-client/modal" hx-target="closest .modal" hx-swap="delete">Okay</button>
 			</div>
 		}
 	</div>

@@ -8,7 +8,7 @@ import "cyber-security-minigames/types"
 templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, instructions string) {
 	@layouts.Base("Cyber Security Minigames") {
 		<section class="email-client-page">
-			<h1>CyberMail</h1>
+			<h1 class="email-client__title">CyberMail</h1>
 			<p class="email-client-page__level">Level { level }</p>
 			@email.EmailClient(emails, active, selectedPhrases, level)
 		</section>

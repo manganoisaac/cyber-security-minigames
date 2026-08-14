@@ -1,7 +1,9 @@
+.email-phrase {
+  transition: all 0.2s ease;
+}
 .email-phrase:hover {
-  transform: scale(1.1);
   cursor: pointer;
-  color: yellow;
+  background: var(--bg);
 }
 
 .email-phrase--selected {

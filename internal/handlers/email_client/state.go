@@ -1,35 +1,46 @@
 package email_client
 
 import (
-	"crypto/rand"
-	"encoding/hex"
 	"net/http"
 	"sync"
-	"time"
+
+	"cyber-security-minigames/internal/session"
 )
 
-const (
-	sessionCookie = "cyber_session"
-	sessionTTL    = 30 * time.Minute
-)
+// stateKey is the name of this minigame's state slot inside the shared session.
+const stateKey = "email-client"
 
 // gameState is the per-user state for the email minigame. The server owns
 // every piece of state; the HTML rendered to the client is just a projection.
 type gameState struct {
 	mu              sync.Mutex
-	sid             string
-	touched         time.Time
 	activeID        string
 	selectedPhrases map[string]map[int]bool // email id -> (phrase index -> selected)
 	gameLevel       int                     // 1 = find the phishing email, 2 = phrase hunt
 }
 
-func newGameState(sid string) *gameState {
+func newGameState() *gameState {
 	return &gameState{
-		sid:             sid,
 		selectedPhrases: make(map[string]map[int]bool),
 		gameLevel:       1,
 	}
+}
+
+// stateFor returns the email minigame's state for a session, creating it on
+// first use. The state is stored in the shared session so it survives
+// switching to other minigames and back.
+func stateFor(s *session.Session) *gameState {
+	if st, ok := s.State(stateKey); ok {
+		return st.(*gameState)
+	}
+	gs := newGameState()
+	s.SetState(stateKey, gs)
+	return gs
+}
+
+// getState returns the email minigame's state for the request's session.
+func getState(w http.ResponseWriter, r *http.Request) *gameState {
+	return stateFor(session.Default.Get(w, r))
 }
 
 func (s *gameState) activeEmail() string {
@@ -92,7 +103,8 @@ func (s *gameState) setLevel(level int) {
 	s.gameLevel = level
 }
 
-// reset clears all per-run game state: selected phrases, active email, and level.
+// reset clears this minigame's per-run state: selected phrases, active email,
+// and level. Other minigames' session state is left untouched.
 func (s *gameState) reset() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -110,57 +122,4 @@ func (s *gameState) selectedPhrasesMap(emailID string) map[int]bool {
 		out[idx] = sel
 	}
 	return out
-}
-
-// sessionStore maps session id -> game state. Single store per process; the
-// theory is each user gets a cookie and their own isolated game state.
-type sessionStore struct {
-	mu       sync.Mutex
-	sessions map[string]*gameState
-}
-
-func newSessionStore() *sessionStore {
-	return &sessionStore{sessions: make(map[string]*gameState)}
-}
-
-func (s *sessionStore) get(w http.ResponseWriter, r *http.Request) *gameState {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	now := time.Now()
-	for id, state := range s.sessions {
-		if now.After(state.touched.Add(sessionTTL)) {
-			delete(s.sessions, id)
-		}
-	}
-
-	if cookie, err := r.Cookie(sessionCookie); err == nil {
-		if state, ok := s.sessions[cookie.Value]; ok {
-			state.touched = now
-			return state
-		}
-	}
-
-	sid := newSessionID()
-	state := newGameState(sid)
-	state.touched = now
-	s.sessions[sid] = state
-	http.SetCookie(w, &http.Cookie{
-		Name:     sessionCookie,
-		Value:    sid,
-		Path:     "/",
-		HttpOnly: true,
-		SameSite: http.SameSiteLaxMode,
-	})
-	return state
-}
-
-var sessions = newSessionStore()
-
-func newSessionID() string {
-	b := make([]byte, 16)
-	if _, err := rand.Read(b); err != nil {
-		panic(err)
-	}
-	return hex.EncodeToString(b)
 }

@@ -10,7 +10,7 @@ import (
 func TestLevelToggle(t *testing.T) {
 	r := httptest.NewRequest("GET", "/email-client", nil)
 	w := httptest.NewRecorder()
-	s := sessions.get(w, r)
+	s := getState(w, r)
 
 	if got := s.level(); got != 1 {
 		t.Fatalf("initial level = %d, want 1", got)
@@ -24,7 +24,7 @@ func TestLevelToggle(t *testing.T) {
 func TestSessionRecallByCookie(t *testing.T) {
 	r := httptest.NewRequest("GET", "/email-client", nil)
 	w := httptest.NewRecorder()
-	first := sessions.get(w, r)
+	first := getState(w, r)
 	phishing, _, _ := data.PhishingEmail()
 	first.setActiveEmail(phishing.ID)
 
@@ -33,7 +33,7 @@ func TestSessionRecallByCookie(t *testing.T) {
 		r2.AddCookie(ck)
 	}
 	w2 := httptest.NewRecorder()
-	second := sessions.get(w2, r2)
+	second := getState(w2, r2)
 	if second != first {
 		t.Fatal("cookie did not recall the same session")
 	}
