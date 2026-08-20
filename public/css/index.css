@@ -16,3 +16,4 @@
 @import "./features/password/password-guess.css";
 @import "./features/password/password-object.css";
 @import "./features/password/password-nested-object.css";
+@import "./features/encryption/encryption.css";

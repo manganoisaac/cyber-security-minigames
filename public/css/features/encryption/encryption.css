@@ -1,0 +1,955 @@
+/* ==========================================================================
+   Caught in the Net - Encryption Minigame
+   CSS-only prototype. Replace decorative placeholders with final assets later.
+   ========================================================================== */
+
+.encryption-page {
+  --win98-face: #c0c0c0;
+  --win98-light: #ffffff;
+  --win98-highlight: #dfdfdf;
+  --win98-shadow: #808080;
+  --win98-dark: #000000;
+  --win98-title: #000080;
+  --win98-title-end: #1084d0;
+
+  --terminal-bg: #050705;
+  --terminal-green: #6dff7c;
+  --terminal-white: #efefef;
+  --terminal-muted: #8aa18e;
+
+  --tile-empty: #d5d5d5;
+  --tile-correct: #2f8f45;
+  --tile-present: #c49a17;
+  --tile-absent: #a62d2d;
+
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-width: 960px;
+  min-height: 640px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 78% 18%,
+      rgba(255, 255, 255, 0.06),
+      transparent 24%
+    ),
+    linear-gradient(135deg, #008c8c 0%, #007b7b 55%, #006f6f 100%);
+  color: #000;
+  font-family: "MS Sans Serif", Tahoma, Geneva, Arial, sans-serif;
+  isolation: isolate;
+}
+
+.encryption-page *,
+.encryption-page *::before,
+.encryption-page *::after {
+  box-sizing: border-box;
+}
+
+.encryption-page button,
+.encryption-page h1,
+.encryption-page h2,
+.encryption-page h3,
+.encryption-page p,
+.encryption-page span,
+.encryption-page strong {
+  font-family: inherit;
+}
+
+.encryption-page button:hover,
+.encryption-page button:active {
+  filter: none;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Desktop icons
+   -------------------------------------------------------------------------- */
+
+.encryption-desktop__icons {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  left: 14px;
+  display: flex;
+  width: 86px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.desktop-icon {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  color: #fff;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.1;
+  text-shadow: 1px 1px #000;
+}
+
+.desktop-icon__glyph {
+  position: relative;
+  width: 34px;
+  height: 30px;
+  border: 2px solid #111;
+  background: #d8d8d8;
+  box-shadow:
+    inset 2px 2px #fff,
+    inset -2px -2px #777;
+}
+
+.desktop-icon__glyph--computer::before {
+  content: "";
+  position: absolute;
+  inset: 4px 5px 8px;
+  background: #172f63;
+  border: 1px solid #000;
+}
+
+.desktop-icon__glyph--computer::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 3px;
+  left: 6px;
+  bottom: 2px;
+  background: #555;
+}
+
+.desktop-icon__glyph--network {
+  background: linear-gradient(#d8d8d8, #d8d8d8), #d8d8d8;
+}
+
+.desktop-icon__glyph--network::before,
+.desktop-icon__glyph--network::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 10px;
+  top: 4px;
+  background: #1f4f9c;
+  border: 1px solid #000;
+}
+
+.desktop-icon__glyph--network::before {
+  left: 3px;
+}
+.desktop-icon__glyph--network::after {
+  right: 3px;
+}
+
+.desktop-icon__glyph--trash::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 19px;
+  left: 6px;
+  top: 6px;
+  border: 2px solid #4f75a3;
+  background: repeating-linear-gradient(90deg, #bde6ff 0 3px, #7fc0e7 3px 6px);
+}
+
+.desktop-icon__glyph--trash::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 4px;
+  left: 4px;
+  top: 3px;
+  background: #d8d8d8;
+  border: 1px solid #111;
+}
+
+/* --------------------------------------------------------------------------
+   Main workspace
+   -------------------------------------------------------------------------- */
+
+.encryption-workspace {
+  position: absolute;
+  inset: 0 0 40px 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(350px, 0.92fr) minmax(500px, 1.18fr) minmax(
+      350px,
+      0.92fr
+    );
+  align-items: center;
+  gap: clamp(16px, 1.25vw, 28px);
+  padding: clamp(54px, 5vh, 82px) clamp(30px, 3vw, 62px) clamp(34px, 4vh, 58px)
+    118px;
+}
+
+.win98-window {
+  border-top: 2px solid var(--win98-light);
+  border-left: 2px solid var(--win98-light);
+  border-right: 2px solid var(--win98-dark);
+  border-bottom: 2px solid var(--win98-dark);
+  background: var(--win98-face);
+  box-shadow:
+    inset 1px 1px 0 var(--win98-highlight),
+    inset -1px -1px 0 var(--win98-shadow),
+    5px 7px 0 rgba(0, 0, 0, 0.22);
+}
+
+.win98-titlebar {
+  display: flex;
+  min-height: 26px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 2px;
+  padding: 2px 3px 2px 5px;
+  background: linear-gradient(90deg, #666, #999);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.win98-titlebar--active {
+  background: linear-gradient(
+    90deg,
+    var(--win98-title),
+    var(--win98-title-end)
+  );
+}
+
+.win98-titlebar__title {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.win98-titlebar__title > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.window-app-icon {
+  display: inline-grid;
+  width: 18px;
+  height: 16px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.85);
+  background: #efefef;
+  color: #111;
+  font-family: "Courier New", monospace !important;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.window-app-icon--key {
+  background: #ffe47e;
+  font-family: "MS Sans Serif", Tahoma, sans-serif !important;
+  font-weight: 700;
+}
+
+.win98-titlebar__controls {
+  display: flex;
+  gap: 2px;
+}
+
+.win98-titlebar__button {
+  display: grid;
+  width: 20px;
+  height: 18px;
+  min-width: 20px;
+  min-height: 18px;
+  place-items: center;
+  padding: 0;
+  border-top: 2px solid var(--win98-light);
+  border-left: 2px solid var(--win98-light);
+  border-right: 2px solid var(--win98-dark);
+  border-bottom: 2px solid var(--win98-dark);
+  background: var(--win98-face);
+  color: #000;
+  font-family: Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700;
+  line-height: 10px;
+  cursor: default;
+}
+
+.win98-titlebar__button:active {
+  border-top-color: var(--win98-dark);
+  border-left-color: var(--win98-dark);
+  border-right-color: var(--win98-light);
+  border-bottom-color: var(--win98-light);
+}
+
+.win98-menubar {
+  display: flex;
+  gap: 20px;
+  padding: 4px 8px 5px;
+  border-bottom: 1px solid var(--win98-shadow);
+  font-size: 12px;
+}
+
+.win98-inset-panel {
+  border-top: 2px solid var(--win98-shadow);
+  border-left: 2px solid var(--win98-shadow);
+  border-right: 2px solid var(--win98-light);
+  border-bottom: 2px solid var(--win98-light);
+  background: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Terminal windows
+   -------------------------------------------------------------------------- */
+
+.terminal-window {
+  width: 100%;
+  min-width: 0;
+  height: min(610px, 72vh);
+  min-height: 500px;
+}
+
+.terminal-window__body {
+  height: calc(100% - 32px);
+  margin: 3px;
+  padding: clamp(16px, 1.2vw, 24px);
+  overflow: hidden;
+  border-top: 2px solid var(--win98-shadow);
+  border-left: 2px solid var(--win98-shadow);
+  border-right: 2px solid var(--win98-light);
+  border-bottom: 2px solid var(--win98-light);
+  background: var(--terminal-bg);
+  color: var(--terminal-green);
+  font-family: "Courier New", Courier, monospace;
+  font-size: clamp(12px, 0.72vw, 15px);
+  line-height: 1.55;
+  text-shadow: 0 0 6px rgba(109, 255, 124, 0.12);
+}
+
+.terminal-window--decrypted .terminal-window__body {
+  color: var(--terminal-white);
+}
+
+.terminal-line,
+.terminal-message,
+.terminal-cursor-line {
+  font-family: inherit !important;
+}
+
+.terminal-line--muted {
+  color: var(--terminal-muted);
+}
+
+.terminal-line--system {
+  color: #85ff95;
+  font-weight: 700;
+}
+
+.terminal-message {
+  min-height: 210px;
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+}
+
+.terminal-message--plain {
+  color: #dbffde;
+}
+
+.terminal-cursor-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.terminal-cursor {
+  width: 8px;
+  height: 14px;
+  background: currentColor;
+  animation: terminal-blink 1s steps(1) infinite;
+}
+
+@keyframes terminal-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Centre decryption application
+   -------------------------------------------------------------------------- */
+
+.decrypt-app {
+  width: 100%;
+  min-width: 0;
+  min-height: 690px;
+}
+
+.decrypt-app__body {
+  display: flex;
+  min-height: 645px;
+  flex-direction: column;
+  padding: clamp(14px, 1.1vw, 20px);
+}
+
+.decrypt-app__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.decrypt-app__heading h1 {
+  margin: 2px 0 0;
+  color: #111;
+  font-size: clamp(20px, 1.5vw, 27px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.decrypt-app__eyebrow {
+  margin: 0;
+  color: #444 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em;
+}
+
+.decrypt-app__led {
+  width: 12px;
+  height: 12px;
+  margin-top: 6px;
+  border: 1px solid #062d0e;
+  border-radius: 50%;
+  background: #39cf5a;
+  box-shadow: 0 0 5px rgba(57, 207, 90, 0.7);
+}
+
+.decrypt-progress-panel {
+  padding: 8px;
+  background: #d5d5d5;
+}
+
+.decrypt-progress-panel__row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  color: #222;
+  font-size: 11px;
+}
+
+.win98-progress {
+  height: 22px;
+  padding: 2px;
+  border-top: 2px solid var(--win98-shadow);
+  border-left: 2px solid var(--win98-shadow);
+  border-right: 2px solid var(--win98-light);
+  border-bottom: 2px solid var(--win98-light);
+  background: #fff;
+}
+
+.win98-progress__fill {
+  width: 0%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #000080 0 12px,
+    #000080 12px 14px,
+    transparent 14px 16px
+  );
+  transition: width 450ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   Word board
+   -------------------------------------------------------------------------- */
+
+.word-board {
+  --word-length: 5;
+  display: grid;
+  width: min(100%, 395px);
+  margin: 18px auto 12px;
+  gap: 6px;
+}
+
+.word-row {
+  display: grid;
+  grid-template-columns: repeat(var(--word-length), 1fr);
+  gap: 6px;
+}
+
+.word-tile {
+  display: grid;
+  aspect-ratio: 1 / 1;
+  place-items: center;
+  border-top: 2px solid var(--win98-light);
+  border-left: 2px solid var(--win98-light);
+  border-right: 2px solid var(--win98-shadow);
+  border-bottom: 2px solid var(--win98-shadow);
+  background: var(--tile-empty);
+  color: #111;
+  font-size: clamp(22px, 2vw, 32px);
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: inset 1px 1px #eee;
+}
+
+.word-tile--filled {
+  background: #efefef;
+}
+
+.word-tile--correct,
+.word-tile--present,
+.word-tile--absent {
+  color: #fff;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.45);
+}
+
+.word-tile--correct {
+  background: var(--tile-correct);
+}
+.word-tile--present {
+  background: var(--tile-present);
+}
+.word-tile--absent {
+  background: var(--tile-absent);
+}
+
+.word-tile--reveal {
+  animation: tile-reveal 300ms ease both;
+}
+
+@keyframes tile-reveal {
+  0% {
+    transform: rotateX(0);
+  }
+  49% {
+    transform: rotateX(90deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+.game-feedback {
+  min-height: 18px;
+  margin: 0 0 9px !important;
+  color: #222 !important;
+  text-align: center;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Virtual keyboard
+   -------------------------------------------------------------------------- */
+
+.virtual-keyboard {
+  display: grid;
+  gap: 5px;
+  margin: 0 auto 12px;
+  width: min(100%, 470px);
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.keyboard-key {
+  min-width: 31px;
+  height: 34px;
+  padding: 0 7px;
+  border-top: 2px solid var(--win98-light);
+  border-left: 2px solid var(--win98-light);
+  border-right: 2px solid var(--win98-dark);
+  border-bottom: 2px solid var(--win98-dark);
+  background: var(--win98-face);
+  color: #111;
+  font-family: "MS Sans Serif", Tahoma, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700;
+}
+
+.keyboard-key--wide {
+  min-width: 54px;
+  font-size: 9px !important;
+}
+
+.keyboard-key:active {
+  padding-top: 2px;
+  padding-left: 9px;
+  border-top-color: var(--win98-dark);
+  border-left-color: var(--win98-dark);
+  border-right-color: var(--win98-light);
+  border-bottom-color: var(--win98-light);
+}
+
+.keyboard-key--correct {
+  background: var(--tile-correct);
+  color: #fff;
+}
+
+.keyboard-key--present {
+  background: var(--tile-present);
+  color: #fff;
+}
+
+.keyboard-key--absent {
+  background: var(--tile-absent);
+  color: #fff;
+}
+
+.decrypt-app__statusbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 3px;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 10px;
+}
+
+.decrypt-app__statusbar > span {
+  padding: 4px 6px;
+  border-top: 1px solid var(--win98-shadow);
+  border-left: 1px solid var(--win98-shadow);
+  border-right: 1px solid var(--win98-light);
+  border-bottom: 1px solid var(--win98-light);
+}
+
+.decrypt-app__statusbar > span:last-child {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Taskbar
+   -------------------------------------------------------------------------- */
+
+.win98-taskbar {
+  position: absolute;
+  z-index: 40;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  height: 40px;
+  align-items: center;
+  gap: 5px;
+  padding: 4px;
+  border-top: 2px solid var(--win98-light);
+  background: var(--win98-face);
+  box-shadow: inset 0 1px var(--win98-highlight);
+}
+
+.win98-start-button,
+.win98-taskbar__app,
+.win98-tray {
+  height: 30px;
+  border-top: 2px solid var(--win98-light);
+  border-left: 2px solid var(--win98-light);
+  border-right: 2px solid var(--win98-dark);
+  border-bottom: 2px solid var(--win98-dark);
+  background: var(--win98-face);
+}
+
+.win98-start-button {
+  display: flex;
+  min-width: 82px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 7px;
+  color: #000;
+  font-size: 12px !important;
+  cursor: default;
+}
+
+.win98-start-logo {
+  width: 18px;
+  height: 18px;
+  background:
+    linear-gradient(90deg, #f33 0 45%, transparent 45% 55%, #39f 55%),
+    linear-gradient(#f33 0 45%, transparent 45% 55%, #3b3 55%);
+  transform: skewY(-5deg);
+}
+
+.win98-taskbar__divider {
+  width: 2px;
+  height: 28px;
+  border-left: 1px solid var(--win98-shadow);
+  border-right: 1px solid var(--win98-light);
+}
+
+.win98-taskbar__app {
+  display: flex;
+  min-width: 260px;
+  max-width: 380px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.win98-taskbar__spacer {
+  flex: 1;
+}
+
+.win98-tray {
+  display: flex;
+  min-width: 110px;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  border-top-color: var(--win98-shadow);
+  border-left-color: var(--win98-shadow);
+  border-right-color: var(--win98-light);
+  border-bottom-color: var(--win98-light);
+  font-size: 11px;
+}
+
+.win98-tray__speaker {
+  font-family: "Courier New", monospace !important;
+}
+
+/* --------------------------------------------------------------------------
+   Modal / instructions
+   -------------------------------------------------------------------------- */
+
+.game-modal-overlay {
+  position: absolute;
+  z-index: 100;
+  inset: 0 0 40px;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.44);
+}
+
+.game-modal-overlay[hidden] {
+  display: none;
+}
+
+.game-modal {
+  width: min(560px, 92vw);
+}
+
+.game-modal__body {
+  padding: 24px;
+}
+
+.game-modal__body h2 {
+  margin: 0 0 12px;
+  color: #111;
+  font-size: 21px;
+}
+
+.game-modal__body p {
+  margin: 0 0 16px;
+  color: #222 !important;
+  font-size: 12px !important;
+  line-height: 1.45;
+  font-weight: 400 !important;
+}
+
+.instructions-rules {
+  display: grid;
+  gap: 9px;
+  margin: 18px 0;
+  padding: 12px;
+  border-top: 2px solid var(--win98-shadow);
+  border-left: 2px solid var(--win98-shadow);
+  border-right: 2px solid var(--win98-light);
+  border-bottom: 2px solid var(--win98-light);
+  background: #efefef;
+}
+
+.instructions-rule {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  align-items: center;
+  gap: 11px;
+  color: #111;
+  font-size: 12px;
+}
+
+.instruction-tile {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 2px outset #ddd;
+  color: #fff;
+  font-weight: 700;
+}
+
+.instruction-tile--correct {
+  background: var(--tile-correct);
+}
+.instruction-tile--present {
+  background: var(--tile-present);
+}
+.instruction-tile--absent {
+  background: var(--tile-absent);
+}
+
+.game-modal__note {
+  font-weight: 700 !important;
+}
+
+.game-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.win98-button {
+  min-width: 96px;
+  min-height: 30px;
+  padding: 4px 12px;
+  border-top: 2px solid var(--win98-light);
+  border-left: 2px solid var(--win98-light);
+  border-right: 2px solid var(--win98-dark);
+  border-bottom: 2px solid var(--win98-dark);
+  background: var(--win98-face);
+  color: #000;
+  font-size: 11px !important;
+}
+
+.win98-button--default {
+  outline: 1px solid #000;
+  outline-offset: 2px;
+}
+
+.win98-button:active {
+  border-top-color: var(--win98-dark);
+  border-left-color: var(--win98-dark);
+  border-right-color: var(--win98-light);
+  border-bottom-color: var(--win98-light);
+}
+
+.game-modal--result {
+  width: min(490px, 90vw);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive fallback. Primary target remains 1920x1080.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1450px) {
+  .encryption-workspace {
+    grid-template-columns: minmax(300px, 0.9fr) minmax(430px, 1.15fr) minmax(
+        300px,
+        0.9fr
+      );
+    padding-left: 104px;
+    padding-right: 22px;
+    gap: 14px;
+  }
+
+  .terminal-window__body {
+    padding: 14px;
+    font-size: 11px;
+  }
+
+  .keyboard-key {
+    min-width: 27px;
+    padding: 0 5px;
+  }
+}
+
+@media (max-width: 1080px), (max-height: 720px) {
+  .encryption-page {
+    overflow: auto;
+  }
+
+  .encryption-workspace {
+    position: relative;
+    inset: auto;
+    grid-template-columns: 1fr;
+    padding: 30px 30px 80px 118px;
+  }
+
+  .terminal-window,
+  .decrypt-app {
+    min-height: 560px;
+    height: auto;
+  }
+
+  .win98-taskbar {
+    position: fixed;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-cursor,
+  .word-tile--reveal {
+    animation: none;
+  }
+
+  .win98-progress__fill {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   v2 mechanics controls / recovered message
+   -------------------------------------------------------------------------- */
+
+.decrypt-app__tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.win98-button--compact {
+  min-width: 66px;
+  min-height: 25px;
+  padding: 2px 9px;
+  font-size: 10px !important;
+}
+
+.encryption-page .win98-button:disabled,
+.encryption-page .win98-titlebar__button:disabled {
+  color: #777;
+  text-shadow: 1px 1px #fff;
+  cursor: default;
+  filter: none;
+  transform: none;
+}
+
+.recovered-message-modal {
+  width: min(720px, 92vw);
+}
+
+.recovered-message__panel {
+  margin: 14px 0 16px;
+  padding: 16px;
+  border-top: 2px solid var(--win98-shadow);
+  border-left: 2px solid var(--win98-shadow);
+  border-right: 2px solid var(--win98-light);
+  border-bottom: 2px solid var(--win98-light);
+  background: #050705;
+}
+
+.recovered-message__panel pre {
+  margin: 0;
+  white-space: pre-wrap;
+  color: #dfffdf;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.game-modal__body .recovered-message__prompt {
+  margin-bottom: 0;
+  font-weight: 700 !important;
+}
