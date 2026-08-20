@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"cyber-security-minigames/internal/handlers/email_client"
+	"cyber-security-minigames/internal/handlers/encryption"
 	"cyber-security-minigames/views/pages"
 
 	"github.com/a-h/templ"
@@ -27,6 +28,7 @@ func Routes() http.Handler {
 
 	// Game routes. Each game registers its page and htmx endpoints here.
 	email_client.Register(mux)
+	encryption.Register(mux)
 
 	return mux
 }
