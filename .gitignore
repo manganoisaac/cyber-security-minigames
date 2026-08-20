@@ -1,0 +1,10 @@
+# Go build/test artifacts
+/bin/
+*.test
+*.out
+
+# Python runtime deps + compiled grammar (scripts/fill_component.py)
+.env/
+.venv/
+__pycache__/
+scripts/build/

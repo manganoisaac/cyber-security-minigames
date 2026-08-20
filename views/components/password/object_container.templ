@@ -1,0 +1,12 @@
+package password
+
+import "cyber-security-minigames/types"
+
+templ ObjectContainer(start int, numObjects int, view types.PasswordView) {
+	for i := start; i < start+numObjects; i++ {
+		@Object(i + 1)
+	}
+	if view != types.PasswordNone {
+		@NestedObject(view)
+	}
+}

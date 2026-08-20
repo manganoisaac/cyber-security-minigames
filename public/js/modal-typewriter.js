@@ -5,10 +5,11 @@ const MODAL_BUTTON_SELECTOR = ".modal__button";
 const MODAL_TYPING_CLASS = "modal__text--typing";
 
 const animations = new WeakMap();
+const typed = new WeakSet();
 
 function typewriteModal(modal) {
   const textEl = modal.querySelector(MODAL_TEXT_SELECTOR);
-  if (!textEl || animations.has(textEl)) return;
+  if (!textEl || animations.has(textEl) || typed.has(textEl)) return;
 
   const buttonEl = modal.querySelector(MODAL_BUTTON_SELECTOR);
   const fullText = textEl.textContent;
@@ -27,6 +28,7 @@ function typewriteModal(modal) {
     if (i >= fullText.length) {
       clearInterval(interval);
       animations.delete(textEl);
+      typed.add(textEl);
       textEl.classList.remove(MODAL_TYPING_CLASS);
       if (buttonEl) buttonEl.disabled = false;
       return;
@@ -43,3 +45,4 @@ function typewriteNewModals() {
 
 document.addEventListener("DOMContentLoaded", typewriteNewModals);
 document.addEventListener("htmx:afterSwap", typewriteNewModals);
+document.addEventListener("htmx:afterSettle", typewriteNewModals);

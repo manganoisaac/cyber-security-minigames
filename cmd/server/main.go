@@ -6,6 +6,9 @@ import (
 	"os"
 
 	"cyber-security-minigames/internal/handlers"
+	"cyber-security-minigames/internal/handlers/email_client"
+	"cyber-security-minigames/internal/handlers/password"
+	"cyber-security-minigames/internal/session"
 )
 
 func main() {
@@ -14,8 +17,15 @@ func main() {
 		port = "3000"
 	}
 
+	store := session.Store()
+	games := []handlers.Game{
+		email_client.NewGame(email_client.NewHandler(email_client.EmailService())),
+		password.NewGame(password.NewHandler(password.PasswordService())),
+	}
+	handler := session.Middleware(store)(handlers.Routes(games...))
+
 	fmt.Println("listening on port " + port)
-	if err := http.ListenAndServe(":"+port, handlers.Routes()); err != nil {
+	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		fmt.Println("server error:", err)
 	}
 }

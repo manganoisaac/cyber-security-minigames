@@ -14,7 +14,7 @@ templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases 
 		</section>
 		<div id="modal-root">
 			if instructions != "" {
-				@ui.Modal(instructions, "")
+				@ui.Modal(instructions, "", false)
 			}
 		</div>
 	}

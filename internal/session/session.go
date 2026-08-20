@@ -13,18 +13,31 @@ const (
 	sessionTTL = 30 * time.Minute
 )
 
-// Session is the per-browser session. Each minigame stores its own state in
+// IState is the contract every minigame state satisfies. Only behavior the
+// session layer can act on generically lives here; everything game-specific
+// belongs on a per-game interface (e.g. IEmailGameState).
+type IState interface {
+	Reset()
+}
+
+// ISession is the per-browser session. Each minigame stores its own state in
 // the states map, keyed by an opaque minigame name (e.g. "email-client"),
 // so sessions survive switching between minigames within the TTL.
+type ISession interface {
+	State(name string) (IState, bool)
+	SetState(name string, st IState)
+}
+
+// Session is the in-memory implementation of ISession.
 type Session struct {
 	mu      sync.Mutex
 	sid     string
 	touched time.Time
-	states  map[string]any
+	states  map[string]IState
 }
 
 // State returns the minigame state stored under name, if any.
-func (s *Session) State(name string) (any, bool) {
+func (s *Session) State(name string) (IState, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	st, ok := s.states[name]
@@ -32,25 +45,31 @@ func (s *Session) State(name string) (any, bool) {
 }
 
 // SetState stores st under name, replacing any previous value.
-func (s *Session) SetState(name string, st any) {
+func (s *Session) SetState(name string, st IState) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.states[name] = st
 }
 
-// Store maps session id -> Session. Single in-memory store per process.
-type Store struct {
+// IStore maps session id -> ISession. Single in-memory store per process.
+type IStore interface {
+	Get(w http.ResponseWriter, r *http.Request) ISession
+}
+
+// store is the in-memory implementation of IStore.
+type store struct {
 	mu       sync.Mutex
 	sessions map[string]*Session
 }
 
-func NewStore() *Store {
-	return &Store{sessions: make(map[string]*Session)}
+// newStore is the private constructor for the shared session store.
+func newStore() IStore {
+	return &store{sessions: make(map[string]*Session)}
 }
 
-// Get returns the Session for the request's cookie, creating one (and setting
+// Get returns the session for the request's cookie, creating one (and setting
 // the cookie) if absent. Expired sessions are pruned lazily on each call.
-func (s *Store) Get(w http.ResponseWriter, r *http.Request) *Session {
+func (s *store) Get(w http.ResponseWriter, r *http.Request) ISession {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -68,11 +87,11 @@ func (s *Store) Get(w http.ResponseWriter, r *http.Request) *Session {
 		}
 	}
 
-	sid := NewID()
+	sid := s.newID()
 	sess := &Session{
 		sid:     sid,
 		touched: now,
-		states:  make(map[string]any),
+		states:  make(map[string]IState),
 	}
 	s.sessions[sid] = sess
 	http.SetCookie(w, &http.Cookie{
@@ -85,12 +104,20 @@ func (s *Store) Get(w http.ResponseWriter, r *http.Request) *Session {
 	return sess
 }
 
-// Default is the app-wide store all minigames share so they observe the same
-// session cookie and per-browser state.
-var Default = NewStore()
+var (
+	storeOnce   sync.Once
+	storeGlobal IStore
+)
 
-// NewID returns a cryptographically random session id.
-func NewID() string {
+// Store returns the app-wide session store singleton, constructed once on
+// first use.
+func Store() IStore {
+	storeOnce.Do(func() { storeGlobal = newStore() })
+	return storeGlobal
+}
+
+// newID returns a cryptographically random session id.
+func (s *store) newID() string {
 	b := make([]byte, 16)
 	if _, err := rand.Read(b); err != nil {
 		panic(err)

@@ -1,0 +1,10 @@
+package password
+
+templ Backspace() {
+	<button
+		hx-post="/password/backspace"
+		hx-target=".password__guesses"
+		hx-swap="outerHTML"
+		class="password__backspace"
+	><h1>Backspace</h1></button>
+}

@@ -6,8 +6,8 @@
 - `index.css` contains **only** `@import` statements (Google Fonts first, then `./themes.css`, then feature files).
 - `themes.css` contains only `:root` CSS variables, `@font-face` declarations, and global element/utility styles.
 - Feature-specific tokens may be scoped on the feature's container selector in its own `features/*.css` file (e.g. `--details-width` on `.email-client__list`); the shared `--size-*` scale stays in `themes.css`.
-- Each feature/component gets its own file in `public/css/features/<feature>.css` (e.g. `email-details.css`, `chapter-select.css`). A page and a component may share a block prefix only if they also share the component name (e.g. `email_client.templ`); otherwise the page gets its own block (`email-client-page`).
-- Image URLs inside `public/css/features/*` must use `../../images/...`; in `themes.css` use `../fonts/...`.
+- Each feature/component gets its own file in `public/css/features/`. Minigame features live in a per-game subfolder: `public/css/features/<game>/<file>.css` (e.g. `email/email-details.css`, `password/password.css`); app pages and shared UI stay flat in `public/css/features/` (e.g. `chapter-select.css`, `modal.css`). A page and a component may share a block prefix only if they also share the component name (e.g. `email_client.templ`); otherwise the page gets its own block (`email-client-page`).
+- Image URLs inside flat `public/css/features/*` files must use `../../images/...`; inside per-game subfolders (two levels deep) use `../../../images/...`; in `themes.css` use `../fonts/...`.
 - New CSS must be wired into `index.css` via `@import` — never added inline to templates or another file.
 - Use the BEM naming convention (classic `Block__element--modifier`) for all CSS classes, e.g. `.email-item__text`, `.chapter-select--1`.
 

@@ -3,17 +3,22 @@ package handlers
 import (
 	"net/http"
 
-	"cyber-security-minigames/internal/handlers/email_client"
 	"cyber-security-minigames/views/pages"
 
 	"github.com/a-h/templ"
 )
 
-// Routes wires up all page routes plus static asset serving and returns
-// the handler for the server to run. Keeping this here (rather than in
-// main.go) keeps the entry point small and gives the team one place to
-// register new pages.
-func Routes() http.Handler {
+// Game is a self-contained minigame that mounts its page and htmx routes
+// onto the app mux.
+type Game interface {
+	Register(mux *http.ServeMux)
+}
+
+// Routes wires up the page routes plus static asset serving and the given
+// games, returning the handler for the server to run. New games are added by
+// passing them in from main.go; this function never changes when a game is
+// added or removed.
+func Routes(games ...Game) http.Handler {
 	mux := http.NewServeMux()
 
 	// Static assets (css / js) served from ./public at /public/…
@@ -25,8 +30,10 @@ func Routes() http.Handler {
 	mux.Handle("GET /{$}", templ.Handler(pages.Landing()))
 	mux.Handle("GET /chapter-select", templ.Handler(pages.ChapterSelect()))
 
-	// Game routes. Each game registers its page and htmx endpoints here.
-	email_client.Register(mux)
+	// Each game registers its page and htmx endpoints here.
+	for _, g := range games {
+		g.Register(mux)
+	}
 
 	return mux
 }

@@ -1,7 +1,16 @@
 package ui
 
-templ Modal(message string, url string) {
-	<div class="modal">
+// TODO: the modal close path is hardcoded to /email-client/modal; parameterize it
+// so other games (e.g. password) can own their own modal-close route.
+
+templ Modal(message string, url string, oob bool) {
+	<div
+		if oob {
+			id="modal-root"
+			hx-swap-oob="true"
+		}
+		class="modal"
+	>
 		if url != "" {
 			<div class="modal__backdrop" hx-get={ url } hx-target="body" hx-swap="outerHTML" hx-push-url="true" aria-label="Close"></div>
 			<div class="modal__dialog" role="dialog" aria-modal="true">

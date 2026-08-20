@@ -1,0 +1,12 @@
+package password
+
+import "strconv"
+import "cyber-security-minigames/types"
+
+templ NestedObject(view types.PasswordView) {
+	<a
+		href={ "/password/changeview/" + strconv.Itoa(int(view)) }
+		aria-label={ view.String() }
+		class={ "password__nested-object password__nested-object--" + view.String() }
+	></a>
+}

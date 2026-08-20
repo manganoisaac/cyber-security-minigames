@@ -1,0 +1,20 @@
+package password
+
+import "cyber-security-minigames/types"
+
+templ Guess(guesses []types.Guess, numPositions int) {
+	<div class="password__guesses">
+		for i := 0; i < numPositions; i++ {
+			if i >= len(guesses) {
+				<div class="password__guess">______</div>
+			} else if guesses[i].Status == types.GuessCorrect {
+				<div class="password__guess password__guess--correct">{ guesses[i].Word }</div>
+			} else if guesses[i].Status == types.GuessWrongPosition {
+				<div class="password__guess password__guess--wrong-position">{ guesses[i].Word }</div>
+			} else {
+				<div class="password__guess password__guess--incorrect">{ guesses[i].Word }</div>
+			}
+		}
+		@Backspace()
+	</div>
+}

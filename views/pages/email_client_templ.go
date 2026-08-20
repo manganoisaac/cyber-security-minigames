@@ -46,7 +46,7 @@ func EmailClientPage(emails []types.Email, active types.Email, selectedPhrases m
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"email-client-page\"><h1>CyberMail</h1><p class=\"email-client-page__level\">Level ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"email-client-page\"><h1 class=\"email-client__title\">CyberMail</h1><p class=\"email-client-page__level\">Level ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -72,7 +72,7 @@ func EmailClientPage(emails []types.Email, active types.Email, selectedPhrases m
 				return templ_7745c5c3_Err
 			}
 			if instructions != "" {
-				templ_7745c5c3_Err = ui.Modal(instructions, "").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = ui.Modal(instructions, "", false).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
