@@ -1,0 +1,429 @@
+.network-defense {
+  --nd-warning: orange;
+  --nd-danger: crimson;
+  --nd-grid-cols: 8;
+  --nd-grid-rows: 5;
+  --nd-panel-radius: 12px;
+  --nd-cell-gap: 4px;
+  min-height: 100vh;
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-l);
+  padding: var(--size-l);
+}
+
+.network-defense__briefing {
+  max-width: 60rem;
+  text-align: center;
+}
+
+.network-defense__briefing p {
+  font-size: var(--size-s);
+  margin-top: var(--size-xs);
+}
+
+.network-defense__layout {
+  width: 100%;
+  max-width: 90rem;
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr) 18rem;
+  gap: var(--size-l);
+  align-items: start;
+}
+
+@media (max-width: 60rem) {
+  .network-defense__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.network-defense-panel {
+  background: var(--bg-light);
+  border-radius: var(--nd-panel-radius);
+  padding: var(--size-m);
+}
+
+.network-defense-panel h2 {
+  font-size: var(--size-l);
+}
+
+.network-defense-panel__hint {
+  font-size: var(--size-xs);
+  margin-bottom: var(--size-s);
+}
+
+/* -- Build panel -------------------------------------------------------- */
+
+.network-defense-tower-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-s);
+}
+
+.network-defense-tower-list__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  padding: var(--size-s);
+  border: 2px solid var(--bg-selected);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.network-defense-tower-list__item[aria-pressed="true"] {
+  border-color: var(--text);
+  background: var(--bg-selected);
+}
+
+.network-defense-tower-list__item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.network-defense-tower-list__item:disabled:hover {
+  filter: none;
+  transform: none;
+}
+
+.network-defense-tower-list__top-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: var(--size-m);
+}
+
+.network-defense-tower-list__cost {
+  font-size: var(--size-m);
+  color: var(--text-muted);
+}
+
+.network-defense-tower-list__stats {
+  font-size: var(--size-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.network-defense-tower-list__counters {
+  font-size: var(--size-xs);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.network-defense-tower-list__desc {
+  font-size: var(--size-xs);
+  margin-top: 2px;
+}
+
+.network-defense-selected-info {
+  margin-top: var(--size-s);
+  font-size: var(--size-s);
+}
+
+.network-defense-threat-legend {
+  margin-top: var(--size-m);
+}
+
+.network-defense-threat-legend h3 {
+  font-size: var(--size-m);
+}
+
+.network-defense-threat-legend__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: var(--size-xs);
+}
+
+.network-defense-threat-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--size-xs);
+  color: var(--text-muted);
+}
+
+.network-defense-threat-legend__swatch {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* -- Battlefield panel --------------------------------------------------- */
+
+.network-defense-battlefield__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--size-s);
+  margin-bottom: var(--size-s);
+}
+
+.network-defense-battlefield__stats {
+  display: flex;
+  gap: var(--size-m);
+  font-size: var(--size-s);
+  font-weight: 700;
+}
+
+.network-defense-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--nd-grid-cols), 1fr);
+  grid-template-rows: repeat(var(--nd-grid-rows), 1fr);
+  gap: var(--nd-cell-gap);
+  background: var(--bg);
+  border: 2px solid var(--text-muted);
+  border-radius: 8px;
+  padding: var(--size-s);
+  aspect-ratio: var(--nd-grid-cols) / var(--nd-grid-rows);
+}
+
+.network-defense-grid__cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-light);
+  border: 1px solid var(--bg-selected);
+  border-radius: 4px;
+  padding: 0;
+  font-size: var(--size-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.network-defense-grid__cell--path {
+  background: var(--bg-selected);
+}
+
+.network-defense-grid__cell--buildable {
+  border-style: dashed;
+  border-color: var(--text-muted);
+  cursor: pointer;
+}
+
+.network-defense-grid__cell--buildable:hover,
+.network-defense-grid__cell--buildable:focus-visible {
+  background: var(--bg);
+  transform: none;
+}
+
+.network-defense-grid__cell--edge,
+.network-defense-grid__cell--core {
+  color: var(--text);
+}
+
+.network-defense-grid__cell--placed {
+  border: 2px solid var(--text);
+  background: var(--bg);
+  cursor: default;
+}
+
+.network-defense-grid__cell:disabled {
+  cursor: default;
+}
+
+.network-defense-enemy {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.network-defense-enemy__hpbar {
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bg);
+  border: 1px solid var(--text-muted);
+  overflow: hidden;
+}
+
+.network-defense-enemy__hpfill {
+  display: block;
+  height: 100%;
+  background: var(--success);
+}
+
+.network-defense-enemy__body {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.network-defense-projectile {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--text);
+  transform: translate(-50%, -50%);
+  transition: left 0.3s linear, top 0.3s linear;
+  pointer-events: none;
+}
+
+.network-defense-battlefield__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-s);
+  margin-top: var(--size-s);
+}
+
+.network-defense-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--size-xs);
+  color: var(--text-muted);
+}
+
+.network-defense-upcoming {
+  font-size: var(--size-xs);
+  color: var(--text-muted);
+  font-style: italic;
+  flex-basis: 100%;
+}
+
+.network-defense-launch-button {
+  background: var(--success);
+  border: 2px solid var(--text-muted);
+  border-radius: 8px;
+  padding: var(--size-s) var(--size-m);
+}
+
+.network-defense-launch-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.network-defense-launch-button:disabled:hover {
+  filter: none;
+  transform: none;
+}
+
+/* -- Telemetry panel ------------------------------------------------------ */
+
+.network-defense-integrity,
+.network-defense-threat {
+  margin-bottom: var(--size-m);
+}
+
+.network-defense-integrity__row,
+.network-defense-threat__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--size-s);
+  margin-bottom: 4px;
+}
+
+.network-defense-integrity__track,
+.network-defense-threat__track {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--bg);
+  border: 1px solid var(--bg-selected);
+  overflow: hidden;
+}
+
+.network-defense-integrity__fill {
+  height: 100%;
+  background: var(--success);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.network-defense-threat__fill {
+  height: 100%;
+  background: var(--nd-warning);
+  transition: width 0.3s ease;
+}
+
+.network-defense-log__list {
+  list-style: none;
+  max-height: 14rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 6px;
+}
+
+.network-defense-log__list li {
+  font-size: var(--size-xs);
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--bg);
+  padding-bottom: 4px;
+}
+
+/* -- Modals ---------------------------------------------------------------- */
+
+.network-defense-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.network-defense-modal-overlay[hidden] {
+  display: none;
+}
+
+.network-defense-modal {
+  width: min(32rem, 90vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-light);
+  border-radius: var(--nd-panel-radius);
+  padding: var(--size-l);
+}
+
+.network-defense-modal p,
+.network-defense-modal li {
+  font-size: var(--size-s);
+  margin-top: var(--size-xs);
+}
+
+.network-defense-instructions-rules {
+  margin-top: var(--size-s);
+  padding-left: var(--size-l);
+}
+
+.network-defense-modal__actions {
+  margin-top: var(--size-l);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.network-defense-button--primary {
+  background: var(--success);
+  border: 2px solid var(--text-muted);
+  border-radius: 8px;
+  padding: var(--size-s) var(--size-m);
+}
