@@ -18,10 +18,13 @@ import (
 // the returned components.
 type IPasswordService interface {
 	Page(st IPasswordGameState) templ.Component
+	ObjectCloseUp(st IPasswordGameState, objectId int) templ.Component
 	ChangeView(st IPasswordGameState, view types.PasswordView) templ.Component
 	Backspace(st IPasswordGameState) templ.Component
 	SelectItem(st IPasswordGameState) templ.Component
 	AddGuess(st IPasswordGameState, guess string) []templ.Component
+	AddHint(st IPasswordGameState, objectId int, itemId int) []templ.Component
+	GetHints(st IPasswordGameState) templ.Component
 }
 
 // Service implements IPasswordService.
@@ -48,6 +51,10 @@ func (s *Service) Page(st IPasswordGameState) templ.Component {
 	return pages.PasswordPage(st.View(), passwordutil.GuessResults(st.Guesses(), st.CorrectPhrases()), len(st.CorrectPhrases()), data.InstructionsForPassword())
 }
 
+func (s *Service) Popup(content string) templ.Component {
+	return ui.Popup(content)
+}
+
 func (s *Service) SelectItem(st IPasswordGameState) templ.Component {
 	return nil
 }
@@ -71,4 +78,36 @@ func (s *Service) Backspace(st IPasswordGameState) templ.Component {
 func (s *Service) ChangeView(st IPasswordGameState, view types.PasswordView) templ.Component {
 	st.SetView(view)
 	return s.Page(st)
+}
+
+func (s *Service) ObjectCloseUp(st IPasswordGameState, objectId int) templ.Component {
+	return password.ObjectCloseUp(objectId, 1)
+}
+
+func (s *Service) AddHint(st IPasswordGameState, objectId int, itemId int) []templ.Component {
+	switch objectId {
+	case 1:
+		st.AddHint("jersey")
+	case 2:
+		st.AddHint("calendar")
+	case 3:
+		st.AddHint("trash")
+	case 4:
+		st.AddHint("rufus")
+	case 5:
+		st.AddHint("drawing")
+	default:
+		st.AddHint("desk")
+	}
+	parts := []templ.Component{s.Popup("hint added to notebook")}
+	if st.AllHintsCollected() {
+		modal := ui.Modal("congratulations, all hints have been collected.", "/password", true)
+		parts = append(parts, modal)
+	}
+	return parts
+}
+
+func (s *Service) GetHints(st IPasswordGameState) templ.Component {
+	hints := st.GetHints()
+	return password.ClueList(hints)
 }

@@ -2,6 +2,7 @@ package password
 
 import (
 	"net/http"
+	"slices"
 	"sync"
 
 	"cyber-security-minigames/data"
@@ -22,11 +23,17 @@ type IPasswordGameState interface {
 	CorrectPhrases() []string
 	View() types.PasswordView
 	SetView(view types.PasswordView)
+	AddHint(hint string)
+	GetHints() []string
+	AllHintsCollected() bool
 }
 
 // gameState is the per-user state for the password minigame. The server owns
 // every piece of state; the HTML rendered to the client is just a projection.
 type gameState struct {
+	level          int
+	hints          []string
+	numHints       int
 	mu             sync.Mutex
 	guesses        []string
 	correctPhrases []string
@@ -38,6 +45,8 @@ type gameState struct {
 func newGameState() *gameState {
 	return &gameState{
 		correctPhrases: data.PasswordPhrases,
+		level:          1,
+		numHints:       6,
 	}
 }
 
@@ -57,6 +66,20 @@ func stateFor(s session.ISession) IPasswordGameState {
 // session, as resolved into the context by session.Middleware.
 func stateForRequest(r *http.Request) IPasswordGameState {
 	return stateFor(session.SessionFrom(r))
+}
+
+func (s *gameState) AddHint(hint string) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if !slices.Contains(s.hints, hint) {
+		s.hints = append(s.hints, hint)
+	}
+}
+
+func (s *gameState) IncrementLevel() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.level = s.level + 1
 }
 
 func (s *gameState) Guesses() []string {
@@ -105,4 +128,21 @@ func (s *gameState) Reset() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.guesses = nil
+}
+
+func (s *gameState) GetHints() []string {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.hints
+}
+
+func (s *gameState) AllHintsCollected() bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	res := false
+	if s.numHints <= len(s.hints) {
+		res = true
+	}
+	s.level = s.level + 1
+	return res
 }

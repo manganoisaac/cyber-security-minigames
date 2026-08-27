@@ -10,10 +10,14 @@ import (
 // IPasswordHandler is the HTTP handler contract for the password minigame.
 type IPasswordHandler interface {
 	Page(w http.ResponseWriter, r *http.Request)
+	ObjectCloseUp(w http.ResponseWriter, r *http.Request)
 	ChangeView(w http.ResponseWriter, r *http.Request)
 	Backspace(w http.ResponseWriter, r *http.Request)
 	SelectItem(w http.ResponseWriter, r *http.Request)
 	AddGuess(w http.ResponseWriter, r *http.Request)
+	AddHint(w http.ResponseWriter, r *http.Request)
+	GetHints(w http.ResponseWriter, r *http.Request)
+	// DeleteElement(w http.ResponseWriter, r *http.Request)
 }
 
 // passwordHandler implements IPasswordHandler, delegating to the service.
@@ -67,3 +71,36 @@ func (h *passwordHandler) ChangeView(w http.ResponseWriter, r *http.Request) {
 	}
 	h.svc.ChangeView(stateForRequest(r), view).Render(r.Context(), w)
 }
+
+// ObjectCloseUp handles GET /password/objectcloseup/{object_id}, delegating to the service.
+func (h *passwordHandler) ObjectCloseUp(w http.ResponseWriter, r *http.Request) {
+	objectID, err := strconv.Atoi(r.PathValue("object_id"))
+	if err != nil {
+		http.Error(w, "object_id must be an integer", http.StatusBadRequest)
+		return
+	}
+	h.svc.ObjectCloseUp(stateForRequest(r), objectID).Render(r.Context(), w)
+}
+
+func (h *passwordHandler) AddHint(w http.ResponseWriter, r *http.Request) {
+	itemId, err := strconv.Atoi(r.PathValue("item_id"))
+	if err != nil {
+		http.Error(w, "item_id must be an integer", http.StatusBadRequest)
+		return
+	}
+	objectId, err := strconv.Atoi(r.PathValue("object_id"))
+	if err != nil {
+		http.Error(w, "object_id must be an integer", http.StatusBadRequest)
+		return
+	}
+	for _, part := range h.svc.AddHint(stateForRequest(r), objectId, itemId) {
+		part.Render(r.Context(), w)
+	}
+}
+
+func (h *passwordHandler) GetHints(w http.ResponseWriter, r *http.Request) {
+	h.svc.GetHints(stateForRequest(r)).Render(r.Context(), w)
+}
+
+// func (h *passwordHandler) DeleteElement(w http.ResponseWriter, r *http.Request) {
+// }

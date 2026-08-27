@@ -1,0 +1,27 @@
+.password__clue-list--container {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.password__clue-list {
+  position: relative;
+}
+
+.password__clue-list--img {
+  height: 60vh;
+}
+
+.password__clue-list--item-container {
+  position: absolute;
+  top: 23%;
+  left: 32%;
+}
+
+.password__clue-list--item {
+  margin-bottom: 16%;
+}

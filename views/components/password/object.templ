@@ -1,12 +1,11 @@
 package password
 
 import "strconv"
-import "cyber-security-minigames/data"
 
 templ Object(position int) {
 	<div
-		hx-post={ "/password/addguess/" + data.PasswordObjectPhrases[position] }
-		hx-target=".password__guesses"
+		hx-get={ "/password/objectcloseup/" + strconv.Itoa(position) }
+		hx-target=".password"
 		hx-swap="outerHTML"
 		class={ "password__object password__object--" + strconv.Itoa(position) }
 	></div>
