@@ -10,24 +10,27 @@
    * nodes bordering the path and automatically fire at traffic within
    * range once a wave is launched.
    *
-   * This is an MVP: fire rate is fixed at one target per tower per tick,
-   * and wave/tower numbers are a first-pass balance for playtesting, not
-   * a final tune. Range is measured in path-tiles from the tower's
-   * anchor point rather than true grid distance, which keeps the
-   * targeting math (and its screen-reader description) simple.
+   * Each tower has its own `fireRateMs` cooldown (tracked per placed
+   * instance in `state.towersByCell`) rather than firing on every tick -
+   * wave/tower numbers are a first-pass balance for playtesting, not a
+   * final tune. Range is measured in path-tiles from the tower's anchor
+   * point rather than true grid distance, which keeps the targeting math
+   * (and its screen-reader description) simple. `speed` on enemies is in
+   * path-tiles per second (tick-resolution independent), so `tickMs` can
+   * be re-tuned later without touching enemy balance.
    *
    * Each tower hard-counters exactly one enemy type (`counters`) and does
    * nothing at all against the other three - if a type has no matching
    * tower built, it walks through untouched. This is deliberate (mirrors
-   * "different controls stop different attacks"), not a bug. `color` and
-   * `glyph` are placeholder identification only - team art/assets replace
-   * both later, so the underlying color+glyph pairing is what carries the
-   * distinction, never color alone.
+   * "different controls stop different attacks"), not a bug. `icon` is the
+   * real sprite; `color` remains as a colored-disc backdrop behind it, so
+   * distinction never rests on the (fairly similar-looking, once small)
+   * sprite shape alone.
    */
   const GAME_CONFIG = {
     cols: 8,
     rows: 5,
-    tickMs: 700,
+    tickMs: 100,
     startingCredits: 300,
     startingIntegrity: 100,
     towers: {
@@ -36,54 +39,62 @@
         name: "Firewall",
         cost: 80,
         damage: 18,
+        fireRateMs: 400,
         range: 2,
         counters: "malwarePacket",
         description: "Filters common payloads at the perimeter.",
+        icon: "/public/images/network-defense/towers/firewall.png",
       },
       ids: {
         id: "ids",
         name: "IDS Sensor",
         cost: 120,
-        damage: 26,
+        damage: 27,
+        fireRateMs: 500,
         range: 3,
         counters: "bruteWorm",
         description: "Flags and intercepts suspicious signatures early.",
+        icon: "/public/images/network-defense/towers/ids.png",
       },
       patched: {
         id: "patched",
         name: "Patched Endpoint",
         cost: 150,
-        damage: 38,
+        damage: 42,
+        fireRateMs: 700,
         range: 2,
         counters: "phishPayload",
         description: "Hardened node that punishes malware at close range.",
+        icon: "/public/images/network-defense/towers/patched.png",
       },
       mfa: {
         id: "mfa",
         name: "MFA Prompt",
         cost: 200,
-        damage: 55,
+        damage: 72,
+        fireRateMs: 900,
         range: 2,
         counters: "credentialBot",
         description: "Second-factor challenge stops identity-based attacks cold.",
+        icon: "/public/images/network-defense/towers/mfa.png",
       },
     },
     enemies: {
       credentialBot: {
-        id: "credentialBot", name: "Credential-stuffing bot", hp: 40, speed: 1, coreDamage: 5, reward: 10,
-        color: "#3a5f8a", glyph: "C",
+        id: "credentialBot", name: "Credential-stuffing bot", hp: 70, speed: 1.43, coreDamage: 5, reward: 10,
+        color: "#3a5f8a", icon: "/public/images/network-defense/enemies/credential-bot.png",
       },
       phishPayload: {
-        id: "phishPayload", name: "Phishing payload", hp: 70, speed: 0.8, coreDamage: 8, reward: 16,
-        color: "#6b3fa0", glyph: "P",
+        id: "phishPayload", name: "Phishing payload", hp: 80, speed: 1.14, coreDamage: 8, reward: 16,
+        color: "#6b3fa0", icon: "/public/images/network-defense/enemies/phish-payload.png",
       },
       malwarePacket: {
-        id: "malwarePacket", name: "Malware packet", hp: 110, speed: 0.6, coreDamage: 12, reward: 24,
-        color: "#a85a1e", glyph: "M",
+        id: "malwarePacket", name: "Malware packet", hp: 130, speed: 0.86, coreDamage: 12, reward: 24,
+        color: "#a85a1e", icon: "/public/images/network-defense/enemies/malware-packet.png",
       },
       bruteWorm: {
-        id: "bruteWorm", name: "Brute-force worm", hp: 320, speed: 0.5, coreDamage: 40, reward: 60,
-        color: "#8a1f1f", glyph: "W",
+        id: "bruteWorm", name: "Brute-force worm", hp: 400, speed: 0.71, coreDamage: 40, reward: 60,
+        color: "#8a1f1f", icon: "/public/images/network-defense/enemies/brute-worm.png",
       },
     },
   };
@@ -278,19 +289,24 @@
     state.waveElapsedMs += GAME_CONFIG.tickMs;
 
     for (const enemy of state.enemies) {
-      enemy.pathPos += GAME_CONFIG.enemies[enemy.type].speed;
+      enemy.pathPos += GAME_CONFIG.enemies[enemy.type].speed * (GAME_CONFIG.tickMs / 1000);
     }
 
     const arrived = state.enemies.filter((e) => e.pathPos >= PATH.length - 1);
     for (const enemy of arrived) applyCoreDamage(GAME_CONFIG.enemies[enemy.type]);
     state.enemies = state.enemies.filter((e) => e.pathPos < PATH.length - 1);
 
-    for (const [key, towerId] of state.towersByCell) {
-      const def = GAME_CONFIG.towers[towerId];
+    for (const [key, tower] of state.towersByCell) {
+      if (tower.cooldown > 0) {
+        tower.cooldown -= GAME_CONFIG.tickMs;
+        continue;
+      }
+      const def = GAME_CONFIG.towers[tower.id];
       const target = pickTarget(BUILDABLE.get(key), def.range, def.counters);
       if (target) {
         target.hp -= def.damage;
         spawnProjectile(key, target);
+        tower.cooldown = def.fireRateMs;
       }
     }
 
@@ -354,6 +370,16 @@
   function completeWave() {
     stopTickTimer();
     logEvent(state.currentWaveLabel + " cleared.");
+
+    // Guaranteed per-round credit floor, independent of kill count - a wave
+    // "completing" only requires pendingSpawns and enemies to both be empty,
+    // which happens whether the player killed everything or let it all
+    // through. Without this, building the wrong counter-tower(s) for a
+    // wave's composition can permanently softlock a player at 0 income.
+    const roundBonus = 50 + 10 * state.waveIndex;
+    state.credits += roundBonus;
+    logEvent("Round bonus: +" + roundBonus + " credits.");
+
     if (state.waveIndex >= WAVE_COUNT) {
       endGame(true);
     } else {
@@ -383,7 +409,7 @@
     const def = GAME_CONFIG.towers[state.selectedTower];
     if (state.credits < def.cost) return;
     state.credits -= def.cost;
-    state.towersByCell.set(key, state.selectedTower);
+    state.towersByCell.set(key, { id: state.selectedTower, cooldown: 0 });
     logEvent(def.name + " deployed.");
     state.selectedTower = null;
     render();
@@ -402,7 +428,7 @@
     integrityTextEl.textContent = pct + "%";
     integrityBarEl.style.width = pct + "%";
     integrityBarEl.style.backgroundColor =
-      pct <= 25 ? "var(--nd-danger)" : pct <= 50 ? "var(--nd-warning)" : "var(--success)";
+      pct <= 25 ? "var(--nd-danger)" : pct <= 50 ? "var(--nd-warning)" : "var(--nd-success)";
 
     const threatPct = Math.min(100, (state.waveIndex / WAVE_COUNT) * 100);
     threatBarEl.style.width = threatPct + "%";
@@ -453,7 +479,8 @@
       const isPath = pathIndexByKey.has(key);
       const isEdge = key === EDGE_KEY;
       const isCore = key === CORE_KEY;
-      const towerId = state.towersByCell.get(key);
+      const tower = state.towersByCell.get(key);
+      const towerId = tower && tower.id;
 
       let className = "network-defense-grid__cell";
       if (isPath) className += " network-defense-grid__cell--path";
@@ -466,7 +493,8 @@
       if (isPath) {
         el.textContent = isEdge ? "EDGE" : isCore ? "CORE" : "";
       } else if (towerId) {
-        el.textContent = GAME_CONFIG.towers[towerId].name.slice(0, 3).toUpperCase();
+        el.textContent = "";
+        el.style.backgroundImage = "url(" + GAME_CONFIG.towers[towerId].icon + ")";
         el.disabled = true;
         el.setAttribute(
           "aria-label",
@@ -479,6 +507,7 @@
         );
       } else {
         el.textContent = "";
+        el.style.backgroundImage = "";
         el.disabled = false;
         el.setAttribute("aria-label", "Buildable node. Empty. Select a defense, then activate to deploy it here.");
       }
@@ -519,8 +548,10 @@
         el.setAttribute("aria-hidden", "true");
         el.innerHTML =
           '<span class="network-defense-enemy__hpbar"><span class="network-defense-enemy__hpfill"></span></span>' +
-          '<span class="network-defense-enemy__body">' + def.glyph + "</span>";
-        el.querySelector(".network-defense-enemy__body").style.backgroundColor = def.color;
+          '<span class="network-defense-enemy__body"></span>';
+        const bodyEl = el.querySelector(".network-defense-enemy__body");
+        bodyEl.style.backgroundColor = def.color;
+        bodyEl.style.backgroundImage = "url(" + def.icon + ")";
         gridEl.appendChild(el);
         enemyEls.set(enemy.uid, el);
       }
@@ -568,7 +599,9 @@
         def.damage +
         " &middot; Range " +
         def.range +
-        "</span>" +
+        " &middot; Fires every " +
+        (def.fireRateMs / 1000).toFixed(1) +
+        "s</span>" +
         '<span class="network-defense-tower-list__counters">Effective against: ' +
         countered.name +
         " only</span>" +
@@ -590,9 +623,9 @@
       li.innerHTML =
         '<span class="network-defense-threat-legend__swatch" style="background-color:' +
         def.color +
-        '">' +
-        def.glyph +
-        "</span>" +
+        ";background-image:url(" +
+        def.icon +
+        ')"></span>' +
         "<span>" +
         def.name +
         " - stopped by " +
@@ -663,5 +696,26 @@
     render();
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    // The layout boosts internal navigation (AGENTS.md's hx-boost
+    // convention), so arriving here from chapter-select swaps this page's
+    // markup into the existing document instead of doing a real navigation.
+    // htmx re-clones and re-executes this <script src> tag on that swap
+    // (rather than skip it, the way a plain innerHTML assignment would),
+    // but DOMContentLoaded itself already fired once, for the very first
+    // real page load - it will never fire again for this second execution,
+    // which is exactly what left the page inert until a manual refresh.
+    // By the time a re-run gets here the document has long since finished
+    // loading, so init directly instead of waiting on an event that's
+    // already in the past.
+    init();
+  }
+
+  // A boosted swap never unloads the document, so leaving this page mid-wave
+  // would otherwise leave this execution's tick timer running in the
+  // background forever, against a grid that's no longer in the document.
+  // Stop it right before the next swap replaces the page.
+  document.addEventListener("htmx:beforeSwap", stopTickTimer);
 })();

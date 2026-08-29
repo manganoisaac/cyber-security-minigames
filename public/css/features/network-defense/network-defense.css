@@ -1,10 +1,23 @@
 .network-defense {
-  --nd-warning: orange;
-  --nd-danger: crimson;
+  /* Darkened from the original orange/crimson/lightgreen - those failed WCAG
+     non-text contrast (~1.1-1.2:1) against this panel's --bg/--bg-light,
+     since lightgreen and orange are both very light colors on a light grey
+     background. --nd-success shadows the shared --success token (kept
+     untouched in themes.css for every other game) at a contrast-safe value
+     scoped to this game only. */
+  --nd-success: #1b6b34;
+  --nd-warning: #a15c00;
+  --nd-danger: #a3122a;
   --nd-grid-cols: 8;
   --nd-grid-rows: 5;
   --nd-panel-radius: 12px;
   --nd-cell-gap: 4px;
+  --nd-tower-icon-scale: 70%;
+  --nd-enemy-body-size: 28px;
+  --nd-enemy-hpbar-width: 24px;
+  --nd-enemy-hpbar-height: 4px;
+  --nd-legend-swatch-size: 16px;
+  --nd-projectile-size: 8px;
   min-height: 100vh;
   background-color: var(--bg);
   display: flex;
@@ -148,11 +161,14 @@
 }
 
 .network-defense-threat-legend__swatch {
-  width: 16px;
-  height: 16px;
+  width: var(--nd-legend-swatch-size);
+  height: var(--nd-legend-swatch-size);
   flex-shrink: 0;
   border-radius: 50%;
   border: 2px solid var(--text);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -229,7 +245,10 @@
 
 .network-defense-grid__cell--placed {
   border: 2px solid var(--text);
-  background: var(--bg);
+  background-color: var(--bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: var(--nd-tower-icon-scale);
   cursor: default;
 }
 
@@ -245,11 +264,15 @@
   align-items: center;
   gap: 2px;
   pointer-events: none;
+  /* Just under GAME_CONFIG.tickMs (100ms) so each glide finishes before the
+     next tick's position update lands - avoids transitions queueing up and
+     the enemy visibly stuttering/catching up. */
+  transition: left 90ms linear, top 90ms linear;
 }
 
 .network-defense-enemy__hpbar {
-  width: 20px;
-  height: 4px;
+  width: var(--nd-enemy-hpbar-width);
+  height: var(--nd-enemy-hpbar-height);
   border-radius: 2px;
   background: var(--bg);
   border: 1px solid var(--text-muted);
@@ -259,14 +282,17 @@
 .network-defense-enemy__hpfill {
   display: block;
   height: 100%;
-  background: var(--success);
+  background: var(--nd-success);
 }
 
 .network-defense-enemy__body {
-  width: 18px;
-  height: 18px;
+  width: var(--nd-enemy-body-size);
+  height: var(--nd-enemy-body-size);
   border-radius: 50%;
   border: 2px solid var(--text);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,8 +303,8 @@
 
 .network-defense-projectile {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: var(--nd-projectile-size);
+  height: var(--nd-projectile-size);
   border-radius: 50%;
   border: 1px solid var(--text);
   transform: translate(-50%, -50%);
@@ -311,7 +337,7 @@
 }
 
 .network-defense-launch-button {
-  background: var(--success);
+  background: var(--nd-success);
   border: 2px solid var(--text-muted);
   border-radius: 8px;
   padding: var(--size-s) var(--size-m);
@@ -353,7 +379,7 @@
 
 .network-defense-integrity__fill {
   height: 100%;
-  background: var(--success);
+  background: var(--nd-success);
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
@@ -422,7 +448,7 @@
 }
 
 .network-defense-button--primary {
-  background: var(--success);
+  background: var(--nd-success);
   border: 2px solid var(--text-muted);
   border-radius: 8px;
   padding: var(--size-s) var(--size-m);
