@@ -48,7 +48,7 @@ PC_LOWER=$(printf '%s' "$PASCAL" | sed -E 's/^./\l&/')
 # title: HelloWorld -> Hello World (for the page <title>)
 TITLE=$(printf '%s' "$PASCAL" | sed -E 's/([[:lower:][:digit:]])([[:upper:]])/\1 \2/g')
 
-MODULE=$(sed -n 's/^module[[:space:]]\+//p' go.mod)
+MODULE=$(sed -n 's/^module[[:space:]]\+//p' go.mod | tr -d '\r')
 if [[ -z "$MODULE" ]]; then
 	echo "error: could not determine module name from go.mod" >&2
 	exit 1
