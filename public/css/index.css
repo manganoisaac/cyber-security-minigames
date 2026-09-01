@@ -19,4 +19,6 @@
 @import "./features/password/password-nested-object.css";
 @import "./features/password/password-object-close-up.css";
 @import "./features/password/clue-list.css";
+@import "./features/password/level-2.css";
+
 @import "./features/encryption/encryption.css";

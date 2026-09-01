@@ -1,0 +1,15 @@
+package password
+
+import "cyber-security-minigames/types"
+
+templ InputBox(guesses []types.Guess) {
+	<div class="password__input-box">
+		for i := 0; i < 6; i++ {
+			if i < len(guesses) {
+				<p>{ guesses[i].Word }</p>
+			} else {
+				<p>___</p>
+			}
+		}
+	</div>
+}

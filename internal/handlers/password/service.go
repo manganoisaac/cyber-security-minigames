@@ -48,7 +48,16 @@ func PasswordService() IPasswordService {
 }
 
 func (s *Service) Page(st IPasswordGameState) templ.Component {
-	return pages.PasswordPage(st.View(), passwordutil.GuessResults(st.Guesses(), st.CorrectPhrases()), len(st.CorrectPhrases()), data.InstructionsForPassword())
+	if st.Level() == 1 {
+
+		return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), data.InstructionsForPassword())
+	} else {
+		return pages.PasswordLevel2Page(
+			// data.PasswordPhrases,
+			st.GetHints(),
+			st.Guesses(),
+		)
+	}
 }
 
 func (s *Service) Popup(content string) templ.Component {
@@ -61,7 +70,7 @@ func (s *Service) SelectItem(st IPasswordGameState) templ.Component {
 
 func (s *Service) AddGuess(st IPasswordGameState, guess string) []templ.Component {
 	st.AddGuess(guess)
-	results := passwordutil.GuessResults(st.Guesses(), st.CorrectPhrases())
+	results := st.Guesses()
 	parts := []templ.Component{password.Guess(results, len(st.CorrectPhrases()))}
 	if passwordutil.AllCorrect(results) && len(results) == len(st.CorrectPhrases()) {
 		st.Reset()
@@ -72,7 +81,7 @@ func (s *Service) AddGuess(st IPasswordGameState, guess string) []templ.Componen
 
 func (s *Service) Backspace(st IPasswordGameState) templ.Component {
 	st.Backspace()
-	return password.Guess(passwordutil.GuessResults(st.Guesses(), st.CorrectPhrases()), len(st.CorrectPhrases()))
+	return password.Guess(st.Guesses(), len(st.CorrectPhrases()))
 }
 
 func (s *Service) ChangeView(st IPasswordGameState, view types.PasswordView) templ.Component {

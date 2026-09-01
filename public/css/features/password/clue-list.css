@@ -10,6 +10,12 @@
 
 .password__clue-list {
   position: relative;
+  background: url("../../../images/password/Notepad.png");
+  height: 70vh;
+  width: 33vw;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .password__clue-list--img {
@@ -17,11 +23,39 @@
 }
 
 .password__clue-list--item-container {
-  position: absolute;
-  top: 23%;
-  left: 32%;
+  height: 100%;
+  width: 100%;
 }
 
 .password__clue-list--item {
-  margin-bottom: 16%;
+  position: absolute;
+  top: calc(23% + 10% * var(--i));
+  left: 30%;
+}
+
+.password__clue-list--item:nth-child(1) {
+  --i: 0;
+}
+.password__clue-list--item:nth-child(2) {
+  --i: 1;
+}
+
+.password__clue-list--item:nth-child(3) {
+  --i: 2;
+}
+
+.password__clue-list--item:nth-child(4) {
+  --i: 3;
+}
+
+.password__clue-list--item:nth-child(5) {
+  --i: 4;
+}
+
+.password__clue-list--item:nth-child(6) {
+  --i: 5;
+}
+
+.password__clue-list--item:nth-child(7) {
+  --i: 6;
 }

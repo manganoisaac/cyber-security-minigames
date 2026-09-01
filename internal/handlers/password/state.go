@@ -17,7 +17,7 @@ const stateKey = "password"
 // Reset is shared with other games; every other operation is game-specific.
 type IPasswordGameState interface {
 	session.IState
-	Guesses() []string
+	Guesses() []types.Guess
 	AddGuess(guess string)
 	Backspace()
 	CorrectPhrases() []string
@@ -26,6 +26,7 @@ type IPasswordGameState interface {
 	AddHint(hint string)
 	GetHints() []string
 	AllHintsCollected() bool
+	Level() int
 }
 
 // gameState is the per-user state for the password minigame. The server owns
@@ -35,7 +36,7 @@ type gameState struct {
 	hints          []string
 	numHints       int
 	mu             sync.Mutex
-	guesses        []string
+	guesses        []types.Guess
 	correctPhrases []string
 	view           types.PasswordView
 }
@@ -47,6 +48,7 @@ func newGameState() *gameState {
 		correctPhrases: data.PasswordPhrases,
 		level:          1,
 		numHints:       6,
+		guesses:        []types.Guess{},
 	}
 }
 
@@ -82,10 +84,16 @@ func (s *gameState) IncrementLevel() {
 	s.level = s.level + 1
 }
 
-func (s *gameState) Guesses() []string {
+func (s *gameState) Level() int {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return append([]string(nil), s.guesses...)
+	return s.level
+}
+
+func (s *gameState) Guesses() []types.Guess {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.guesses
 }
 
 func (s *gameState) AddGuess(guess string) {
@@ -94,7 +102,19 @@ func (s *gameState) AddGuess(guess string) {
 	if len(s.guesses) >= len(s.correctPhrases) {
 		return
 	}
-	s.guesses = append(s.guesses, guess)
+	var wordStatus types.GuessStatus
+	if s.correctPhrases[len(s.guesses)] == guess {
+		wordStatus = types.GuessCorrect
+	} else if slices.Contains(s.correctPhrases, guess) {
+		wordStatus = types.GuessWrongPosition
+	} else {
+		wordStatus = types.GuessIncorrect
+	}
+	guessInsert := types.Guess{
+		Word:   guess,
+		Status: wordStatus,
+	}
+	s.guesses = append(s.guesses, guessInsert)
 }
 
 func (s *gameState) Backspace() {
@@ -108,7 +128,7 @@ func (s *gameState) Backspace() {
 func (s *gameState) CorrectPhrases() []string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return append([]string(nil), s.correctPhrases...)
+	return s.correctPhrases
 }
 
 func (s *gameState) View() types.PasswordView {
@@ -142,7 +162,7 @@ func (s *gameState) AllHintsCollected() bool {
 	res := false
 	if s.numHints <= len(s.hints) {
 		res = true
+		s.level = s.level + 1
 	}
-	s.level = s.level + 1
 	return res
 }

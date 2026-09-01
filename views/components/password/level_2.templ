@@ -1,0 +1,11 @@
+package password
+
+import "cyber-security-minigames/types"
+
+templ Level2(hints []string, guesses []types.Guess) {
+	<div class="password__level-2">
+		@HintSelection(hints)
+		// TODO: make this a passed in arg from state
+		@PasswordSubmission(guesses, 3)
+	</div>
+}

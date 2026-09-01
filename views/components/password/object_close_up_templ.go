@@ -22,6 +22,8 @@ func getFileName(objectId int) string {
 		return "../../../public/images/password/Rufus.png"
 	case 5:
 		return "../../../public/images/password/drawing.png"
+	case 6:
+		return "../../../public/images/password/ID 1.png"
 
 	default:
 		return "../../../public/images/password/calendar.png"
@@ -40,6 +42,8 @@ func getHintName(objectId int) string {
 		return "rufus"
 	case 5:
 		return "drawing"
+	case 6:
+		return "id"
 
 	default:
 		return "desk"
@@ -93,7 +97,7 @@ func ObjectCloseUp(object_id int, num_points int) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(getFileName(object_id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/password/object_close_up.templ`, Line: 44, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/password/object_close_up.templ`, Line: 48, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
 		if templ_7745c5c3_Err != nil {
@@ -129,7 +133,7 @@ func ObjectCloseUp(object_id int, num_points int) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.ResolveAttributeValue("/password/addhint/" + strconv.Itoa(object_id) + "/" + strconv.Itoa(i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/password/object_close_up.templ`, Line: 48, Col: 84}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/password/object_close_up.templ`, Line: 52, Col: 84}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var7)
 			if templ_7745c5c3_Err != nil {
@@ -140,7 +144,7 @@ func ObjectCloseUp(object_id int, num_points int) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</main><a class=\"password__back-arrow\" href=\"/password/changeview/0\">Back</a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<a class=\"password__back-arrow\" href=\"/password\">Back</a></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

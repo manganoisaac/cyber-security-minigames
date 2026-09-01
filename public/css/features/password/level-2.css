@@ -1,0 +1,48 @@
+.password__level-2 {
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.password__level-2-hint-selection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.password__level-2-submission {
+  flex: 1;
+  background: red;
+  display: flex;
+  flex-direction: row;
+}
+
+.password__hint-item {
+  font-size: 3rem;
+}
+
+.password__hint-item:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.password__hint-item:active {
+  transform: scale(0.95);
+}
+
+.password__input-box {
+  display: flex;
+  align-self: center;
+  justify-content: space-evenly;
+  align-items: center;
+  background: var(--bg);
+  border-radius: var(--size-m);
+  height: 5em;
+  flex: 1;
+  margin: 2em;
+}

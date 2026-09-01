@@ -1,0 +1,9 @@
+package password
+
+templ HintSelection(hints []string) {
+	<div class="password__level-2-hint-selection">
+		for _, hint := range hints {
+			@HintItem(hint)
+		}
+	</div>
+}

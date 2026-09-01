@@ -29,7 +29,7 @@ func ClueList(clues []string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"password__clue-list--container\" hx-get=\"/\" hx-swap=\"delete\"><div class=\"password__clue-list\"><img class=\"password__clue-list--img\" src=\"../../../public/images/password/Notepad.png\" alt=\"\"><div class=\"password__clue-list--item-container\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"password__clue-list--container\" hx-get=\"/\" hx-swap=\"delete\"><div class=\"password__clue-list\"><div class=\"password__clue-list--item-container\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func ClueList(clues []string) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(clue)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/password/clue_list.templ`, Line: 13, Col: 48}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/password/clue_list.templ`, Line: 12, Col: 48}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
