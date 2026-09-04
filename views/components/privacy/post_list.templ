@@ -1,0 +1,11 @@
+package privacy
+
+import "cyber-security-minigames/types"
+
+templ PostList(posts []types.PostUI) {
+	<div class="privacy__post-list--container">
+		for _, post := range posts {
+			@PostItem(post)
+		}
+	</div>
+}

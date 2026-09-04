@@ -1,0 +1,48 @@
+.privacy__container {
+  background-color: var(--bg);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  gap: 2em;
+  padding: 2em;
+}
+.privacy__clue-list--container {
+  border-radius: 1em;
+  padding: 2em;
+  width: 50%;
+  background: var(--bg-light);
+  height: 100%;
+}
+.privacy__post-list--container {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  gap: 1em;
+  border-radius: 1em;
+  padding: 2em;
+  width: 50%;
+  background: var(--bg-light);
+  height: 100%;
+}
+
+.privacy__post-item--container {
+  background: var(--bg);
+  padding: 1em;
+  border-radius: 1em;
+  display: flex;
+  gap: 1em;
+}
+
+.privacy__post-item--centre {
+}
+
+.privacy__post-item--avatar {
+  height: 2em;
+  flex: none;
+  width: 2em;
+  border-radius: 100%;
+  background: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

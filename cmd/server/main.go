@@ -7,9 +7,10 @@ import (
 
 	"cyber-security-minigames/internal/handlers"
 	"cyber-security-minigames/internal/handlers/email_client"
-	"cyber-security-minigames/internal/handlers/network_defense"
 	"cyber-security-minigames/internal/handlers/encryption"
+	"cyber-security-minigames/internal/handlers/network_defense"
 	"cyber-security-minigames/internal/handlers/password"
+	"cyber-security-minigames/internal/handlers/privacy"
 	"cyber-security-minigames/internal/session"
 )
 
@@ -25,6 +26,7 @@ func main() {
 		network_defense.NewGame(network_defense.NewHandler()),
 		password.NewGame(password.NewHandler(password.PasswordService())),
 		encryption.NewGame(encryption.NewHandler()),
+		privacy.NewGame(privacy.NewHandler(privacy.PrivacyService())),
 	}
 	handler := session.Middleware(store)(handlers.Routes(games...))
 

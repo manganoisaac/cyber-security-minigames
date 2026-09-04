@@ -1,0 +1,14 @@
+package privacy
+
+import "cyber-security-minigames/types"
+import "cyber-security-minigames/views/components/ui"
+
+templ Main(posts []types.PostUI, clues []types.ClueUI) {
+	<div class="privacy__container">
+		@PostList(posts)
+		@ClueList(clues, false)
+	</div>
+	<div id="modal-root">
+		@ui.Modal("instructions...", "", false)
+	</div>
+}
