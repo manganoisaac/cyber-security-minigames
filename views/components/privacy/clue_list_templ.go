@@ -32,7 +32,7 @@ func ClueList(clues []types.ClueUI, oob bool) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if oob == true {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"privacy__clue-list\" class=\"privacy__clue-list--container\" hx-swap-oob=\"true\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"privacy__clue-list\" class=\"privacy__clue-list--container\" hx-swap-oob=\"true\"><h1 class=\"privacy__header--clue\">Clues Found</h1><br>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -44,7 +44,7 @@ func ClueList(clues []types.ClueUI, oob bool) templ.Component {
 				var templ_7745c5c3_Var2 string
 				templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(clue.Key)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 13, Col: 18}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 15, Col: 18}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 				if templ_7745c5c3_Err != nil {
@@ -57,7 +57,7 @@ func ClueList(clues []types.ClueUI, oob bool) templ.Component {
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(clue.Value)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 14, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 16, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -73,7 +73,7 @@ func ClueList(clues []types.ClueUI, oob bool) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div id=\"privacy__clue-list\" class=\"privacy__clue-list--container\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div id=\"privacy__clue-list\" class=\"privacy__clue-list--container\"><h1 class=\"privacy__header\">Clues Found</h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -85,7 +85,7 @@ func ClueList(clues []types.ClueUI, oob bool) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(clue.Key)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 23, Col: 18}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 26, Col: 18}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -98,7 +98,7 @@ func ClueList(clues []types.ClueUI, oob bool) templ.Component {
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(clue.Value)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 24, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/clue_list.templ`, Line: 27, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {

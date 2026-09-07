@@ -2,22 +2,23 @@ package privacy
 
 import "cyber-security-minigames/types"
 import "strconv"
+import "cyber-security-minigames/utils/avatar"
 
 templ PostItem(post types.PostUI) {
 	<div
-		class="privacy__post-item--container"
+		class={ "privacy__post-item--container", templ.KV("clicked", post.AddedToFolder) }
 		hx-post={ "/privacy/clickpost/" + strconv.Itoa(post.Id) }
 		hx-swap="outerHTML"
 	>
-		<div class="privacy__post-item--avatar">
-			<h3>IM</h3>
+		<div class="privacy__post-item--avatar" style={ "background: " + avatar.Color(strconv.Itoa(post.Id)) }>
+			<h3>{ avatar.Letter(post.Author) }</h3>
 		</div>
-		<div class="privacy__post-item--centre">
+		<div class={ "privacy__post-item--centre" }>
 			<h2 class="privacy__post-item--author">{ post.Author }</h2>
 			<p class="privacy__post-item--content">{ post.Content }</p>
 		</div>
 		if post.AddedToFolder == true {
-			<p>Added To Folder</p>
+			<p>&#10004</p>
 		}
 	</div>
 }

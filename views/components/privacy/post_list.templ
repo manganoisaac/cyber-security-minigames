@@ -4,6 +4,7 @@ import "cyber-security-minigames/types"
 
 templ PostList(posts []types.PostUI) {
 	<div class="privacy__post-list--container">
+		<h1 class="privacy__header">SnapTrailFeed</h1>
 		for _, post := range posts {
 			@PostItem(post)
 		}
