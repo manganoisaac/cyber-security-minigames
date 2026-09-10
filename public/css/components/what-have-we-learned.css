@@ -1,0 +1,215 @@
+/* ---------------------------------------------------------
+   WHAT HAVE WE LEARNED — SHARED PAGE
+--------------------------------------------------------- */
+
+.whwl-page {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background: #b99173;
+
+	--whwl-font:
+		"Pixelify Sans",
+		"Courier New",
+		monospace;
+
+	font-family: var(--whwl-font);
+	color: #252525;
+}
+
+.whwl-whiteboard {
+	position: relative;
+
+	width: min(
+		100vw,
+		calc(100vh * 1.778)
+	);
+
+	aspect-ratio: 1650 / 928;
+
+	background-image:
+		url("/public/images/what-have-we-learned/whiteboard-background.png");
+
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+/*
+	The background image includes the classroom wall,
+	whiteboard frame and marker tray.
+
+	This container is positioned only over the actual
+	writable white area of the board.
+*/
+.whwl-whiteboard__content {
+	position: absolute;
+
+	top: 9.8%;
+	left: 4.3%;
+	right: 4.3%;
+	bottom: 13.2%;
+
+	display: flex;
+	flex-direction: column;
+
+	box-sizing: border-box;
+	padding: 1.4% 2.2%;
+}
+
+/* ---------------------------------------------------------
+   HEADER
+--------------------------------------------------------- */
+
+.whwl-header {
+	text-align: center;
+	flex-shrink: 0;
+}
+
+.whwl-header h1 {
+	margin: 0;
+
+	font-size: clamp(24px, 2vw, 38px);
+	font-weight: 700;
+	line-height: 1;
+}
+
+.whwl-topic {
+	margin: 7px 0 0;
+
+	font-size: clamp(14px, 1.15vw, 21px);
+	font-weight: 700;
+
+	text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------
+   STORY + CYBERSECURITY LESSON
+--------------------------------------------------------- */
+
+.whwl-main-content {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4%;
+
+	margin-top: 1.6%;
+}
+
+.whwl-section h2 {
+	margin: 0 0 8px;
+
+	font-size: clamp(17px, 1.35vw, 25px);
+	font-weight: 700;
+}
+
+.whwl-section p {
+	margin: 0 0 8px;
+
+	font-size: clamp(12px, 0.9vw, 17px);
+	line-height: 1.25;
+}
+
+/* ---------------------------------------------------------
+   PLAYER ACTION → REAL-WORLD MEANING
+--------------------------------------------------------- */
+
+.whwl-connections {
+	margin-top: 1.5%;
+}
+
+.whwl-connections__header {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+
+	margin-bottom: 5px;
+
+	font-size: clamp(13px, 1vw, 19px);
+	font-weight: 700;
+	text-align: center;
+}
+
+.whwl-connection-row {
+	display: grid;
+	grid-template-columns: 1fr 40px 1fr;
+	align-items: center;
+
+	margin: 3px 0;
+
+	font-size: clamp(11px, 0.82vw, 16px);
+	line-height: 1.15;
+}
+
+.whwl-connection-row__action {
+	text-align: right;
+}
+
+.whwl-connection-row__arrow {
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: 700;
+}
+
+.whwl-connection-row__meaning {
+	text-align: left;
+}
+
+/* ---------------------------------------------------------
+   KEY TAKEAWAY
+--------------------------------------------------------- */
+
+.whwl-takeaway {
+	margin-top: auto;
+	padding-top: 1%;
+
+	font-size: clamp(11px, 0.85vw, 16px);
+	line-height: 1.2;
+
+	text-align: center;
+}
+
+.whwl-takeaway strong {
+	font-weight: 700;
+}
+
+/* ---------------------------------------------------------
+   CONTINUE BUTTON
+--------------------------------------------------------- */
+
+.whwl-footer {
+	display: flex;
+	justify-content: flex-end;
+
+	margin-top: 1%;
+}
+
+.whwl-continue-button {
+	padding: 7px 18px;
+
+	font-family: var(--whwl-font);
+	font-size: clamp(12px, 0.9vw, 17px);
+	font-weight: 700;
+
+	color: #252525;
+	text-decoration: none;
+
+	background: rgba(255, 255, 255, 0.65);
+
+	border: 2px solid #444;
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+
+	cursor: pointer;
+}
+
+.whwl-continue-button:hover {
+	background: rgba(255, 255, 255, 0.9);
+}
+
+.whwl-continue-button:active {
+	transform: translate(2px, 2px);
+	box-shadow: none;
+}

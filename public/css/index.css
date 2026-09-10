@@ -19,3 +19,4 @@
 @import "./features/encryption/encryption.css";
 @import "./features/network-defense/network-defense.css";
 @import "./features/digital-investigation/digital-investigation.css";
+@import "./components/what-have-we-learned.css";

@@ -1,0 +1,93 @@
+package whwl
+
+type LearningConnection struct {
+	PlayerAction string
+	RealWorldMeaning string
+}
+
+type PageData struct {
+	Topic string
+
+	StoryHeading string
+	StoryParagraphs []string
+
+	LessonHeading string
+	LessonParagraphs []string
+
+	Connections []LearningConnection
+
+	KeyTakeaway string
+
+	ContinueLabel string
+	ContinueHref string
+}
+
+templ WhatHaveWeLearnedPage(data PageData) {
+	<main class="whwl-page">
+		<div class="whwl-whiteboard">
+			<div class="whwl-whiteboard__content">
+
+				<header class="whwl-header">
+					<h1>WHAT HAVE WE LEARNED?</h1>
+					<p class="whwl-topic">{ data.Topic }</p>
+				</header>
+
+				<div class="whwl-main-content">
+					<section class="whwl-section whwl-story">
+						<h2>{ data.StoryHeading }</h2>
+
+						for _, paragraph := range data.StoryParagraphs {
+							<p>{ paragraph }</p>
+						}
+					</section>
+
+					<section class="whwl-section whwl-lesson">
+						<h2>{ data.LessonHeading }</h2>
+
+						for _, paragraph := range data.LessonParagraphs {
+							<p>{ paragraph }</p>
+						}
+					</section>
+				</div>
+
+				<section class="whwl-connections">
+					<div class="whwl-connections__header">
+						<span>WHAT YOU DID</span>
+						<span>WHY IT MATTERS</span>
+					</div>
+
+					for _, connection := range data.Connections {
+						<div class="whwl-connection-row">
+							<div class="whwl-connection-row__action">
+								{ connection.PlayerAction }
+							</div>
+
+							<div class="whwl-connection-row__arrow" aria-hidden="true">
+								→
+							</div>
+
+							<div class="whwl-connection-row__meaning">
+								{ connection.RealWorldMeaning }
+							</div>
+						</div>
+					}
+				</section>
+
+				<section class="whwl-takeaway">
+					<strong>KEY TAKEAWAY:</strong>
+					<span>{ data.KeyTakeaway }</span>
+				</section>
+
+				<footer class="whwl-footer">
+					<a
+						class="whwl-continue-button"
+						href={ data.ContinueHref }
+					>
+						{ data.ContinueLabel }
+					</a>
+				</footer>
+
+			</div>
+		</div>
+	</main>
+}
