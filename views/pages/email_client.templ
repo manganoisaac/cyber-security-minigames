@@ -5,12 +5,13 @@ import "cyber-security-minigames/views/components/email"
 import "cyber-security-minigames/views/components/ui"
 import "cyber-security-minigames/types"
 
-templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, instructions string) {
+templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, instructions string, revealed bool) {
 	@layouts.Base("Cyber Security Minigames") {
 		<section class="email-client-page">
+			@ui.BackButton()
 			<h1 class="email-client__title">CyberMail</h1>
 			<p class="email-client-page__level">Level { level }</p>
-			@email.EmailClient(emails, active, selectedPhrases, level)
+			@email.EmailClient(emails, active, selectedPhrases, level, revealed)
 		</section>
 		<div id="modal-root">
 			if instructions != "" {

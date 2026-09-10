@@ -1,0 +1,66 @@
+.password__clue-list--container {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.password__clue-list {
+  position: relative;
+  background: url("../../../images/password/Notepad.png");
+  height: 70vh;
+  width: 33vw;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.password__clue-list--img {
+  height: 60vh;
+}
+
+.password__clue-list--item-container {
+  height: 100%;
+  width: 100%;
+}
+
+.password__clue-list--item {
+  position: absolute;
+  top: calc(23% + 10% * var(--i));
+  left: 30%;
+  /* Was inheriting the global paragraph size (--size-xs, 0.6rem) - too small
+     to read comfortably on a notepad meant to hold the puzzle's clues. */
+  font-size: var(--size-l);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.password__clue-list--item:nth-child(1) {
+  --i: 0;
+}
+.password__clue-list--item:nth-child(2) {
+  --i: 1;
+}
+
+.password__clue-list--item:nth-child(3) {
+  --i: 2;
+}
+
+.password__clue-list--item:nth-child(4) {
+  --i: 3;
+}
+
+.password__clue-list--item:nth-child(5) {
+  --i: 4;
+}
+
+.password__clue-list--item:nth-child(6) {
+  --i: 5;
+}
+
+.password__clue-list--item:nth-child(7) {
+  --i: 6;
+}

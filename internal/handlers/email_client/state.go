@@ -24,6 +24,8 @@ type IEmailGameState interface {
 	HasSelected(emailID string, phraseIdx int) bool
 	Level() int
 	SetLevel(level int)
+	Revealed() bool
+	SetRevealed(revealed bool)
 }
 
 // gameState is the per-user state for the email minigame. The server owns
@@ -33,6 +35,7 @@ type gameState struct {
 	activeID        string
 	selectedPhrases map[string]map[int]bool // email id -> (phrase index -> selected)
 	gameLevel       int                     // 1 = find the phishing email, 2 = phrase hunt
+	revealed        bool                    // whether the last Submit's per-phrase correctness is showing
 }
 
 // newGameState returns the concrete state; callers receive it through
@@ -83,6 +86,9 @@ func (s *gameState) SelectPhrase(emailID string, phraseIdx int) {
 		s.selectedPhrases[emailID] = phrases
 	}
 	phrases[phraseIdx] = true
+	// Changing the selection re-hides last submission's reveal - correctness
+	// only shows again once the player submits this new selection.
+	s.revealed = false
 }
 
 func (s *gameState) DeselectPhrase(emailID string, phraseIdx int) {
@@ -91,6 +97,7 @@ func (s *gameState) DeselectPhrase(emailID string, phraseIdx int) {
 	if phrases, ok := s.selectedPhrases[emailID]; ok {
 		delete(phrases, phraseIdx)
 	}
+	s.revealed = false
 }
 
 func (s *gameState) SelectedCount(emailID string) int {
@@ -132,14 +139,30 @@ func (s *gameState) SetLevel(level int) {
 	s.gameLevel = level
 }
 
+// Revealed reports whether the last Submit's per-phrase correctness should
+// currently be shown (cleared again the moment the player changes their
+// selection, so it only ever reflects the most recent Submit).
+func (s *gameState) Revealed() bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.revealed
+}
+
+func (s *gameState) SetRevealed(revealed bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.revealed = revealed
+}
+
 // Reset clears this minigame's per-run state: selected phrases, active email,
-// and level. Other minigames' session state is left untouched.
+// level, and reveal. Other minigames' session state is left untouched.
 func (s *gameState) Reset() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.selectedPhrases = make(map[string]map[int]bool)
 	s.activeID = ""
 	s.gameLevel = 1
+	s.revealed = false
 }
 
 func (s *gameState) SelectedPhrasesMap(emailID string) map[int]bool {

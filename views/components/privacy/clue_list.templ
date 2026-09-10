@@ -1,0 +1,31 @@
+package privacy
+
+import "cyber-security-minigames/types"
+
+templ ClueList(clues []types.ClueUI, oob bool) {
+	if oob == true {
+		<div
+			id="privacy__clue-list"
+			class="privacy__clue-list--container"
+			hx-swap-oob="true"
+		>
+			<h1 class="privacy__header--clue">Clues Found</h1>
+			<br/>
+			for _, clue := range clues {
+				<h1>{ clue.Key }</h1>
+				<p>{ clue.Value }</p>
+			}
+		</div>
+	} else {
+		<div
+			id="privacy__clue-list"
+			class="privacy__clue-list--container"
+		>
+			<h1 class="privacy__header--clue">Clues Found</h1>
+			for _, clue := range clues {
+				<h1>{ clue.Key }</h1>
+				<p>{ clue.Value }</p>
+			}
+		</div>
+	}
+}

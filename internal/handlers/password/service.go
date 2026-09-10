@@ -18,10 +18,13 @@ import (
 // the returned components.
 type IPasswordService interface {
 	Page(st IPasswordGameState) templ.Component
+	ObjectCloseUp(st IPasswordGameState, objectId int) templ.Component
 	ChangeView(st IPasswordGameState, view types.PasswordView) templ.Component
 	Backspace(st IPasswordGameState) templ.Component
 	SelectItem(st IPasswordGameState) templ.Component
 	AddGuess(st IPasswordGameState, guess string) []templ.Component
+	AddHint(st IPasswordGameState, objectId int, itemId int) []templ.Component
+	GetHints(st IPasswordGameState) templ.Component
 }
 
 // Service implements IPasswordService.
@@ -45,7 +48,20 @@ func PasswordService() IPasswordService {
 }
 
 func (s *Service) Page(st IPasswordGameState) templ.Component {
-	return pages.PasswordPage(st.View(), passwordutil.GuessResults(st.Guesses(), st.CorrectPhrases()), len(st.CorrectPhrases()), data.InstructionsForPassword())
+	if st.Level() == 1 {
+
+		return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), data.InstructionsForPassword())
+	} else {
+		return pages.PasswordLevel2Page(
+			// data.PasswordPhrases,
+			st.GetHints(),
+			st.Guesses(),
+		)
+	}
+}
+
+func (s *Service) Popup(content string) templ.Component {
+	return ui.Popup(content)
 }
 
 func (s *Service) SelectItem(st IPasswordGameState) templ.Component {
@@ -54,7 +70,7 @@ func (s *Service) SelectItem(st IPasswordGameState) templ.Component {
 
 func (s *Service) AddGuess(st IPasswordGameState, guess string) []templ.Component {
 	st.AddGuess(guess)
-	results := passwordutil.GuessResults(st.Guesses(), st.CorrectPhrases())
+	results := st.Guesses()
 	parts := []templ.Component{password.Guess(results, len(st.CorrectPhrases()))}
 	if passwordutil.AllCorrect(results) && len(results) == len(st.CorrectPhrases()) {
 		st.Reset()
@@ -65,10 +81,46 @@ func (s *Service) AddGuess(st IPasswordGameState, guess string) []templ.Componen
 
 func (s *Service) Backspace(st IPasswordGameState) templ.Component {
 	st.Backspace()
-	return password.Guess(passwordutil.GuessResults(st.Guesses(), st.CorrectPhrases()), len(st.CorrectPhrases()))
+	return password.Guess(st.Guesses(), len(st.CorrectPhrases()))
 }
 
 func (s *Service) ChangeView(st IPasswordGameState, view types.PasswordView) templ.Component {
 	st.SetView(view)
 	return s.Page(st)
+}
+
+func (s *Service) ObjectCloseUp(st IPasswordGameState, objectId int) templ.Component {
+	return password.ObjectCloseUp(objectId, 1)
+}
+
+func (s *Service) AddHint(st IPasswordGameState, objectId int, itemId int) []templ.Component {
+	switch objectId {
+	case 1:
+		st.AddHint("jersey")
+	case 2:
+		st.AddHint("calendar")
+	case 3:
+		// The trash can is a narrative easter egg about Eugene's motive, not
+		// a real clue - viewing it must never count toward the puzzle.
+		return []templ.Component{s.Popup("Just an old note - doesn't look important.")}
+	case 4:
+		st.AddHint("rufus")
+	case 5:
+		st.AddHint("drawing")
+	case 6:
+		st.AddHint("id")
+	default:
+		st.AddHint("desk")
+	}
+	parts := []templ.Component{s.Popup("hint added to notebook")}
+	if st.AllHintsCollected() {
+		modal := ui.Modal("congratulations, all hints have been collected.", "/password", true)
+		parts = append(parts, modal)
+	}
+	return parts
+}
+
+func (s *Service) GetHints(st IPasswordGameState) templ.Component {
+	hints := st.GetHints()
+	return password.ClueList(hints)
 }

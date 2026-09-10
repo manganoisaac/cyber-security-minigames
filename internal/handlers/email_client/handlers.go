@@ -7,6 +7,8 @@ import (
 	"cyber-security-minigames/data"
 	"cyber-security-minigames/types"
 	"cyber-security-minigames/views/components/ui"
+
+	"github.com/a-h/templ"
 )
 
 // IEmailHandler is the HTTP handler contract for the email minigame.
@@ -65,10 +67,18 @@ func (h *emailHandler) Submit(w http.ResponseWriter, r *http.Request) {
 	}
 	st := stateForRequest(r)
 	res := h.svc.Submit(st, em)
-	if res.correct {
+	// Reveal which selected phrases were right/wrong alongside the result
+	// modal - only while the game isn't about to reset and redirect away.
+	var reveal []templ.Component
+	if !res.correct {
+		reveal = h.svc.RevealSelected(st, em)
+	} else {
 		st.Reset()
 	}
 	ui.Modal(res.message, res.nextURL, false).Render(r.Context(), w)
+	for _, part := range reveal {
+		part.Render(r.Context(), w)
+	}
 }
 
 func (h *emailHandler) Check(w http.ResponseWriter, r *http.Request) {

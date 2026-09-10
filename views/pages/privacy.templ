@@ -1,0 +1,11 @@
+package pages
+
+import "cyber-security-minigames/views/layouts"
+import "cyber-security-minigames/views/components/privacy"
+import "cyber-security-minigames/types"
+
+templ PrivacyPage(posts []types.PostUI, clues []types.ClueUI) {
+	@layouts.Base("Privacy") {
+		@privacy.Main(posts, clues)
+	}
+}

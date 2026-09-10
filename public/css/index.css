@@ -12,11 +12,17 @@
 @import "./features/email/email-client.css";
 @import "./features/email/email-client-page.css";
 @import "./features/modal.css";
+@import "./features/popup.css";
+@import "./features/back-button.css";
 @import "./features/password/password.css";
 @import "./features/password/password-guess.css";
 @import "./features/password/password-object.css";
 @import "./features/password/password-nested-object.css";
+@import "./features/password/password-object-close-up.css";
+@import "./features/password/clue-list.css";
+@import "./features/password/level-2.css";
 @import "./features/encryption/encryption.css";
 @import "./features/network-defense/network-defense.css";
+@import "./features/privacy/main.css";
 @import "./features/digital-investigation/digital-investigation.css";
 @import "./components/what-have-we-learned.css";

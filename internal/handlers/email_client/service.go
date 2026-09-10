@@ -36,6 +36,7 @@ type IEmailService interface {
 	Select(st IEmailGameState, em types.Email) []templ.Component
 	TogglePhrase(st IEmailGameState, em types.Email, phraseIdx int, sel bool) ([]templ.Component, error)
 	Submit(st IEmailGameState, em types.Email) submitResult
+	RevealSelected(st IEmailGameState, em types.Email) []templ.Component
 	Check(st IEmailGameState, em types.Email) checkResult
 }
 
@@ -68,14 +69,14 @@ func (s *Service) Page(st IEmailGameState) templ.Component {
 		active, _, _ = data.PhishingEmail()
 		st.SetActiveEmail(active.ID)
 	}
-	return pages.EmailClientPage(data.Emails, active, st.SelectedPhrasesMap(active.ID), st.Level(), data.InstructionsForLevel(st.Level()))
+	return pages.EmailClientPage(data.Emails, active, st.SelectedPhrasesMap(active.ID), st.Level(), data.InstructionsForLevel(st.Level()), st.Revealed())
 }
 
 func (s *Service) Select(st IEmailGameState, em types.Email) []templ.Component {
 	old, _, oldOK := data.EmailByID(st.ActiveEmail())
 	st.SetActiveEmail(em.ID)
 
-	parts := []templ.Component{email.EmailDetails(em, st.SelectedPhrasesMap(em.ID), st.Level())}
+	parts := []templ.Component{email.EmailDetails(em, st.SelectedPhrasesMap(em.ID), st.Level(), st.Revealed())}
 	if oldOK && old.ID != em.ID {
 		parts = append(parts, email.EmailItem(old, false, true))
 	}
@@ -94,13 +95,32 @@ func (s *Service) TogglePhrase(st IEmailGameState, em types.Email, phraseIdx int
 	}
 
 	correctSet := emailtext.CorrectSet(em)
-	phraseCmp := email.EmailPhrase(phrase, sel, phraseIdx, em.ID, correctSet[phraseIdx])
+	phraseCmp := email.EmailPhrase(phrase, sel, phraseIdx, em.ID, correctSet[phraseIdx], st.Revealed(), false)
 	submitCmp := email.EmailSubmit("Submit", st.SelectedCount(em.ID), true, em.ID)
 	return []templ.Component{phraseCmp, submitCmp}, nil
 }
 
 func (s *Service) Submit(st IEmailGameState, em types.Email) submitResult {
-	return s.grading.Grade(st, em)
+	res := s.grading.Grade(st, em)
+	st.SetRevealed(true)
+	return res
+}
+
+// RevealSelected re-renders every currently-selected phrase with its
+// correctness now showing, as out-of-band fragments the Submit response adds
+// alongside its result modal - selection itself never gives this away, only
+// pressing Submit does.
+func (s *Service) RevealSelected(st IEmailGameState, em types.Email) []templ.Component {
+	correctSet := emailtext.CorrectSet(em)
+	var parts []templ.Component
+	for _, idx := range st.SelectedPhraseIndexes(em.ID) {
+		phrase, ok := emailtext.PhraseAt(em, idx)
+		if !ok {
+			continue
+		}
+		parts = append(parts, email.EmailPhrase(phrase, true, idx, em.ID, correctSet[idx], true, true))
+	}
+	return parts
 }
 
 func (s *Service) Check(st IEmailGameState, em types.Email) checkResult {

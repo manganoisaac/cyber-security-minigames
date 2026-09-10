@@ -6,12 +6,24 @@
   background: var(--bg);
 }
 
+/* Neutral until Submit is pressed - selecting a phrase must never give away
+   whether it's actually suspicious on its own (email-phrase--correct/--wrong
+   below only ever apply once the server has revealed a Submit's result). */
 .email-phrase--selected {
-  color: red;
+  background: var(--bg-selected);
+  border-radius: 3px;
 }
 
 .email-phrase--selected.email-phrase--correct {
+  background: transparent;
   color: green;
+  font-weight: 700;
+}
+
+.email-phrase--selected.email-phrase--wrong {
+  background: transparent;
+  color: red;
+  font-weight: 700;
 }
 
 .email-phrase--selected:hover {

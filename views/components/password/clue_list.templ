@@ -1,0 +1,17 @@
+package password
+
+templ ClueList(clues []string) {
+	<div
+		class="password__clue-list--container"
+		hx-get="/"
+		hx-swap="delete"
+	>
+		<div class="password__clue-list">
+			<div class="password__clue-list--item-container">
+				for _, clue := range clues {
+					<p class="password__clue-list--item">{ clue }</p>
+				}
+			</div>
+		</div>
+	</div>
+}

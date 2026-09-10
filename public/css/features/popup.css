@@ -1,0 +1,24 @@
+.popup {
+  width: 5em;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: var(--size-m);
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  animation: dissapear 1s ease-out 0.5s forwards;
+}
+
+@keyframes dissapear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.popup__text {
+  color: var(--text);
+}

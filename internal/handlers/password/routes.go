@@ -11,4 +11,8 @@ func Register(mux *http.ServeMux, h IPasswordHandler) {
 	mux.HandleFunc("POST /password/addguess/{guess}", h.AddGuess)
 	mux.HandleFunc("POST /password/backspace", h.Backspace)
 	mux.HandleFunc("GET /password/changeview/{view_id}", h.ChangeView)
+	mux.HandleFunc("GET /password/objectcloseup/{object_id}", h.ObjectCloseUp)
+	mux.HandleFunc("POST /password/addhint/{object_id}/{item_id}", h.AddHint)
+	mux.HandleFunc("GET /password/gethints", h.GetHints)
+	// mux.HandleFun("DELETE /password", h.DeleteElement)
 }
