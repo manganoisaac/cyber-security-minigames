@@ -1,0 +1,370 @@
+package pages
+
+import "cyber-security-minigames/views/layouts"
+
+templ DigitalInvestigation() {
+	@layouts.Base("Metacortex Digital Investigation") {
+		<main class="digital-investigation-page" id="digital-investigation-game">
+
+			<!-- Retro desktop shortcuts -->
+			<nav class="investigation-desktop__icons" aria-label="Desktop shortcuts">
+				<div class="investigation-desktop-icon">
+					<div class="investigation-desktop-icon__glyph" aria-hidden="true">PC</div>
+					<span>My Computer</span>
+				</div>
+
+				<div class="investigation-desktop-icon">
+					<div class="investigation-desktop-icon__glyph" aria-hidden="true">NET</div>
+					<span>Network</span>
+				</div>
+
+				<div class="investigation-desktop-icon">
+					<div class="investigation-desktop-icon__glyph" aria-hidden="true">BIN</div>
+					<span>Recycle Bin</span>
+				</div>
+			</nav>
+
+			<!-- PHASE 1: Timeline reconstruction -->
+			<section class="investigation-phase investigation-phase--timeline" id="timeline-phase">
+				<section class="investigation-window timeline-window" aria-labelledby="timeline-window-title">
+
+					<header class="investigation-titlebar">
+						<div class="investigation-titlebar__title">
+							<span class="investigation-app-icon" aria-hidden="true">F</span>
+							<span id="timeline-window-title">Case Evidence - Timeline Reconstruction</span>
+						</div>
+
+						<div class="investigation-titlebar__controls" aria-hidden="true">
+							<button type="button" tabindex="-1">_</button>
+							<button type="button" tabindex="-1">□</button>
+							<button type="button" tabindex="-1">×</button>
+						</div>
+					</header>
+
+					<div class="investigation-menubar" aria-hidden="true">
+						<span><u>F</u>ile</span>
+						<span><u>V</u>iew</span>
+						<span><u>H</u>elp</span>
+					</div>
+
+					<div class="timeline-window__body">
+
+						<div class="timeline-heading">
+							<div>
+								<p class="timeline-heading__eyebrow">METACORTEX CASE EVIDENCE</p>
+								<h1>Reconstruct the incident timeline</h1>
+								<p>Open the evidence files, find the dates and times, then arrange the events from earliest to latest.</p>
+							</div>
+						</div>
+
+						<!-- Evidence folder -->
+						<section class="evidence-folder" aria-labelledby="evidence-folder-title">
+							<div class="evidence-folder__header">
+								<span id="evidence-folder-title">C:\METACORTEX\CASE_FILES\TIMELINE</span>
+								<span>8 objects</span>
+							</div>
+
+							<div class="evidence-file-grid" id="timeline-evidence-pool">
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E09"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Browser Record - Angela's Workstation</span>
+								</button>
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E03"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Internal Project Announcement</span>
+								</button>
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E14"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Network Security Event</span>
+								</button>
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E11"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Workstation Session Log - Angela</span>
+								</button>
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E04"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Browser History - Eugene's Workstation</span>
+								</button>
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E12"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Recovered Communication - Eugene's Computer</span>
+								</button>
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E08"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Email Message - Angela's Inbox</span>
+								</button>
+
+								<button
+									class="timeline-evidence-file"
+									type="button"
+									draggable="true"
+									data-evidence-id="E13"
+								>
+									<span class="timeline-file-icon" aria-hidden="true">TXT</span>
+									<span class="timeline-file-name">Authentication Log - Internal Network</span>
+								</button>
+
+							</div>
+						</section>
+
+						<!-- Timeline -->
+						<section class="incident-timeline" aria-labelledby="incident-timeline-title">
+							<div class="incident-timeline__header">
+								<h2 id="incident-timeline-title">Incident Timeline</h2>
+
+								<div class="incident-timeline__direction" aria-hidden="true">
+									<strong>EARLIEST</strong>
+									<span class="incident-timeline__arrow">──────────────────────────────►</span>
+									<strong>LATEST</strong>
+								</div>
+							</div>
+
+							<div class="timeline-slots" id="timeline-slots">
+								<div class="timeline-slot" data-slot-index="0">
+									<span>1</span>
+								</div>
+								<div class="timeline-slot" data-slot-index="1">
+									<span>2</span>
+								</div>
+								<div class="timeline-slot" data-slot-index="2">
+									<span>3</span>
+								</div>
+								<div class="timeline-slot" data-slot-index="3">
+									<span>4</span>
+								</div>
+								<div class="timeline-slot" data-slot-index="4">
+									<span>5</span>
+								</div>
+								<div class="timeline-slot" data-slot-index="5">
+									<span>6</span>
+								</div>
+								<div class="timeline-slot" data-slot-index="6">
+									<span>7</span>
+								</div>
+								<div class="timeline-slot" data-slot-index="7">
+									<span>8</span>
+								</div>
+							</div>
+
+							<div class="timeline-actions">
+								<p class="timeline-feedback" id="timeline-feedback" aria-live="polite">
+									Arrange all eight evidence files before checking the timeline.
+								</p>
+
+								<button
+									class="investigation-button investigation-button--primary"
+									id="check-timeline"
+									type="button"
+								>
+									Check Timeline
+								</button>
+							</div>
+						</section>
+
+					</div>
+				</section>
+			</section>
+
+<!-- Phase 1 instructions -->
+<div class="investigation-modal-overlay" id="timeline-instructions-modal">
+	<section
+		class="investigation-window investigation-modal"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="timeline-instructions-title"
+	>
+		<header class="investigation-titlebar">
+			<div class="investigation-titlebar__title">
+				<span class="investigation-app-icon" aria-hidden="true">?</span>
+				<span>Timeline Investigation Help</span>
+			</div>
+
+			<div class="investigation-titlebar__controls" aria-hidden="true">
+				<button type="button" tabindex="-1">×</button>
+			</div>
+		</header>
+
+		<div class="investigation-modal__body">
+			<h2 id="timeline-instructions-title">Reconstruct the incident timeline</h2>
+
+			<p>
+				Eight evidence files have been recovered.
+				Open the files and use the dates and times inside to work out what happened first.
+			</p>
+
+			<div class="investigation-instructions">
+				<div class="investigation-instruction">
+					<strong>1.</strong>
+					<span>Double-click an evidence file to open it.</span>
+				</div>
+
+				<div class="investigation-instruction">
+					<strong>2.</strong>
+					<span>Drag the files onto the timeline from EARLIEST to LATEST.</span>
+				</div>
+
+				<div class="investigation-instruction">
+					<strong>3.</strong>
+					<span>Click Check Timeline. Green events are correct. Red events need to be moved.</span>
+				</div>
+			</div>
+
+			<div class="investigation-modal__actions">
+				<button
+					class="investigation-button investigation-button--primary"
+					id="begin-timeline-investigation"
+					type="button"
+				>
+					Begin Investigation
+				</button>
+			</div>
+		</div>
+	</section>
+</div>
+
+<!-- Phase 1 success -->
+<div class="investigation-modal-overlay" id="timeline-success-modal" hidden>
+	<section
+		class="investigation-window investigation-modal"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="timeline-success-title"
+	>
+		<header class="investigation-titlebar">
+			<div class="investigation-titlebar__title">
+				<span class="investigation-app-icon" aria-hidden="true">✓</span>
+				<span>Timeline Complete</span>
+			</div>
+		</header>
+
+		<div class="investigation-modal__body">
+			<h2 id="timeline-success-title">Incident timeline successfully reconstructed</h2>
+
+			<p>
+				You have worked out the order of the key events.
+			</p>
+
+			<p>
+				Next, compare the evidence to identify who was responsible,
+				how the attack happened, what the attacker wanted, and why they did it.
+			</p>
+
+			<div class="investigation-modal__actions">
+				<button
+					class="investigation-button investigation-button--primary"
+					id="begin-evidence-analysis"
+					type="button"
+				>
+					Begin Evidence Analysis
+				</button>
+			</div>
+		</div>
+	</section>
+</div>
+
+<!-- Evidence file viewer -->
+<div class="evidence-viewer-overlay" id="evidence-viewer" hidden>
+	<section
+		class="investigation-window evidence-viewer-window"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="evidence-viewer-title"
+	>
+		<header class="investigation-titlebar">
+			<div class="investigation-titlebar__title">
+				<span class="investigation-app-icon" aria-hidden="true">TXT</span>
+				<span id="evidence-viewer-title">Evidence File</span>
+			</div>
+
+			<div class="investigation-titlebar__controls">
+				<button
+					id="close-evidence-viewer"
+					type="button"
+					aria-label="Close evidence file"
+				>×</button>
+			</div>
+		</header>
+
+		<div class="investigation-menubar" aria-hidden="true">
+			<span><u>F</u>ile</span>
+			<span><u>E</u>dit</span>
+			<span><u>V</u>iew</span>
+		</div>
+
+		<div class="evidence-viewer-window__body">
+			<pre id="evidence-viewer-content"></pre>
+		</div>
+
+		<footer class="evidence-viewer-window__status">
+			<span>Metacortex Case Evidence</span>
+			<span>Read Only</span>
+		</footer>
+	</section>
+</div>
+
+			<!-- Windows-style taskbar -->
+			<footer class="investigation-taskbar" aria-hidden="true">
+				<button class="investigation-start-button" type="button" tabindex="-1">
+					<strong>Start</strong>
+				</button>
+
+				<div class="investigation-taskbar__divider"></div>
+
+				<div class="investigation-taskbar__app">
+					<span class="investigation-app-icon">F</span>
+					<span>Case Evidence</span>
+				</div>
+
+				<div class="investigation-taskbar__spacer"></div>
+
+				<div class="investigation-tray">
+					<span id="investigation-clock">--:--</span>
+				</div>
+			</footer>
+
+			<script src="/public/js/digital-investigation.js"></script>
+		</main>
+	}
+}
