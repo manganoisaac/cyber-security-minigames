@@ -26,6 +26,7 @@ type IState interface {
 type ISession interface {
 	State(name string) (IState, bool)
 	SetState(name string, st IState)
+	ResetAll()
 }
 
 // Session is the in-memory implementation of ISession.
@@ -49,6 +50,18 @@ func (s *Session) SetState(name string, st IState) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.states[name] = st
+}
+
+// ResetAll discards every minigame's stored state for this session. Each
+// game lazily recreates fresh default state the next time it's visited, so
+// this is all a "start over" hub screen needs to call - it's what stops a
+// walk-up player from inheriting the previous player's mid-game progress
+// (a level already advanced, hints already collected) just because they
+// share the same open browser/session cookie.
+func (s *Session) ResetAll() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.states = make(map[string]IState)
 }
 
 // IStore maps session id -> ISession. Single in-memory store per process.

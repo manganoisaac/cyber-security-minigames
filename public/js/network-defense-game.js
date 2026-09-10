@@ -229,6 +229,8 @@
     pendingSpawns: [],
     waveElapsedMs: 0,
     enemySeq: 0,
+    currentWavePool: [], // enemy type ids that can appear in the active/just-finished wave
+    breachedTypes: new Set(), // enemy type ids that reached the core this wave
   };
 
   let tickTimer = null;
@@ -241,6 +243,7 @@
   let gridEl, waveLabelEl, creditsLabelEl, launchBtn, selectedInfoEl, upcomingPreviewEl;
   let integrityTextEl, integrityBarEl, threatTextEl, threatBarEl, eventLogEl;
   let instructionsModal, beginBtn, resultModal, resultTitleEl, resultMessageEl, resultBtn;
+  let waveSummaryModal, waveSummaryListEl, waveSummaryContinueBtn;
 
   const towerButtons = new Map(); // towerId -> button element
   const cellEls = new Map(); // cellKey -> element (button for buildable, div otherwise)
@@ -282,6 +285,7 @@
 
   function applyCoreDamage(def) {
     state.integrity = Math.max(0, state.integrity - def.coreDamage);
+    state.breachedTypes.add(def.id);
     logEvent(def.name + " reached the core. Integrity -" + def.coreDamage + ".");
   }
 
@@ -360,6 +364,8 @@
     const wave = generateWave(state.waveIndex);
     state.currentWaveLabel = wave.label;
     state.pendingSpawns = wave.spawns.slice();
+    state.currentWavePool = wave.pool;
+    state.breachedTypes = new Set();
     state.waveElapsedMs = 0;
     state.status = "wave-active";
     logEvent(wave.label + " incoming.");
@@ -384,7 +390,46 @@
       endGame(true);
     } else {
       state.status = "build";
+      // Skipped on the final wave - the win modal from endGame() above is
+      // the more important thing to show, and there's no "next wave" to
+      // prepare for.
+      showWaveSummary();
     }
+  }
+
+  // Recaps, between waves, what just came through and what stops it - the
+  // "Threat reference" panel has this too, but it's easy to never look at it;
+  // surfacing it right when a wave ends is when a player is most likely to
+  // actually read it. Anything that reached the core gets called out by name
+  // with the defense that should have stopped it, addressing the specific
+  // "why did that get through" moment rather than just the general reference.
+  function showWaveSummary() {
+    const items = state.currentWavePool.map((typeId) => {
+      const def = GAME_CONFIG.enemies[typeId];
+      const counterTower = Object.values(GAME_CONFIG.towers).find((t) => t.counters === typeId);
+      const counterName = counterTower ? counterTower.name : "nothing yet";
+      const breached = state.breachedTypes.has(typeId);
+      return (
+        '<li class="network-defense-wave-summary__item">' +
+        '<span class="network-defense-threat-legend__swatch" style="background-color:' +
+        def.color +
+        ";background-image:url(" +
+        def.icon +
+        ')"></span>' +
+        "<span><strong>" +
+        def.name +
+        "</strong> - stopped by " +
+        counterName +
+        (breached
+          ? '<br/><em class="network-defense-wave-summary__breach">Reached the core this wave - deploy ' +
+            counterName +
+            " to stop it next time.</em>"
+          : "") +
+        "</span></li>"
+      );
+    });
+    waveSummaryListEl.innerHTML = items.join("");
+    waveSummaryModal.hidden = false;
   }
 
   function endGame(won) {
@@ -681,6 +726,9 @@
     resultTitleEl = document.getElementById("nd-result-title");
     resultMessageEl = document.getElementById("nd-result-message");
     resultBtn = document.getElementById("nd-result-button");
+    waveSummaryModal = document.getElementById("nd-wave-summary-modal");
+    waveSummaryListEl = document.getElementById("nd-wave-summary-list");
+    waveSummaryContinueBtn = document.getElementById("nd-wave-summary-continue");
 
     buildTowerList();
     buildThreatLegend();
@@ -691,7 +739,14 @@
       instructionsModal.hidden = true;
       logEvent("Operation started. Deploy defenses, then launch the first wave.");
     });
-    resultBtn.addEventListener("click", () => window.location.reload());
+    resultBtn.addEventListener("click", () => {
+      // Winning should hand the player back to chapter-select rather than
+      // restarting this same game - only a loss's "Try again" should replay it.
+      window.location.href = state.status === "won" ? "/chapter-select" : "/network-defense";
+    });
+    waveSummaryContinueBtn.addEventListener("click", () => {
+      waveSummaryModal.hidden = true;
+    });
 
     render();
   }

@@ -1,11 +1,14 @@
 .email-client-page {
+  position: relative;
   min-height: 100vh;
   --level-margin-bottom: var(--size-m);
   --level-font-size: var(--size-m);
+  --title-top-gap: var(--size-xl);
   background-color: var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: var(--title-top-gap);
 }
 
 .email-client-page * {

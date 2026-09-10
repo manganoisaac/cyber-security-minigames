@@ -1,8 +1,12 @@
 .chapter-select {
   --page-min-height: 100vh;
   --page-width: 100%;
-  --book-height: 600px;
-  --book-width: 800px;
+  /* Book keeps its 800:600 (4:3) design ratio at any screen size instead of
+     staying a flat 800x600px box regardless of viewport - the book scales
+     down to fit a small window and up to fill a large one, capped so it
+     never grows past its original design size. */
+  --book-max-width: 800px;
+  --book-width: min(var(--book-max-width), 92vw, 120vh);
   --back-arrow-width: 110px;
   --back-arrow-height: 70px;
   --link-left: 15%;
@@ -24,10 +28,15 @@
   background-image: url("../../images/Chapter Select Book.png");
   background-size: cover;
   background-position: center;
-  height: var(--book-height);
   width: var(--book-width);
+  aspect-ratio: 800 / 600;
+  height: auto;
   filter: brightness(0.9);
   transition: all 0.2s ease;
+  /* Lets .chapter-select__link size itself in cqw below, so link text scales
+     with the book instead of staying a fixed size while the book around it
+     grows or shrinks. */
+  container-type: inline-size;
 }
 
 .chapter-select__book:hover {
@@ -59,6 +68,10 @@
   position: absolute;
   font-family: "American Cursive";
   left: var(--link-left);
+  /* ~27px at the book's 800px max width (matching --size-2xl, the previous
+     fixed size), scaling with the book itself via container query units
+     rather than staying fixed while the book scales around it. */
+  font-size: clamp(14px, 3.4cqw, 30px);
   transition: transform 0.2s ease;
 }
 

@@ -27,7 +27,11 @@
   height: 100vh;
   min-width: 960px;
   min-height: 640px;
-  overflow: hidden;
+  /* auto, not hidden: below the 960x640 floor this box is forced wider/
+     taller than the viewport, and hidden was silently clipping whatever
+     didn't fit with no way to reach it - auto at least makes it reachable
+     by scrolling instead of invisible. */
+  overflow: auto;
   background:
     radial-gradient(
       circle at 78% 18%,

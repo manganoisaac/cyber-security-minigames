@@ -1,10 +1,12 @@
 package pages
 
 import "cyber-security-minigames/views/layouts"
+import "cyber-security-minigames/views/components/ui"
 
 templ Encryption() {
 	@layouts.Base("Metacortex Decryption Utility") {
 		<main class="encryption-page" id="encryption-game">
+			@ui.BackButton()
 			<!-- CSS-only placeholder desktop icons. Replace with real assets later. -->
 			<nav class="encryption-desktop__icons" aria-label="Desktop shortcuts">
 				<div class="desktop-icon">
@@ -203,6 +205,8 @@ templ Encryption() {
 							Every new best result increases the amount of plaintext recovered.
 							Progress never goes backwards.
 						</p>
+
+						<p class="game-modal__note">For the best experience, play in full screen.</p>
 
 						<div class="game-modal__actions">
 							<button class="win98-button win98-button--default" id="begin-decryption" type="button">

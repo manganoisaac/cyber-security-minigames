@@ -1,10 +1,12 @@
 package pages
 
 import "cyber-security-minigames/views/layouts"
+import "cyber-security-minigames/views/components/ui"
 
 templ NetworkDefensePage() {
 	@layouts.Base("Metacortex NOC - Perimeter Defense") {
 		<main class="network-defense" id="network-defense-game">
+			@ui.BackButton()
 			<header class="network-defense__briefing">
 				<h1>Perimeter defense</h1>
 				<p>
@@ -102,9 +104,24 @@ templ NetworkDefensePage() {
 						<li>Click "Launch wave" when you're ready - defenses fire automatically once a wave begins.</li>
 						<li>If network integrity reaches zero, the core is breached.</li>
 					</ul>
+					<p>For the best experience, play in full screen.</p>
 					<div class="network-defense-modal__actions">
 						<button type="button" class="network-defense-button network-defense-button--primary" id="nd-begin-button">
 							Begin operation
+						</button>
+					</div>
+				</section>
+			</div>
+
+			<!-- Between-wave threat recap -->
+			<div class="network-defense-modal-overlay" id="nd-wave-summary-modal" hidden>
+				<section class="network-defense-modal" role="dialog" aria-modal="true" aria-labelledby="nd-wave-summary-title">
+					<h2 id="nd-wave-summary-title">Wave complete</h2>
+					<p>Here's what came through this wave, and what stops it:</p>
+					<ul class="network-defense-wave-summary" id="nd-wave-summary-list"></ul>
+					<div class="network-defense-modal__actions">
+						<button type="button" class="network-defense-button network-defense-button--primary" id="nd-wave-summary-continue">
+							Continue
 						</button>
 					</div>
 				</section>

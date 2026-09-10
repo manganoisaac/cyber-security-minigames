@@ -2,13 +2,25 @@ package email
 
 import "strconv"
 
-templ EmailPhrase(phrase string, selected bool, i int, emailID string, correct bool) {
+// revealed gates whether correct/wrong coloring shows at all - a selected
+// phrase stays visually neutral until the player has pressed Submit, so
+// clicking never gives the answer away on its own (oob marks a fragment that
+// re-renders an already-selected phrase in place after Submit, matching the
+// EmailItem/EmailSubmit out-of-band pattern used elsewhere in this game).
+templ EmailPhrase(phrase string, selected bool, i int, emailID string, correct bool, revealed bool, oob bool) {
 	if selected {
 		<span
 			hx-post={ "/email-phrase/" + emailID + "/" + strconv.Itoa(i) + "/deselect" }
 			hx-swap="outerHTML"
 			id={ "email-phrase-" + strconv.Itoa(i) }
-			class={ "email-phrase--selected", templ.KV("email-phrase--correct", correct) }
+			if oob {
+				hx-swap-oob="true"
+			}
+			class={
+				"email-phrase--selected",
+				templ.KV("email-phrase--correct", revealed && correct),
+				templ.KV("email-phrase--wrong", revealed && !correct),
+			}
 		>{ phrase }</span>{ " " }
 	} else {
 		<span
@@ -16,6 +28,9 @@ templ EmailPhrase(phrase string, selected bool, i int, emailID string, correct b
 			hx-swap="outerHTML"
 			class="email-phrase"
 			id={ "email-phrase-" + strconv.Itoa(i) }
+			if oob {
+				hx-swap-oob="true"
+			}
 		>{ phrase }</span>{ " " }
 	}
 }

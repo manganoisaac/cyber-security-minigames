@@ -3,11 +3,11 @@ package email
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/utils/emailtext"
 
-templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) {
+templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, revealed bool) {
 	<div class="email-details" id="email-details">
 		<p class="email-details__title">
 			if level >= 2 {
-				@EmailPhrases(email, 0, selectedPhrases)
+				@EmailPhrases(email, 0, selectedPhrases, revealed)
 			} else {
 				{ email.Title }
 			}
@@ -16,7 +16,7 @@ templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) {
 			<p class="email-details__to">
 				<b>To: </b>
 				if level >= 2 {
-					@EmailPhrases(email, 1, selectedPhrases)
+					@EmailPhrases(email, 1, selectedPhrases, revealed)
 				} else {
 					{ email.To }
 				}
@@ -24,24 +24,28 @@ templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) {
 			<p class="email-details__from">
 				<b>From: </b>
 				if level >= 2 {
-					@EmailPhrases(email, 2, selectedPhrases)
+					@EmailPhrases(email, 2, selectedPhrases, revealed)
 				} else {
 					{ email.From }
 				}
 			</p>
 			<p class="email-details__description">
 				if level >= 2 {
-					@EmailPhrases(email, 3, selectedPhrases)
+					@EmailPhrases(email, 3, selectedPhrases, revealed)
 				} else {
 					{ email.Subject }
 				}
 			</p>
 			<p class="email-details__content">
 				if level >= 2 {
-					@EmailPhrases(email, 4, selectedPhrases)
+					@EmailPhrases(email, 4, selectedPhrases, revealed)
 				} else {
-					for _, phrase := range emailtext.SplitUnits(email.Content) {
-						<span>{ phrase }</span>{ " " }
+					for i, phrase := range emailtext.SplitUnits(email.Content) {
+						if i > 0 {
+							<br/>
+							<br/>
+						}
+						<span>{ phrase }</span>
 					}
 				}
 			</p>
@@ -49,8 +53,15 @@ templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) {
 	</div>
 }
 
-templ EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool) {
+// EmailPhrases renders one field's phrases inline, breaking onto a new line
+// between phrases (not just after the last one) so a multi-sentence field
+// like Content reads as separate lines instead of one run-on block.
+templ EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool, revealed bool) {
 	for i, phrase := range emailtext.FieldPhrases(email, field) {
-		@EmailPhrase(phrase, selectedPhrases[emailtext.FieldStart(email, field)+i], emailtext.FieldStart(email, field)+i, email.ID, emailtext.CorrectSet(email)[emailtext.FieldStart(email, field)+i])
+		if i > 0 {
+			<br/>
+			<br/>
+		}
+		@EmailPhrase(phrase, selectedPhrases[emailtext.FieldStart(email, field)+i], emailtext.FieldStart(email, field)+i, email.ID, emailtext.CorrectSet(email)[emailtext.FieldStart(email, field)+i], revealed, false)
 	}
 }

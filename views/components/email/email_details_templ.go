@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/utils/emailtext"
 
-func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) templ.Component {
+func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, revealed bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -37,7 +37,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) te
 			return templ_7745c5c3_Err
 		}
 		if level >= 2 {
-			templ_7745c5c3_Err = EmailPhrases(email, 0, selectedPhrases).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = EmailPhrases(email, 0, selectedPhrases, revealed).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -57,7 +57,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) te
 			return templ_7745c5c3_Err
 		}
 		if level >= 2 {
-			templ_7745c5c3_Err = EmailPhrases(email, 1, selectedPhrases).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = EmailPhrases(email, 1, selectedPhrases, revealed).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -77,7 +77,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) te
 			return templ_7745c5c3_Err
 		}
 		if level >= 2 {
-			templ_7745c5c3_Err = EmailPhrases(email, 2, selectedPhrases).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = EmailPhrases(email, 2, selectedPhrases, revealed).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -97,7 +97,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) te
 			return templ_7745c5c3_Err
 		}
 		if level >= 2 {
-			templ_7745c5c3_Err = EmailPhrases(email, 3, selectedPhrases).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = EmailPhrases(email, 3, selectedPhrases, revealed).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -117,41 +117,38 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) te
 			return templ_7745c5c3_Err
 		}
 		if level >= 2 {
-			templ_7745c5c3_Err = EmailPhrases(email, 4, selectedPhrases).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = EmailPhrases(email, 4, selectedPhrases, revealed).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			for _, phrase := range emailtext.SplitUnits(email.Content) {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<span>")
+			for i, phrase := range emailtext.SplitUnits(email.Content) {
+				if i > 0 {
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<br><br>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " <span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(phrase)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 44, Col: 20}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 48, Col: 20}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</span>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var7 string
-				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(" ")
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 44, Col: 34}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</p></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</p></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -159,7 +156,10 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int) te
 	})
 }
 
-func EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool) templ.Component {
+// EmailPhrases renders one field's phrases inline, breaking onto a new line
+// between phrases (not just after the last one) so a multi-sentence field
+// like Content reads as separate lines instead of one run-on block.
+func EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool, revealed bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -175,13 +175,23 @@ func EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool) te
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		for i, phrase := range emailtext.FieldPhrases(email, field) {
-			templ_7745c5c3_Err = EmailPhrase(phrase, selectedPhrases[emailtext.FieldStart(email, field)+i], emailtext.FieldStart(email, field)+i, email.ID, emailtext.CorrectSet(email)[emailtext.FieldStart(email, field)+i]).Render(ctx, templ_7745c5c3_Buffer)
+			if i > 0 {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<br><br>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = EmailPhrase(phrase, selectedPhrases[emailtext.FieldStart(email, field)+i], emailtext.FieldStart(email, field)+i, email.ID, emailtext.CorrectSet(email)[emailtext.FieldStart(email, field)+i], revealed, false).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
