@@ -1,0 +1,22 @@
+.ui-back-button {
+  --back-button-width: 110px;
+  --back-button-height: 70px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    url("../../images/Back Arrow.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0;
+  width: var(--back-button-width);
+  height: var(--back-button-height);
+  margin: var(--size-3xl);
+  font-size: var(--size-l);
+}

@@ -100,11 +100,15 @@ func (s *Service) AddHint(st IPasswordGameState, objectId int, itemId int) []tem
 	case 2:
 		st.AddHint("calendar")
 	case 3:
-		st.AddHint("trash")
+		// The trash can is a narrative easter egg about Eugene's motive, not
+		// a real clue - viewing it must never count toward the puzzle.
+		return []templ.Component{s.Popup("Just an old note - doesn't look important.")}
 	case 4:
 		st.AddHint("rufus")
 	case 5:
 		st.AddHint("drawing")
+	case 6:
+		st.AddHint("id")
 	default:
 		st.AddHint("desk")
 	}

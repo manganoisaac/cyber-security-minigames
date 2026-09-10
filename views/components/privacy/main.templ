@@ -1,5 +1,6 @@
 package privacy
 
+import "cyber-security-minigames/data"
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/views/components/ui"
 
@@ -9,6 +10,6 @@ templ Main(posts []types.PostUI, clues []types.ClueUI) {
 		@ClueList(clues, false)
 	</div>
 	<div id="modal-root">
-		@ui.Modal("instructions...", "", false)
+		@ui.Modal(data.PrivacyInstructions, "", false)
 	</div>
 }

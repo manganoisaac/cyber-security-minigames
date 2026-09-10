@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"cyber-security-minigames/internal/session"
 	"cyber-security-minigames/views/pages"
 
 	"github.com/a-h/templ"
@@ -27,8 +28,13 @@ func Routes(games ...Game) http.Handler {
 
 	// Core pages. "GET /{$}" matches only the exact root path, so it
 	// doesn't swallow every other route.
-	mux.Handle("GET /{$}", templ.Handler(pages.Landing()))
-	mux.Handle("GET /chapter-select", templ.Handler(pages.ChapterSelect()))
+	//
+	// Both hub screens reset every minigame's session state before
+	// rendering: on a walk-up exhibit, a new player picking a game from here
+	// must never inherit progress (a level already advanced, hints already
+	// collected) left behind by whoever used this browser last.
+	mux.Handle("GET /{$}", resetSessionThenServe(templ.Handler(pages.Landing())))
+	mux.Handle("GET /chapter-select", resetSessionThenServe(templ.Handler(pages.ChapterSelect())))
 
 	// Each game registers its page and htmx endpoints here.
 	for _, g := range games {
@@ -36,4 +42,16 @@ func Routes(games ...Game) http.Handler {
 	}
 
 	return mux
+}
+
+// resetSessionThenServe wraps h so the current session's minigame state is
+// cleared before h runs. Used on the two hub screens a player lands back on
+// between games.
+func resetSessionThenServe(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if sess := session.SessionFrom(r); sess != nil {
+			sess.ResetAll()
+		}
+		h.ServeHTTP(w, r)
+	})
 }

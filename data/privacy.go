@@ -2,6 +2,9 @@ package data
 
 import "cyber-security-minigames/types"
 
+// PrivacyInstructions is shown in the modal when the Online Privacy game starts.
+const PrivacyInstructions = "Some of these posts are giving away more than they should. Click through the feed and collect every post that leaks real information into your Clues Found list. For the best experience, play in full screen."
+
 func GetPostData() []types.Post {
 	copiedData := make([]types.Post, len(PostData))
 	for i := range len(PostData) {

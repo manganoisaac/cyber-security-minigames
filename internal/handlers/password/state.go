@@ -47,8 +47,11 @@ func newGameState() *gameState {
 	return &gameState{
 		correctPhrases: data.PasswordPhrases,
 		level:          1,
-		numHints:       6,
-		guesses:        []types.Guess{},
+		// 5 real hint-granting objects (jersey, calendar, dog photo, drawing,
+		// ID tag) - the trash can no longer counts, see AddHint's objectId
+		// case 3 in service.go.
+		numHints: 5,
+		guesses:  []types.Guess{},
 	}
 }
 

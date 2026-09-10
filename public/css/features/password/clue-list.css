@@ -31,6 +31,11 @@
   position: absolute;
   top: calc(23% + 10% * var(--i));
   left: 30%;
+  /* Was inheriting the global paragraph size (--size-xs, 0.6rem) - too small
+     to read comfortably on a notepad meant to hold the puzzle's clues. */
+  font-size: var(--size-l);
+  font-weight: 700;
+  color: var(--text);
 }
 
 .password__clue-list--item:nth-child(1) {

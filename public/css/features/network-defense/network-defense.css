@@ -13,11 +13,12 @@
   --nd-panel-radius: 12px;
   --nd-cell-gap: 4px;
   --nd-tower-icon-scale: 70%;
-  --nd-enemy-body-size: 28px;
-  --nd-enemy-hpbar-width: 24px;
-  --nd-enemy-hpbar-height: 4px;
+  --nd-enemy-body-size: 38px;
+  --nd-enemy-hpbar-width: 32px;
+  --nd-enemy-hpbar-height: 5px;
   --nd-legend-swatch-size: 16px;
   --nd-projectile-size: 8px;
+  position: relative;
   min-height: 100vh;
   background-color: var(--bg);
   display: flex;
@@ -191,7 +192,7 @@
 .network-defense-battlefield__stats {
   display: flex;
   gap: var(--size-m);
-  font-size: var(--size-s);
+  font-size: var(--size-l);
   font-weight: 700;
 }
 
@@ -364,7 +365,7 @@
 .network-defense-threat__row {
   display: flex;
   justify-content: space-between;
-  font-size: var(--size-s);
+  font-size: var(--size-m);
   margin-bottom: 4px;
 }
 
@@ -434,6 +435,25 @@
 .network-defense-modal li {
   font-size: var(--size-s);
   margin-top: var(--size-xs);
+}
+
+.network-defense-wave-summary {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-m);
+  margin-top: var(--size-m);
+}
+
+.network-defense-wave-summary__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-s);
+  font-size: var(--size-s);
+}
+
+.network-defense-wave-summary__breach {
+  color: var(--nd-danger);
 }
 
 .network-defense-instructions-rules {

@@ -1,7 +1,7 @@
 package data
 
 // PasswordInstructions is shown in the modal when the password game starts.
-const PasswordInstructions = "Click an object, then submit guesses. Green = right spot, orange = right word wrong spot, red = wrong."
+const PasswordInstructions = "Click an object, then submit guesses. Green = right spot, orange = right word wrong spot, red = wrong. For the best experience, play in full screen."
 
 // PasswordWinMessage is shown when the player guesses every phrase correctly.
 const PasswordWinMessage = "Well done! You cracked every phrase."

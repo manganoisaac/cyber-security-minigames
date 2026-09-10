@@ -2,7 +2,7 @@ package data
 
 // Level instructions shown in the instructions modal at the start of each level.
 const (
-	InstructionsLevel1 = "Click on the orange icon to find the phishing email"
+	InstructionsLevel1 = "Click on the orange icon to find the phishing email. For the best experience, play in full screen."
 	InstructionsLevel2 = "Click on the suspicious phrases and click the submit button to check"
 )
 

@@ -89,7 +89,7 @@ func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions i
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- @Guess(guesses, numPositions) --><input type=\"checkbox\" class=\"password__notebook--toggler\"> <img class=\"password__notebook\" src=\"../../../public/images/password/Notepad Icon.png\" alt=\"\" hx-get=\"/password/gethints\" hx-swap=\"afterend\"></main></div><div id=\"modal-root\" hx-preserve=\"true\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- @Guess(guesses, numPositions) --><img class=\"password__notebook\" src=\"../../../public/images/password/Notepad Icon.png\" alt=\"\" hx-get=\"/password/gethints\" hx-swap=\"afterend\"></main></div><div id=\"modal-root\" hx-preserve=\"true\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

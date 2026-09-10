@@ -13,6 +13,7 @@
 @import "./features/email/email-client-page.css";
 @import "./features/modal.css";
 @import "./features/popup.css";
+@import "./features/back-button.css";
 @import "./features/password/password.css";
 @import "./features/password/password-guess.css";
 @import "./features/password/password-object.css";
