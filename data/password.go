@@ -7,7 +7,7 @@ const PasswordInstructions = "Click an object, then submit guesses. Green = righ
 const PasswordWinMessage = "Well done! You cracked every phrase."
 
 // PasswordPhrases is the order the object phrases must be clicked in.
-var PasswordPhrases = []string{"Rufus", "object2", "object3"}
+var PasswordPhrases = []string{"rufus", "id", "jersey"}
 
 // PasswordObjectPhrases maps each object id to its phrase.
 var PasswordObjectPhrases = map[int]string{

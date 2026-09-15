@@ -25,6 +25,7 @@ type IPasswordService interface {
 	AddGuess(st IPasswordGameState, guess string) []templ.Component
 	AddHint(st IPasswordGameState, objectId int, itemId int) []templ.Component
 	GetHints(st IPasswordGameState) templ.Component
+	CloseHints() templ.Component
 }
 
 // Service implements IPasswordService.
@@ -123,4 +124,12 @@ func (s *Service) AddHint(st IPasswordGameState, objectId int, itemId int) []tem
 func (s *Service) GetHints(st IPasswordGameState) templ.Component {
 	hints := st.GetHints()
 	return password.ClueList(hints)
+}
+
+// CloseHints is the no-op target the notebook overlay hits when dismissed. It
+// must never touch session state: the overlay's own hx-swap="delete" removes
+// it client-side, and routing the request through "/" would reset every
+// minigame's session (see handlers.resetSessionThenServe).
+func (s *Service) CloseHints() templ.Component {
+	return templ.NopComponent
 }

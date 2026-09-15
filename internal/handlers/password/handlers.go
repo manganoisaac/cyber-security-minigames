@@ -17,6 +17,7 @@ type IPasswordHandler interface {
 	AddGuess(w http.ResponseWriter, r *http.Request)
 	AddHint(w http.ResponseWriter, r *http.Request)
 	GetHints(w http.ResponseWriter, r *http.Request)
+	CloseHints(w http.ResponseWriter, r *http.Request)
 	// DeleteElement(w http.ResponseWriter, r *http.Request)
 }
 
@@ -100,6 +101,12 @@ func (h *passwordHandler) AddHint(w http.ResponseWriter, r *http.Request) {
 
 func (h *passwordHandler) GetHints(w http.ResponseWriter, r *http.Request) {
 	h.svc.GetHints(stateForRequest(r)).Render(r.Context(), w)
+}
+
+// CloseHints handles GET /password/closehints, the no-op dismiss target for
+// the notebook overlay. It deliberately does not touch session state.
+func (h *passwordHandler) CloseHints(w http.ResponseWriter, r *http.Request) {
+	h.svc.CloseHints().Render(r.Context(), w)
 }
 
 // func (h *passwordHandler) DeleteElement(w http.ResponseWriter, r *http.Request) {

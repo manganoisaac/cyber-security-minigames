@@ -43,7 +43,7 @@ func ChapterSelect() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"chapter-select\"><a class=\"chapter-select__back-arrow\" href=\"/\">Home</a><div class=\"chapter-select__book\"><a class=\"chapter-select__link chapter-select__link--1\" href=\"/email-client\">Phishing</a> <a class=\"chapter-select__link chapter-select__link--2\" href=\"/password\">Passwords</a> <a class=\"chapter-select__link chapter-select__link--3\" href=\"/privacy\">Online Privacy</a> <a class=\"chapter-select__link chapter-select__link--4\" href=\"/encryption\">Encryption</a> <a class=\"chapter-select__link chapter-select__link--5\" href=\"/network-defense\">Network & Defense</a> <a class=\"chapter-select__link chapter-select__link--6\">Digital<br>Investigation</a></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"chapter-select\"><a class=\"chapter-select__back-arrow\" href=\"/\">Home</a><div class=\"chapter-select__book\"><a class=\"chapter-select__link chapter-select__link--1\" href=\"/email-client\">Phishing</a> <a class=\"chapter-select__link chapter-select__link--2\" href=\"/password\">Passwords</a> <a class=\"chapter-select__link chapter-select__link--3\" href=\"/privacy\">Online Privacy</a> <a class=\"chapter-select__link chapter-select__link--4\" href=\"/encryption\">Encryption</a> <a class=\"chapter-select__link chapter-select__link--5\" href=\"/network-defense\">Network & Defense</a> <a class=\"chapter-select__link chapter-select__link--6\" href=\"/digital-investigation\">Digital<br>Investigation</a></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

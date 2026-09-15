@@ -73,7 +73,7 @@ func ClueList(clues []types.ClueUI, oob bool) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div id=\"privacy__clue-list\" class=\"privacy__clue-list--container\"><h1 class=\"privacy__header\">Clues Found</h1>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div id=\"privacy__clue-list\" class=\"privacy__clue-list--container\"><h1 class=\"privacy__header--clue\">Clues Found</h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
