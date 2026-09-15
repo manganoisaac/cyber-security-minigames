@@ -31,7 +31,6 @@
     cols: 8,
     rows: 5,
     tickMs: 100,
-    startingCredits: 300,
     startingIntegrity: 100,
     towers: {
       firewall: {
@@ -103,7 +102,7 @@
 
   // Enemy types unlock progressively rather than all being available from
   // wave 1. Chosen in difficulty order (lowest hp first) rather than by
-  // tower name, since introducing the 320 hp "boss" (bruteWorm, IDS
+  // tower name, since introducing the 400 hp "boss" (bruteWorm, IDS
   // Sensor's counter) as early as wave 1 would be brutal before the player
   // can realistically afford IDS Sensor. Waves 7-10 are "everything".
   const TYPE_UNLOCKS = [
@@ -120,6 +119,71 @@
     return unlocked;
   }
 
+  /*
+   * ------------------------------------------------------------------------
+   * SOLVABILITY GUARANTEES
+   * ------------------------------------------------------------------------
+   * Every tower hard-counters exactly one enemy type and does nothing to the
+   * others, so a wave is only answerable if the player can own a counter for
+   * every type in it. Playtest feedback was that this wasn't always true -
+   * wave 1 alone needs both an MFA Prompt and a Patched Endpoint, which cost
+   * more together than the opening balance used to be, making wave 1
+   * impossible to fully defend no matter how well it was played.
+   *
+   * Rather than re-hardcoding a number that happens to work today, the helpers
+   * below derive the requirement from the tower/unlock config itself, and it is
+   * enforced at the three points where a player could otherwise be left without
+   * an answer: the opening balance (STARTING_CREDITS), the between-wave payout
+   * (completeWave), and the supply of buildable nodes (placeTower). Retuning a
+   * tower cost or moving an unlock earlier can no longer silently reintroduce
+   * an unwinnable wave.
+   */
+
+  // enemy type id -> the one tower that counters it. Derived from the towers'
+  // own `counters` field so the two can never drift apart.
+  const COUNTER_TOWER_BY_TYPE = {};
+  for (const tower of Object.values(GAME_CONFIG.towers)) {
+    COUNTER_TOWER_BY_TYPE[tower.counters] = tower.id;
+  }
+
+  // The counter towers a wave demands, de-duplicated. Pure - depends only on
+  // config, so it is safe to call while building the opening balance below,
+  // before any runtime state exists.
+  function counterTowerIdsForWave(waveNumber) {
+    const ids = [];
+    for (const type of unlockedTypesForWave(waveNumber)) {
+      const towerId = COUNTER_TOWER_BY_TYPE[type];
+      if (towerId && !ids.includes(towerId)) ids.push(towerId);
+    }
+    return ids;
+  }
+
+  function totalCostOf(towerIds) {
+    return towerIds.reduce((total, id) => total + GAME_CONFIG.towers[id].cost, 0);
+  }
+
+  // Wave 1 introduces two types at once, so the opening balance has to cover
+  // a counter for both. Derived, never hardcoded - see the block comment.
+  const STARTING_CREDITS = totalCostOf(counterTowerIdsForWave(1));
+
+  function ownedTowerIds() {
+    const owned = new Set();
+    for (const tower of state.towersByCell.values()) owned.add(tower.id);
+    return owned;
+  }
+
+  // Counters `waveNumber` demands that haven't been built yet.
+  function unbuiltCounterIdsForWave(waveNumber) {
+    const owned = ownedTowerIds();
+    return counterTowerIdsForWave(waveNumber).filter((id) => !owned.has(id));
+  }
+
+  // Counters never built, across the whole run. Towers can't be sold, so each
+  // of these needs a buildable node kept free for it (see placeTower).
+  function missingCounterTowerIds() {
+    return unbuiltCounterIdsForWave(WAVE_COUNT);
+  }
+
   function waveLabelFor(waveNumber) {
     if (waveNumber >= 7) return "Wave " + waveNumber + " - Full assault";
     if (waveNumber >= 5) return "Wave " + waveNumber + " - Escalation";
@@ -131,7 +195,7 @@
   // per wave - it's meant as an occasional gut-check, not a swarm.
   function generateWave(waveNumber) {
     const pool = unlockedTypesForWave(waveNumber);
-    const totalEnemies = Math.min(14, 4 + Math.round(waveNumber * 1.0));
+    const totalEnemies = Math.min(14, 4 + waveNumber);
     const spawns = [];
     let elapsed = 0;
     for (let i = 0; i < totalEnemies; i++) {
@@ -173,8 +237,18 @@
   PATH.forEach(([c, r], i) => pathIndexByKey.set(cellKey(c, r), i));
 
   // Buildable = any non-path cell orthogonally adjacent to at least one path
-  // cell. Its "anchor" is the path index of the nearest such neighbour,
-  // used for range checks instead of full 2D distance.
+  // cell. Range is measured in path-tiles from the cell's "anchors" rather
+  // than as true 2D distance, which keeps the targeting math (and its
+  // screen-reader description) simple.
+  //
+  // Every adjacent path index is kept, not just the lowest one. The path
+  // doubles back on itself, so a node between two stretches of it - say the
+  // gap between the middle row and the bottom row - genuinely borders both,
+  // and a defense there should reach both. Keeping only the lowest index
+  // silently orphaned the entire bottom row (7 of 26 tiles, the whole final
+  // approach to the CORE), because those cells always anchored to the
+  // middle-row stretch instead. Nothing could be built that reached the last
+  // leg of the path, so anything still alive by then was a guaranteed breach.
   function computeBuildable() {
     const buildable = new Map();
     for (let r = 0; r < GAME_CONFIG.rows; r++) {
@@ -182,14 +256,12 @@
         const key = cellKey(c, r);
         if (pathIndexByKey.has(key)) continue;
         const neighbours = [[c - 1, r], [c + 1, r], [c, r - 1], [c, r + 1]];
-        let anchor = null;
+        const anchors = [];
         for (const [nc, nr] of neighbours) {
           const nIdx = pathIndexByKey.get(cellKey(nc, nr));
-          if (nIdx !== undefined && (anchor === null || nIdx < anchor)) {
-            anchor = nIdx;
-          }
+          if (nIdx !== undefined) anchors.push(nIdx);
         }
-        if (anchor !== null) buildable.set(key, anchor);
+        if (anchors.length) buildable.set(key, anchors.sort((a, b) => a - b));
       }
     }
     return buildable;
@@ -218,7 +290,7 @@
    * ------------------------------------------------------------------------
    */
   const state = {
-    credits: GAME_CONFIG.startingCredits,
+    credits: STARTING_CREDITS,
     integrity: GAME_CONFIG.startingIntegrity,
     waveIndex: 0, // number of waves launched so far (0 = none yet)
     currentWaveLabel: "",
@@ -265,13 +337,15 @@
    * SIMULATION
    * ------------------------------------------------------------------------
    */
-  function pickTarget(anchorIndex, range, countersType) {
+  // Targets the enemy furthest along the path, so fire is focused on whatever
+  // is closest to breaching rather than spread across the whole queue.
+  function pickTarget(anchors, range, countersType) {
     let best = null;
     for (const enemy of state.enemies) {
       if (enemy.type !== countersType) continue;
-      if (Math.abs(Math.floor(enemy.pathPos) - anchorIndex) <= range) {
-        if (!best || enemy.pathPos > best.pathPos) best = enemy;
-      }
+      const tile = Math.floor(enemy.pathPos);
+      if (!anchors.some((anchor) => Math.abs(tile - anchor) <= range)) continue;
+      if (!best || enemy.pathPos > best.pathPos) best = enemy;
     }
     return best;
   }
@@ -301,10 +375,13 @@
     state.enemies = state.enemies.filter((e) => e.pathPos < PATH.length - 1);
 
     for (const [key, tower] of state.towersByCell) {
-      if (tower.cooldown > 0) {
-        tower.cooldown -= GAME_CONFIG.tickMs;
-        continue;
-      }
+      // Decrement before testing. Testing first burned a whole extra tick
+      // between shots (the tick that took the cooldown to exactly 0 couldn't
+      // also fire), so every tower fired at fireRateMs + tickMs - a Firewall
+      // configured for 400ms was really firing every 500ms, 25% under its
+      // advertised rate.
+      if (tower.cooldown > 0) tower.cooldown -= GAME_CONFIG.tickMs;
+      if (tower.cooldown > 0) continue;
       const def = GAME_CONFIG.towers[tower.id];
       const target = pickTarget(BUILDABLE.get(key), def.range, def.counters);
       if (target) {
@@ -389,6 +466,17 @@
     if (state.waveIndex >= WAVE_COUNT) {
       endGame(true);
     } else {
+      // Hard floor on the payout: whatever else has been spent, the player can
+      // always afford a counter for every type the next wave can field. In
+      // normal play the round bonus already covers this and nothing is added -
+      // it only ever fires for someone who has spent themselves into a corner,
+      // which is precisely the case that used to be unrecoverable.
+      const needed = totalCostOf(unbuiltCounterIdsForWave(state.waveIndex + 1));
+      const shortfall = needed - state.credits;
+      if (shortfall > 0) {
+        state.credits += shortfall;
+        logEvent("Emergency budget released: +" + shortfall + " credits.");
+      }
       state.status = "build";
       // Skipped on the final wave - the win modal from endGame() above is
       // the more important thing to show, and there's no "next wave" to
@@ -453,6 +541,20 @@
     if (state.towersByCell.has(key)) return;
     const def = GAME_CONFIG.towers[state.selectedTower];
     if (state.credits < def.cost) return;
+
+    // Guaranteed credits are worth nothing if there is nowhere left to spend
+    // them. Towers can't be sold, so filling every node with duplicates could
+    // otherwise strand a player with the money for a counter they still need
+    // and no node to put it on. Keep one node in reserve for each counter not
+    // yet built; deploying a missing counter itself is never blocked.
+    const stillMissingAfter = missingCounterTowerIds().filter((id) => id !== def.id);
+    const freeCellsAfter = BUILDABLE.size - state.towersByCell.size - 1;
+    if (freeCellsAfter < stillMissingAfter.length) {
+      const names = stillMissingAfter.map((id) => GAME_CONFIG.towers[id].name).join(", ");
+      logEvent("Node reserved - you still need room to deploy: " + names + ".");
+      return;
+    }
+
     state.credits -= def.cost;
     state.towersByCell.set(key, { id: state.selectedTower, cooldown: 0 });
     logEvent(def.name + " deployed.");
@@ -772,5 +874,10 @@
   // would otherwise leave this execution's tick timer running in the
   // background forever, against a grid that's no longer in the document.
   // Stop it right before the next swap replaces the page.
-  document.addEventListener("htmx:beforeSwap", stopTickTimer);
+  //
+  // `once` matters: htmx re-executes this script on every boosted swap back
+  // into the page, and without it each visit would leave another listener
+  // bound to a dead closure on a document that never unloads. One swap away
+  // is the end of this execution's life, so the listener retires with it.
+  document.addEventListener("htmx:beforeSwap", stopTickTimer, { once: true });
 })();
