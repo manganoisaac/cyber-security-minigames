@@ -11,6 +11,8 @@ import (
 type IDigitalInvestigationHandler interface {
 	Page(w http.ResponseWriter, r *http.Request)
 	AnalysisPage(w http.ResponseWriter, r *http.Request)
+	LearnedPage(w http.ResponseWriter, r *http.Request)
+	CaseClosedPage(w http.ResponseWriter, r *http.Request)
 }
 
 // digitalInvestigationHandler implements IDigitalInvestigationHandler.
@@ -30,4 +32,14 @@ func (h *digitalInvestigationHandler) Page(w http.ResponseWriter, r *http.Reques
 // AnalysisPage renders Phase 2 of the digital investigation minigame.
 func (h *digitalInvestigationHandler) AnalysisPage(w http.ResponseWriter, r *http.Request) {
 	pages.DigitalInvestigationAnalysis().Render(r.Context(), w)
+}
+
+// LearnedPage renders the post-game What Have We Learned page.
+func (h *digitalInvestigationHandler) LearnedPage(w http.ResponseWriter, r *http.Request) {
+	pages.DigitalInvestigationLearnedPage().Render(r.Context(), w)
+}
+
+// CaseClosedPage renders the final completion screen.
+func (h *digitalInvestigationHandler) CaseClosedPage(w http.ResponseWriter, r *http.Request) {
+	pages.CaseClosedPage().Render(r.Context(), w)
 }

@@ -1,0 +1,15 @@
+package pages
+
+import (
+	comic "cyber-security-minigames/views/components/comic"
+	"cyber-security-minigames/views/layouts"
+)
+
+templ PhishingComicPage() {
+	@layouts.Base("Story Comic - Phishing") {
+		@comic.ComicPlaceholder(comic.PlaceholderData{
+			Title:        "Phishing",
+			ContinueHref: "/email-client",
+		})
+	}
+}

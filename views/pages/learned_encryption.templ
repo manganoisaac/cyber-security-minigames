@@ -1,0 +1,53 @@
+package pages
+
+import (
+	"cyber-security-minigames/views/layouts"
+	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+)
+
+templ EncryptionLearnedPage() {
+	@layouts.Base("What Have We Learned? - Encryption") {
+		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+			Topic: "Encryption",
+
+			StoryHeading: "CASE UPDATE",
+
+			StoryParagraphs: []string{
+				"You decrypted the encrypted file recovered from Eugene's workstation and revealed a previously hidden communication.",
+
+				"The message was with G. Winston from NURV Technologies. It described a planned source-code transfer at 21:30, and promised the local participant payment and a position at NURV once the delivery was complete.",
+			},
+
+			LessonHeading: "ENCRYPTION",
+
+			LessonParagraphs: []string{
+				"Encryption protects information by converting readable data, called plaintext, into unreadable ciphertext using an encryption algorithm and a key. The correct key is then required to decrypt the data and recover the original information.",
+
+				"Encryption is widely used to protect sensitive information both when it is stored and when it is transmitted across networks.",
+
+				"The activity simplified the process by representing the key as a word you could discover. In real encryption, keys are long, randomly generated values with an enormous number of possible combinations, making a strong key practically impossible to guess by trying every possibility.",
+			},
+
+			Connections: []whwl.LearningConnection{
+				{
+					PlayerAction:     "Worked to identify the correct decryption key",
+					RealWorldMeaning: "Encrypted information should remain unreadable without the required key",
+				},
+				{
+					PlayerAction:     "Recovered readable information from encrypted data",
+					RealWorldMeaning: "Decryption converts protected ciphertext back into usable plaintext",
+				},
+				{
+					PlayerAction:     "Revealed evidence that had been hidden by encryption",
+					RealWorldMeaning: "Encryption protects confidentiality, but investigators who legitimately obtain the required key may be able to recover important evidence",
+				},
+			},
+
+			KeyTakeaway:
+				"Encryption protects sensitive information by making it unreadable without the correct key. Strong encryption is most effective when the keys used to protect the data are also kept secure.",
+
+			ContinueLabel: "Continue",
+			ContinueHref: "/comic/network-defense",
+		})
+	}
+}

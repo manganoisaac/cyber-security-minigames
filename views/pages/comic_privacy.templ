@@ -1,0 +1,15 @@
+package pages
+
+import (
+	comic "cyber-security-minigames/views/components/comic"
+	"cyber-security-minigames/views/layouts"
+)
+
+templ PrivacyComicPage() {
+	@layouts.Base("Story Comic - Online Privacy") {
+		@comic.ComicPlaceholder(comic.PlaceholderData{
+			Title:        "Online Privacy",
+			ContinueHref: "/privacy",
+		})
+	}
+}

@@ -1,0 +1,28 @@
+package comic
+
+type PlaceholderData struct {
+	Title       string
+	ContinueHref string
+}
+
+templ ComicPlaceholder(data PlaceholderData) {
+	<main class="comic-placeholder">
+		<div class="comic-placeholder__content">
+
+			<h1>STORY COMIC</h1>
+
+			<h2>{ data.Title }</h2>
+
+			<p>Comic coming soon...</p>
+
+			<a
+                class="comic-placeholder__continue"
+                href={ data.ContinueHref }
+                hx-boost="false"
+            >
+                Begin Activity
+            </a>
+
+		</div>
+	</main>
+}

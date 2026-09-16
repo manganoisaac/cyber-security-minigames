@@ -1,0 +1,237 @@
+@font-face {
+    font-family: "Komodore";
+    src: url("/public/fonts/komodore.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Komodore Destroy";
+    src: url("/public/fonts/komodore-destroy.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Pixel Operator Bold";
+    src: url("/public/fonts/pixel-operator-bold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.cyber-landing {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+}
+
+.cyber-landing__scene {
+    position: relative;
+    flex: 0 0 auto;
+
+    width: 100vw;
+    aspect-ratio: 16 / 9;
+
+    background-image: url("/public/images/landing-cyber/landing-background.png");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.cyber-landing__title-wrap {
+    position: absolute;
+
+    top: 3%;
+    left: 30%;
+    width: 70%;
+
+    text-align: center;
+}
+
+.cyber-landing__title {
+    position: relative;
+    display: inline-block;
+
+    margin: 0;
+
+    font-family: "Komodore", monospace;
+    font-size: clamp(62px, 5.9vw, 110px);
+    font-weight: normal;
+    letter-spacing: -0.06em;
+
+    color: #87f7aa;
+
+    text-shadow:
+        0 0 10px rgba(135, 247, 170, 0.35),
+        0 0 24px rgba(95, 220, 135, 0.24),
+        0 0 42px rgba(60, 185, 105, 0.14);
+
+    animation: cyber-title-glow 3.5s ease-in-out infinite;
+}
+
+.cyber-landing__title::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+
+    font-family: "Komodore Destroy", monospace;
+    font-size: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    white-space: nowrap;
+
+    color: #aaffc0;
+    opacity: 0;
+    pointer-events: none;
+
+    text-shadow:
+        -2px 0 rgba(255, 80, 150, 0.45),
+        2px 0 rgba(135, 247, 170, 0.55),
+        0 0 10px rgba(135, 247, 170, 0.28);
+
+    animation: cyber-title-glitch 6s infinite;
+}
+
+.cyber-landing__menu {
+    position: absolute;
+
+    top: 34%;
+    left: 52.8%;
+    width: 14.2%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+
+    transform:
+        perspective(800px) rotateY(-12deg) skewY(7.3deg);
+    transform-origin: center;
+
+    text-align: center;
+}
+
+.cyber-landing__menu-item {
+    font-family: "Pixel Operator Bold", monospace;
+    font-size: clamp(20px, 1.4vw, 26px);
+    font-weight: normal;
+
+    color: #285351;
+    text-decoration: none;
+    white-space: nowrap;
+
+    transform-origin: center;
+    animation: cyber-menu-pulse 2.2s ease-in-out infinite;
+
+    position: relative;
+}
+
+.cyber-landing__menu-item::before {
+    content: ">";
+    position: absolute;
+    left: calc(0% - 10px);
+    top: 50%;
+
+    opacity: 0;
+    transform: translateY(-50%);
+
+    color: #2bff9c;
+
+    transition:
+        opacity 0.12s ease,
+        color 0.12s ease;
+}
+
+.cyber-landing__menu-item:hover,
+.cyber-landing__menu-item:focus-visible {
+    color: #2bff9c;
+
+    text-shadow:
+        0 0 4px rgba(70, 220, 120, 0.35),
+        0 0 8px rgba(70, 220, 120, 0.18);
+}
+
+.cyber-landing__menu-item:hover::before,
+.cyber-landing__menu-item:focus-visible::before {
+    opacity: 1;
+}
+
+@keyframes cyber-menu-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.025);
+    }
+}
+
+@keyframes cyber-title-glow {
+
+    0%,
+    100% {
+        text-shadow:
+            0 0 8px rgba(80, 255, 120, 0.60),
+            0 0 20px rgba(45, 235, 95, 0.42),
+            0 0 34px rgba(20, 205, 70, 0.25);
+    }
+
+    50% {
+        text-shadow:
+            0 0 11px rgba(95, 255, 135, 0.78),
+            0 0 24px rgba(52, 240, 102, 0.57),
+            0 0 40px rgba(22, 210, 75, 0.33);
+    }
+}
+
+@keyframes cyber-title-glitch {
+
+    0%,
+    72%,
+    73.2%,
+    79%,
+    80.2%,
+    100% {
+        opacity: 0;
+        transform: translate(0, 0);
+    }
+
+    72.2% {
+        opacity: 0.82;
+        transform: translate(-2px, 1px);
+    }
+
+    72.7% {
+        opacity: 0.95;
+        transform: translate(2px, -1px);
+    }
+
+    73% {
+        opacity: 0.55;
+        transform: translate(-1px, 0);
+    }
+
+    79.2% {
+        opacity: 0.78;
+        transform: translate(2px, 0);
+    }
+
+    79.7% {
+        opacity: 0.9;
+        transform: translate(-2px, -1px);
+    }
+
+    80% {
+        opacity: 0.45;
+        transform: translate(1px, 0);
+    }
+}

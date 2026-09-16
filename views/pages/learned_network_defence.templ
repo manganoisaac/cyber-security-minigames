@@ -1,0 +1,55 @@
+package pages
+
+import (
+	"cyber-security-minigames/views/layouts"
+	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+)
+
+templ NetworkDefenceLearnedPage() {
+	@layouts.Base("What Have We Learned? - Network Defence") {
+		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+			Topic: "Network Defence",
+
+			StoryHeading: "CASE UPDATE",
+
+			StoryParagraphs: []string{
+				"Network records revealed that Angela's account was used from Eugene's workstation to access the development server earlier that evening.",
+
+				"At 21:30, an outbound connection was opened from the development server to a NURV Technologies server, and a transfer of HELIOS_SOURCE_ARCHIVE.zip began.",
+
+				"The network defence controls you deployed blocked the transfer, terminated the connection and prevented the source code from being successfully sent.",
+			},
+
+			LessonHeading: "NETWORK DEFENCE",
+
+			LessonParagraphs: []string{
+				"Network defence uses multiple security controls to protect systems, monitor activity and prevent attackers from moving freely through a network or transferring sensitive information.",
+
+				"Different controls perform different jobs. Some restrict who or what can access systems, some monitor traffic for suspicious behaviour, and others can block dangerous connections or isolate parts of a network.",
+
+				"Using several complementary controls creates defence in depth. If one security measure fails or is bypassed, another may still detect, contain or stop the attack.",
+			},
+
+			Connections: []whwl.LearningConnection{
+				{
+					PlayerAction:     "Deployed multiple network defence controls",
+					RealWorldMeaning: "Layered security is more effective than relying on a single defence",
+				},
+				{
+					PlayerAction:     "Protected important systems and network paths",
+					RealWorldMeaning: "Access controls and network segmentation can restrict where users and devices are allowed to communicate",
+				},
+				{
+					PlayerAction:     "Blocked the suspicious outbound transfer",
+					RealWorldMeaning: "Network monitoring and filtering can detect or prevent sensitive information from leaving an organisation",
+				},
+			},
+
+			KeyTakeaway:
+				"Effective network defence uses multiple complementary controls to prevent, detect and contain attacks. Layered security makes it harder for one compromised account or device to expose an entire network.",
+
+			ContinueLabel: "Continue",
+			ContinueHref: "/comic/digital-investigation",
+		})
+	}
+}

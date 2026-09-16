@@ -1,0 +1,57 @@
+package pages
+
+import (
+	"cyber-security-minigames/views/layouts"
+	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+)
+
+templ PrivacyLearnedPage() {
+	@layouts.Base("What Have We Learned? - Online Privacy") {
+		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+			Topic: "Online Privacy & Social Engineering",
+
+			StoryHeading: "CASE UPDATE",
+
+			StoryParagraphs: []string{
+                "Using Eugene's workstation, you found that he had been searching for Angela across professional pages, social media and other public sources.",
+
+                "Individually, the details Angela shared seemed harmless, but together they revealed much more about her interests, activities and personal life.",
+
+                "The investigation also uncovered an encrypted file named transfer.enc on Eugene's workstation. Its contents remain unknown and have been preserved for further investigation.",
+
+                "Eugene's browser history also showed repeated searches for NURV Technologies, its research division, careers pages and Senior Developer positions.",
+            },
+
+			LessonHeading: "ONLINE PRIVACY",
+
+			LessonParagraphs: []string{
+				"Information posted online can often be viewed, copied and combined by people you never intended to share it with. A single post may reveal very little, but information gathered across social media, professional profiles, event pages and other sources can create a much more detailed picture of a person.",
+
+				"Attackers can use this publicly available information for social engineering, including creating messages or situations that appear more believable because they contain familiar names, interests, events or other personal details.",
+
+				"Privacy settings can reduce what strangers can see, but it is also important to think carefully about what information you make public in the first place.",
+			},
+
+			Connections: []whwl.LearningConnection{
+				{
+					PlayerAction:     "Examined Angela's publicly available information",
+					RealWorldMeaning: "Reviewing your digital footprint shows what strangers or attackers may be able to learn about you online",
+				},
+				{
+					PlayerAction:     "Saw how information from different sources could be combined",
+					RealWorldMeaning: "Small details that seem harmless individually can become much more useful when collected together",
+				},
+				{
+					PlayerAction:     "Considered the risks of publicly sharing personal information",
+					RealWorldMeaning: "Limiting what you post publicly and using appropriate privacy settings reduces information available for targeted social engineering",
+				},
+			},
+
+			KeyTakeaway:
+				"Think about your digital footprint before sharing information online. Strong privacy settings and limiting publicly available personal information make it harder for attackers to learn about you and use those details for social engineering.",
+
+			ContinueLabel: "Continue",
+			ContinueHref: "/comic/phishing",
+		})
+	}
+}

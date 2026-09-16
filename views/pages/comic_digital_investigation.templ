@@ -1,0 +1,15 @@
+package pages
+
+import (
+	comic "cyber-security-minigames/views/components/comic"
+	"cyber-security-minigames/views/layouts"
+)
+
+templ DigitalInvestigationComicPage() {
+	@layouts.Base("Story Comic - Digital Investigation") {
+		@comic.ComicPlaceholder(comic.PlaceholderData{
+			Title:        "Digital Investigation",
+			ContinueHref: "/digital-investigation",
+		})
+	}
+}
