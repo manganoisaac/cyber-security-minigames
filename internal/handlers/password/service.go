@@ -75,7 +75,7 @@ func (s *Service) AddGuess(st IPasswordGameState, guess string) []templ.Componen
 	parts := []templ.Component{password.Guess(results, len(st.CorrectPhrases()))}
 	if passwordutil.AllCorrect(results) && len(results) == len(st.CorrectPhrases()) {
 		st.Reset()
-		parts = append(parts, ui.Modal(data.PasswordWinMessage, "/chapter-select", true))
+		parts = append(parts, ui.Modal(data.PasswordWinMessage, "/whwl/password", true))
 	}
 	return parts
 }
