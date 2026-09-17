@@ -1,13 +1,13 @@
-package pages
+package whwl
 
 import (
 	"cyber-security-minigames/views/layouts"
-	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+	whwlcomp "cyber-security-minigames/views/components/what_have_we_learned"
 )
 
 templ NetworkDefenceLearnedPage() {
 	@layouts.Base("What Have We Learned? - Network Defence") {
-		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+		@whwlcomp.WhatHaveWeLearnedPage(whwlcomp.PageData{
 			Topic: "Network Defence",
 
 			StoryHeading: "CASE UPDATE",
@@ -30,7 +30,7 @@ templ NetworkDefenceLearnedPage() {
 				"Using several complementary controls creates defence in depth. If one security measure fails or is bypassed, another may still detect, contain or stop the attack.",
 			},
 
-			Connections: []whwl.LearningConnection{
+			Connections: []whwlcomp.LearningConnection{
 				{
 					PlayerAction:     "Deployed multiple network defence controls",
 					RealWorldMeaning: "Layered security is more effective than relying on a single defence",

@@ -43,7 +43,7 @@ func Landing() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"landing\"><section class=\"landing__menu\"><img src=\"../../public/images/Title.png\" class=\"landing__title\"> <a class=\"landing__button\" href=\"email-client\">Start Investigation</a> <a class=\"landing__button\" href=\"chapter-select\">Start Chapter</a></section></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"landing\"><section class=\"landing__menu\"><img src=\"../../public/images/Title.png\" class=\"landing__title\"> <a class=\"landing__button\" href=\"/comic/password\">Start Investigation</a> <a class=\"landing__button\" href=\"chapter-select\">Start Chapter</a></section></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -1,13 +1,13 @@
-package pages
+package whwl
 
 import (
 	"cyber-security-minigames/views/layouts"
-	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+	whwlcomp "cyber-security-minigames/views/components/what_have_we_learned"
 )
 
 templ DigitalInvestigationLearnedPage() {
 	@layouts.Base("What Have We Learned? - Digital Investigation") {
-		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+		@whwlcomp.WhatHaveWeLearnedPage(whwlcomp.PageData{
             Topic: "Digital Investigation",
 
             StoryHeading: "CASE CLOSED",
@@ -30,7 +30,7 @@ templ DigitalInvestigationLearnedPage() {
                 "By reconstructing events, comparing evidence and checking whether multiple sources support the same explanation, investigators can build stronger and more reliable conclusions.",
             },
 
-            Connections: []whwl.LearningConnection{
+            Connections: []whwlcomp.LearningConnection{
                 {
                     PlayerAction:     "Reconstructed the incident timeline",
                     RealWorldMeaning: "Establish when events occurred and in what order",

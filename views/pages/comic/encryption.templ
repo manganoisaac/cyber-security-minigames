@@ -1,13 +1,13 @@
-package pages
+package comic
 
 import (
-	comic "cyber-security-minigames/views/components/comic"
+	comiccomp "cyber-security-minigames/views/components/comic"
 	"cyber-security-minigames/views/layouts"
 )
 
 templ EncryptionComicPage() {
 	@layouts.Base("Story Comic - Encryption") {
-		@comic.ComicPlaceholder(comic.PlaceholderData{
+		@comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
 			Title:        "Encryption",
 			ContinueHref: "/encryption",
 		})

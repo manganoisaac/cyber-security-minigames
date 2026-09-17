@@ -61,7 +61,7 @@ func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions i
 			return templ_7745c5c3_Err
 		}
 		if view == types.PasswordOffice {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<img src=\"../../public/images/password/office.png\" class=\"password__image\" alt=\"\"> ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<a class=\"password__back-arrow\" href=\"/\">Back</a> <img src=\"../../public/images/password/office.png\" class=\"password__image\" alt=\"\"> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

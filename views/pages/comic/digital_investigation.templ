@@ -1,13 +1,13 @@
-package pages
+package comic
 
 import (
-	comic "cyber-security-minigames/views/components/comic"
+	comiccomp "cyber-security-minigames/views/components/comic"
 	"cyber-security-minigames/views/layouts"
 )
 
 templ DigitalInvestigationComicPage() {
 	@layouts.Base("Story Comic - Digital Investigation") {
-		@comic.ComicPlaceholder(comic.PlaceholderData{
+		@comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
 			Title:        "Digital Investigation",
 			ContinueHref: "/digital-investigation",
 		})

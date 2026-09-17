@@ -1,13 +1,13 @@
-package pages
+package whwl
 
 import (
 	"cyber-security-minigames/views/layouts"
-	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+	whwlcomp "cyber-security-minigames/views/components/what_have_we_learned"
 )
 
 templ EncryptionLearnedPage() {
 	@layouts.Base("What Have We Learned? - Encryption") {
-		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+		@whwlcomp.WhatHaveWeLearnedPage(whwlcomp.PageData{
 			Topic: "Encryption",
 
 			StoryHeading: "CASE UPDATE",
@@ -28,7 +28,7 @@ templ EncryptionLearnedPage() {
 				"The activity simplified the process by representing the key as a word you could discover. In real encryption, keys are long, randomly generated values with an enormous number of possible combinations, making a strong key practically impossible to guess by trying every possibility.",
 			},
 
-			Connections: []whwl.LearningConnection{
+			Connections: []whwlcomp.LearningConnection{
 				{
 					PlayerAction:     "Worked to identify the correct decryption key",
 					RealWorldMeaning: "Encrypted information should remain unreadable without the required key",

@@ -1,13 +1,13 @@
-package pages
+package whwl
 
 import (
 	"cyber-security-minigames/views/layouts"
-	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+	whwlcomp "cyber-security-minigames/views/components/what_have_we_learned"
 )
 
 templ PrivacyLearnedPage() {
 	@layouts.Base("What Have We Learned? - Online Privacy") {
-		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+		@whwlcomp.WhatHaveWeLearnedPage(whwlcomp.PageData{
 			Topic: "Online Privacy & Social Engineering",
 
 			StoryHeading: "CASE UPDATE",
@@ -32,7 +32,7 @@ templ PrivacyLearnedPage() {
 				"Privacy settings can reduce what strangers can see, but it is also important to think carefully about what information you make public in the first place.",
 			},
 
-			Connections: []whwl.LearningConnection{
+			Connections: []whwlcomp.LearningConnection{
 				{
 					PlayerAction:     "Examined Angela's publicly available information",
 					RealWorldMeaning: "Reviewing your digital footprint shows what strangers or attackers may be able to learn about you online",

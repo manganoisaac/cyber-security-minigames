@@ -1,13 +1,13 @@
-package pages
+package whwl
 
 import (
 	"cyber-security-minigames/views/layouts"
-	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+	whwlcomp "cyber-security-minigames/views/components/what_have_we_learned"
 )
 
 templ PhishingLearnedPage() {
 	@layouts.Base("What Have We Learned? - Phishing") {
-		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+		@whwlcomp.WhatHaveWeLearnedPage(whwlcomp.PageData{
 			Topic: "Phishing",
 
 			StoryHeading: "CASE UPDATE",
@@ -32,7 +32,7 @@ templ PhishingLearnedPage() {
 				"More targeted phishing attacks can be harder to recognise because attackers may use personal information to make their messages appear relevant and believable.",
 			},
 
-			Connections: []whwl.LearningConnection{
+			Connections: []whwlcomp.LearningConnection{
 				{
 					PlayerAction:     "Compared suspicious and legitimate emails",
 					RealWorldMeaning: "Looking at context, sender details, links and requests helps distinguish normal communication from phishing",

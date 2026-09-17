@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"cyber-security-minigames/views/pages"
+	"cyber-security-minigames/views/pages/whwl"
 )
 
 // IDigitalInvestigationHandler is the HTTP handler contract for the
@@ -36,7 +37,7 @@ func (h *digitalInvestigationHandler) AnalysisPage(w http.ResponseWriter, r *htt
 
 // LearnedPage renders the post-game What Have We Learned page.
 func (h *digitalInvestigationHandler) LearnedPage(w http.ResponseWriter, r *http.Request) {
-	pages.DigitalInvestigationLearnedPage().Render(r.Context(), w)
+	whwl.DigitalInvestigationLearnedPage().Render(r.Context(), w)
 }
 
 // CaseClosedPage renders the final completion screen.
