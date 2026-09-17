@@ -10,14 +10,51 @@
   --nd-danger: #a3122a;
   --nd-grid-cols: 8;
   --nd-grid-rows: 5;
-  --nd-panel-radius: 12px;
-  --nd-cell-gap: 4px;
   --nd-tower-icon-scale: 70%;
   --nd-enemy-body-size: 38px;
   --nd-enemy-hpbar-width: 32px;
   --nd-enemy-hpbar-height: 5px;
   --nd-legend-swatch-size: 16px;
   --nd-projectile-size: 8px;
+
+  /* Radii, borders and the small gaps that fall below the --size-* scale. */
+  --nd-panel-radius: 12px;
+  --nd-control-radius: 8px;
+  --nd-cell-radius: 4px;
+  --nd-hpbar-radius: 2px;
+  --nd-border-width: 2px;
+  --nd-hairline: 1px;
+  --nd-cell-gap: 4px;
+  --nd-list-gap: 6px;
+  --nd-swatch-gap: 8px;
+  --nd-hairline-gap: 2px;
+  --nd-micro-space: 4px;
+
+  /* Column and panel dimensions. */
+  --nd-briefing-max-width: 60rem;
+  --nd-layout-max-width: 90rem;
+  --nd-build-column: 16rem;
+  --nd-telemetry-column: 18rem;
+  --nd-log-max-height: 14rem;
+  --nd-modal-width: min(32rem, 90vw);
+  --nd-modal-max-height: 85vh;
+
+  /* Meters, overlays and the two badge labels that sit below --size-xs. */
+  --nd-meter-height: 10px;
+  --nd-meter-radius: 5px;
+  --nd-swatch-label-size: 9px;
+  --nd-enemy-label-size: 10px;
+  --nd-swatch-label-color: #fff;
+  --nd-overlay-bg: rgba(0, 0, 0, 0.6);
+  --nd-overlay-z: 200;
+  --nd-disabled-opacity: 0.5;
+
+  /* Motion. --nd-enemy-glide is deliberately just under GAME_CONFIG.tickMs
+     and --nd-projectile-glide is paired with the projectile's cleanup
+     setTimeout in network-defense-game.js; retune both together. */
+  --nd-enemy-glide: 90ms;
+  --nd-projectile-glide: 0.3s;
+  --nd-meter-transition: 0.3s;
   position: relative;
   min-height: 100vh;
   background-color: var(--bg);
@@ -29,7 +66,7 @@
 }
 
 .network-defense__briefing {
-  max-width: 60rem;
+  max-width: var(--nd-briefing-max-width);
   text-align: center;
 }
 
@@ -40,13 +77,16 @@
 
 .network-defense__layout {
   width: 100%;
-  max-width: 90rem;
+  max-width: var(--nd-layout-max-width);
   display: grid;
-  grid-template-columns: 16rem minmax(0, 1fr) 18rem;
+  grid-template-columns: var(--nd-build-column) minmax(0, 1fr) var(--nd-telemetry-column);
   gap: var(--size-l);
   align-items: start;
 }
 
+/* Literal, not var(--nd-briefing-max-width): media query conditions are
+   evaluated before custom properties resolve, so a token cannot be used
+   here. Keep this in step with that token if either changes. */
 @media (max-width: 60rem) {
   .network-defense__layout {
     grid-template-columns: 1fr;
@@ -83,8 +123,8 @@
   text-align: left;
   width: 100%;
   padding: var(--size-s);
-  border: 2px solid var(--bg-selected);
-  border-radius: 8px;
+  border: var(--nd-border-width) solid var(--bg-selected);
+  border-radius: var(--nd-control-radius);
   background: var(--bg);
 }
 
@@ -94,7 +134,7 @@
 }
 
 .network-defense-tower-list__item:disabled {
-  opacity: 0.5;
+  opacity: var(--nd-disabled-opacity);
   cursor: not-allowed;
 }
 
@@ -129,7 +169,7 @@
 
 .network-defense-tower-list__desc {
   font-size: var(--size-xs);
-  margin-top: 2px;
+  margin-top: var(--nd-hairline-gap);
 }
 
 .network-defense-selected-info {
@@ -149,14 +189,14 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--nd-list-gap);
   margin-top: var(--size-xs);
 }
 
 .network-defense-threat-legend__item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--nd-swatch-gap);
   font-size: var(--size-xs);
   color: var(--text-muted);
 }
@@ -166,16 +206,16 @@
   height: var(--nd-legend-swatch-size);
   flex-shrink: 0;
   border-radius: 50%;
-  border: 2px solid var(--text);
+  border: var(--nd-border-width) solid var(--text);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
+  font-size: var(--nd-swatch-label-size);
   font-weight: 700;
-  color: #fff;
+  color: var(--nd-swatch-label-color);
 }
 
 /* -- Battlefield panel --------------------------------------------------- */
@@ -203,8 +243,8 @@
   grid-template-rows: repeat(var(--nd-grid-rows), 1fr);
   gap: var(--nd-cell-gap);
   background: var(--bg);
-  border: 2px solid var(--text-muted);
-  border-radius: 8px;
+  border: var(--nd-border-width) solid var(--text-muted);
+  border-radius: var(--nd-control-radius);
   padding: var(--size-s);
   aspect-ratio: var(--nd-grid-cols) / var(--nd-grid-rows);
 }
@@ -215,8 +255,8 @@
   align-items: center;
   justify-content: center;
   background: var(--bg-light);
-  border: 1px solid var(--bg-selected);
-  border-radius: 4px;
+  border: var(--nd-hairline) solid var(--bg-selected);
+  border-radius: var(--nd-cell-radius);
   padding: 0;
   font-size: var(--size-xs);
   font-weight: 700;
@@ -245,7 +285,7 @@
 }
 
 .network-defense-grid__cell--placed {
-  border: 2px solid var(--text);
+  border: var(--nd-border-width) solid var(--text);
   background-color: var(--bg);
   background-repeat: no-repeat;
   background-position: center;
@@ -263,20 +303,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--nd-hairline-gap);
   pointer-events: none;
   /* Just under GAME_CONFIG.tickMs (100ms) so each glide finishes before the
      next tick's position update lands - avoids transitions queueing up and
      the enemy visibly stuttering/catching up. */
-  transition: left 90ms linear, top 90ms linear;
+  transition: left var(--nd-enemy-glide) linear, top var(--nd-enemy-glide) linear;
 }
 
 .network-defense-enemy__hpbar {
   width: var(--nd-enemy-hpbar-width);
   height: var(--nd-enemy-hpbar-height);
-  border-radius: 2px;
+  border-radius: var(--nd-hpbar-radius);
   background: var(--bg);
-  border: 1px solid var(--text-muted);
+  border: var(--nd-hairline) solid var(--text-muted);
   overflow: hidden;
 }
 
@@ -290,16 +330,16 @@
   width: var(--nd-enemy-body-size);
   height: var(--nd-enemy-body-size);
   border-radius: 50%;
-  border: 2px solid var(--text);
+  border: var(--nd-border-width) solid var(--text);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: var(--nd-enemy-label-size);
   font-weight: 700;
-  color: #fff;
+  color: var(--nd-swatch-label-color);
 }
 
 .network-defense-projectile {
@@ -307,9 +347,10 @@
   width: var(--nd-projectile-size);
   height: var(--nd-projectile-size);
   border-radius: 50%;
-  border: 1px solid var(--text);
+  border: var(--nd-hairline) solid var(--text);
   transform: translate(-50%, -50%);
-  transition: left 0.3s linear, top 0.3s linear;
+  transition: left var(--nd-projectile-glide) linear,
+    top var(--nd-projectile-glide) linear;
   pointer-events: none;
 }
 
@@ -325,7 +366,7 @@
 .network-defense-legend {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--nd-hairline-gap);
   font-size: var(--size-xs);
   color: var(--text-muted);
 }
@@ -337,19 +378,24 @@
   flex-basis: 100%;
 }
 
-.network-defense-launch-button {
+/* The wave launcher and the modal confirm buttons are the same control in two
+   places, so they share one rule rather than repeating it per block. */
+.network-defense-launch-button,
+.network-defense-button--primary {
   background: var(--nd-success);
-  border: 2px solid var(--text-muted);
-  border-radius: 8px;
+  border: var(--nd-border-width) solid var(--text-muted);
+  border-radius: var(--nd-control-radius);
   padding: var(--size-s) var(--size-m);
 }
 
-.network-defense-launch-button:disabled {
-  opacity: 0.5;
+.network-defense-launch-button:disabled,
+.network-defense-button--primary:disabled {
+  opacity: var(--nd-disabled-opacity);
   cursor: not-allowed;
 }
 
-.network-defense-launch-button:disabled:hover {
+.network-defense-launch-button:disabled:hover,
+.network-defense-button--primary:disabled:hover {
   filter: none;
   transform: none;
 }
@@ -366,44 +412,45 @@
   display: flex;
   justify-content: space-between;
   font-size: var(--size-m);
-  margin-bottom: 4px;
+  margin-bottom: var(--nd-micro-space);
 }
 
 .network-defense-integrity__track,
 .network-defense-threat__track {
-  height: 10px;
-  border-radius: 5px;
+  height: var(--nd-meter-height);
+  border-radius: var(--nd-meter-radius);
   background: var(--bg);
-  border: 1px solid var(--bg-selected);
+  border: var(--nd-hairline) solid var(--bg-selected);
   overflow: hidden;
 }
 
 .network-defense-integrity__fill {
   height: 100%;
   background: var(--nd-success);
-  transition: width 0.3s ease, background-color 0.3s ease;
+  transition: width var(--nd-meter-transition) ease,
+    background-color var(--nd-meter-transition) ease;
 }
 
 .network-defense-threat__fill {
   height: 100%;
   background: var(--nd-warning);
-  transition: width 0.3s ease;
+  transition: width var(--nd-meter-transition) ease;
 }
 
 .network-defense-log__list {
   list-style: none;
-  max-height: 14rem;
+  max-height: var(--nd-log-max-height);
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
-  gap: 6px;
+  gap: var(--nd-list-gap);
 }
 
 .network-defense-log__list li {
   font-size: var(--size-xs);
   color: var(--text-muted);
-  border-bottom: 1px solid var(--bg);
-  padding-bottom: 4px;
+  border-bottom: var(--nd-hairline) solid var(--bg);
+  padding-bottom: var(--nd-micro-space);
 }
 
 /* -- Modals ---------------------------------------------------------------- */
@@ -411,11 +458,11 @@
 .network-defense-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: var(--nd-overlay-z);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--nd-overlay-bg);
 }
 
 .network-defense-modal-overlay[hidden] {
@@ -423,8 +470,8 @@
 }
 
 .network-defense-modal {
-  width: min(32rem, 90vw);
-  max-height: 85vh;
+  width: var(--nd-modal-width);
+  max-height: var(--nd-modal-max-height);
   overflow-y: auto;
   background: var(--bg-light);
   border-radius: var(--nd-panel-radius);
@@ -465,11 +512,4 @@
   margin-top: var(--size-l);
   display: flex;
   justify-content: flex-end;
-}
-
-.network-defense-button--primary {
-  background: var(--nd-success);
-  border: 2px solid var(--text-muted);
-  border-radius: 8px;
-  padding: var(--size-s) var(--size-m);
 }
