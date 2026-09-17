@@ -1620,6 +1620,6 @@ Status: No data transfer completed`
     });
 
     closeCaseButton.addEventListener("click", () => {
-        caseSolvedModal.hidden = true;
+        window.location.href = "/whwl/digital-investigation";
     });
 });

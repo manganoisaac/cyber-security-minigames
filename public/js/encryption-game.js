@@ -16,7 +16,7 @@
     maxAttempts: 6,
     hiddenCharacter: "·",
     validWordsUrl: "/public/data/valid-words-5.txt",
-    continueUrl: "/chapter-select",
+    continueUrl: "/whwl/encryption",
 
 scenarios: [
   {

@@ -1,0 +1,66 @@
+.cyber-chapter-select {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+}
+
+.cyber-chapter-select__scene {
+    position: relative;
+    flex: 0 0 auto;
+
+    width: 100vw;
+    aspect-ratio: 16 / 9;
+
+    background-image: url("/public/images/chapter-select-cyber/chapter-select-background.png");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.cyber-chapter-select__grid {
+    position: absolute;
+
+    left: 32%;
+    top: 33%;
+    width: 36%;
+    height: 35.5%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    align-items: center;
+    justify-items: center;
+}
+
+.cyber-chapter-select__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #111;
+    text-decoration: none;
+}
+
+.cyber-chapter-select__item img {
+    width: clamp(100px, 7vw, 145px);
+    height: clamp(100px, 7vw, 145px);
+    object-fit: contain;
+}
+
+.cyber-chapter-select__item span {
+    margin-top: -5px;
+
+    font-family: "Pixel Operator Bold", monospace;
+    font-size: clamp(14px, 0.9vw, 18px);
+
+    color: #111;
+    white-space: nowrap;
+}

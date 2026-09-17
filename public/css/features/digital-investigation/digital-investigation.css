@@ -737,8 +737,8 @@
 
 .analysis-desktop {
     width: min(1660px, calc(100vw - 60px));
-    height: 921px;
-    margin: 18px auto 0;
+    height: 930px;
+    margin: 30px auto 0;
     align-self: flex-start;
 
     display: grid;

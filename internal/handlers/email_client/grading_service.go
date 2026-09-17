@@ -65,7 +65,7 @@ func (gradingService) Grade(st IEmailGameState, em types.Email) submitResult {
 
 	nextURL := ""
 	if missing == 0 && wrong == 0 {
-		nextURL = "/chapter-select"
+		nextURL = "/whwl/phishing"
 	}
 
 	return submitResult{

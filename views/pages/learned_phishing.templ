@@ -1,0 +1,57 @@
+package pages
+
+import (
+	"cyber-security-minigames/views/layouts"
+	whwl "cyber-security-minigames/views/components/what_have_we_learned"
+)
+
+templ PhishingLearnedPage() {
+	@layouts.Base("What Have We Learned? - Phishing") {
+		@whwl.WhatHaveWeLearnedPage(whwl.PageData{
+			Topic: "Phishing",
+
+			StoryHeading: "CASE UPDATE",
+
+			StoryParagraphs: []string{
+				"You examined Angela's inbox and identified a phishing email designed to trick her into following a malicious link.",
+
+				"A legitimate Project HELIOS email also revealed that Angela was coordinating source-code testing for the project, giving her access to valuable project information.",
+
+				"Angela's browser history showed that she opened the phishing link only minutes after receiving the message.",
+
+				"Later that afternoon, Angela accessed the project repository before closing her email and logging off her workstation.",
+			},
+
+			LessonHeading: "PHISHING & SOCIAL ENGINEERING",
+
+			LessonParagraphs: []string{
+				"Phishing attacks use deceptive messages to persuade people to click malicious links, open unsafe attachments, reveal sensitive information or take other actions that benefit an attacker.",
+
+				"Warning signs can include suspicious sender addresses, misleading links, unusual requests, urgency, spelling mistakes or messages that do not match what you would normally expect from the sender.",
+
+				"More targeted phishing attacks can be harder to recognise because attackers may use personal information to make their messages appear relevant and believable.",
+			},
+
+			Connections: []whwl.LearningConnection{
+				{
+					PlayerAction:     "Compared suspicious and legitimate emails",
+					RealWorldMeaning: "Looking at context, sender details, links and requests helps distinguish normal communication from phishing",
+				},
+				{
+					PlayerAction:     "Identified warning signs in the phishing message",
+					RealWorldMeaning: "Phishing is often detected by combining several suspicious indicators rather than relying on one clue",
+				},
+				{
+					PlayerAction:     "Checked where links actually lead",
+					RealWorldMeaning: "Displayed link text can be misleading, so verifying the real destination can expose malicious websites",
+				},
+			},
+
+			KeyTakeaway:
+				"Do not trust an email just because it looks familiar or urgent. Check the sender, links, context and request carefully before clicking or providing information.",
+
+			ContinueLabel: "Continue",
+			ContinueHref: "/comic/encryption",
+		})
+	}
+}

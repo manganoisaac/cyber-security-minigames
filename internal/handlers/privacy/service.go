@@ -58,7 +58,7 @@ func (s *Service) ClickPost(id int, st IPrivacyGameState) []templ.Component {
 	if st.AllCluesFound(len(privacyUI.Clues)) {
 		components = append(components, ui.Modal(
 			"congratulations you found all of the clues",
-			"/chapter-select",
+			"/whwl/privacy",
 			true,
 		))
 	}

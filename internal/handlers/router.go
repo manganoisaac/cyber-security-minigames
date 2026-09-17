@@ -34,7 +34,24 @@ func Routes(games ...Game) http.Handler {
 	// must never inherit progress (a level already advanced, hints already
 	// collected) left behind by whoever used this browser last.
 	mux.Handle("GET /{$}", resetSessionThenServe(templ.Handler(pages.Landing())))
+	mux.Handle("GET /landing-cyber", resetSessionThenServe(templ.Handler(pages.CyberLanding())))
 	mux.Handle("GET /chapter-select", resetSessionThenServe(templ.Handler(pages.ChapterSelect())))
+	mux.Handle("GET /chapter-select-cyber", resetSessionThenServe(templ.Handler(pages.CyberChapterSelect())))
+
+	// Story comic pages.
+	mux.Handle("GET /comic/password", templ.Handler(pages.PasswordComicPage()))
+	mux.Handle("GET /comic/privacy", templ.Handler(pages.PrivacyComicPage()))
+	mux.Handle("GET /comic/phishing", templ.Handler(pages.PhishingComicPage()))
+	mux.Handle("GET /comic/encryption", templ.Handler(pages.EncryptionComicPage()))
+	mux.Handle("GET /comic/network-defense", templ.Handler(pages.NetworkDefenceComicPage()))
+	mux.Handle("GET /comic/digital-investigation", templ.Handler(pages.DigitalInvestigationComicPage()))
+
+	// What Have We Learned pages.
+	mux.Handle("GET /whwl/password", templ.Handler(pages.PasswordLearnedPage()))
+	mux.Handle("GET /whwl/privacy", templ.Handler(pages.PrivacyLearnedPage()))
+	mux.Handle("GET /whwl/phishing", templ.Handler(pages.PhishingLearnedPage()))
+	mux.Handle("GET /whwl/encryption", templ.Handler(pages.EncryptionLearnedPage()))
+	mux.Handle("GET /whwl/network-defense", templ.Handler(pages.NetworkDefenceLearnedPage()))
 
 	// Each game registers its page and htmx endpoints here.
 	for _, g := range games {
