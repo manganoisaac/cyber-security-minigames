@@ -6,6 +6,7 @@ import "cyber-security-minigames/views/components/ui"
 
 templ Main(posts []types.PostUI, clues []types.ClueUI) {
 	<div class="privacy__container">
+		<a class="password__back-arrow" href="/">Back</a>
 		@PostList(posts)
 		@ClueList(clues, false)
 	</div>
