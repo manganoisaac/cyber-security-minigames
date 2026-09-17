@@ -33,10 +33,8 @@ func Routes(games ...Game) http.Handler {
 	// rendering: on a walk-up exhibit, a new player picking a game from here
 	// must never inherit progress (a level already advanced, hints already
 	// collected) left behind by whoever used this browser last.
-	mux.Handle("GET /{$}", resetSessionThenServe(templ.Handler(pages.Landing())))
-	mux.Handle("GET /landing-cyber", resetSessionThenServe(templ.Handler(pages.CyberLanding())))
-	mux.Handle("GET /chapter-select", resetSessionThenServe(templ.Handler(pages.ChapterSelect())))
-	mux.Handle("GET /chapter-select-cyber", resetSessionThenServe(templ.Handler(pages.CyberChapterSelect())))
+	mux.Handle("GET /{$}", resetSessionThenServe(templ.Handler(pages.CyberLanding())))
+	mux.Handle("GET /chapter-select", resetSessionThenServe(templ.Handler(pages.CyberChapterSelect())))
 
 	// Story comic pages.
 	mux.Handle("GET /comic/password", templ.Handler(pages.PasswordComicPage()))
