@@ -1,4 +1,8 @@
 .password__level-2 {
+  /*background-image: url("../../../images/password/login.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;*/
   height: 100vh;
   width: 100vw;
   background: var(--bg);
