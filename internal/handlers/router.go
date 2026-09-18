@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
+	"cyber-security-minigames/internal/handlers/comic"
 	"cyber-security-minigames/internal/session"
 	"cyber-security-minigames/views/pages"
-	"cyber-security-minigames/views/pages/comic"
 	"cyber-security-minigames/views/pages/whwl"
 
 	"github.com/a-h/templ"
@@ -39,12 +39,12 @@ func Routes(games ...Game) http.Handler {
 	mux.Handle("GET /chapter-select", resetSessionThenServe(templ.Handler(pages.CyberChapterSelect())))
 
 	// Story comic pages.
-	mux.Handle("GET /comic/password", templ.Handler(comic.PasswordComicPage()))
-	mux.Handle("GET /comic/privacy", templ.Handler(comic.PrivacyComicPage()))
-	mux.Handle("GET /comic/phishing", templ.Handler(comic.PhishingComicPage()))
-	mux.Handle("GET /comic/encryption", templ.Handler(comic.EncryptionComicPage()))
-	mux.Handle("GET /comic/network-defense", templ.Handler(comic.NetworkDefenceComicPage()))
-	mux.Handle("GET /comic/digital-investigation", templ.Handler(comic.DigitalInvestigationComicPage()))
+	// mux.Handle("GET /comic/password", templ.Handler(comic.Comic(1, "/password")))
+	// mux.Handle("GET /comic/privacy", templ.Handler(comic.PrivacyComicPage()))
+	// mux.Handle("GET /comic/phishing", templ.Handler(comic.PhishingComicPage()))
+	// mux.Handle("GET /comic/encryption", templ.Handler(comic.EncryptionComicPage()))
+	// mux.Handle("GET /comic/network-defense", templ.Handler(comic.NetworkDefenceComicPage()))
+	// mux.Handle("GET /comic/digital-investigation", templ.Handler(comic.DigitalInvestigationComicPage()))
 
 	// What Have We Learned pages.
 	mux.Handle("GET /whwl/password", templ.Handler(whwl.PasswordLearnedPage()))
@@ -57,6 +57,9 @@ func Routes(games ...Game) http.Handler {
 	for _, g := range games {
 		g.Register(mux)
 	}
+
+	// Register comic urls
+	comic.Register(mux)
 
 	return mux
 }

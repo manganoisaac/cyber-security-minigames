@@ -1,0 +1,14 @@
+package comic
+
+import "cyber-security-minigames/views/layouts"
+import "strconv"
+
+templ Comic(id int, bgUrl string) {
+	@layouts.Base("Cyber Minigames") {
+		<a href={ bgUrl }>
+			<main
+				class={ "comic__bg comic__bg--" + strconv.Itoa(id) }
+			></main>
+		</a>
+	}
+}

@@ -1,13 +1,20 @@
 package data
 
 // PasswordInstructions is shown in the modal when the password game starts.
-const PasswordInstructions = "Click an object, then submit guesses. Green = right spot, orange = right word wrong spot, red = wrong. For the best experience, play in full screen."
+const PasswordInstructions = `You've been called into Eugene Belford's office. His computer is locked,
+and your objective is simple: guess his password and gain access. 
+Search the office for evidence, photos, drawings, calendars, paperwork.
+Anything you find gets logged automatically in your notepad. 
+When you're ready, hit the login screen and start testing your clues. Correct
+characters lock in green, wrong ones turn red.
+Good luck, Detective. It won't take much digging to prove that personal
+information makes for lousy passwords`
 
 // PasswordWinMessage is shown when the player guesses every phrase correctly.
 const PasswordWinMessage = "Well done! You cracked every phrase."
 
 // PasswordPhrases is the order the object phrases must be clicked in.
-var PasswordPhrases = []string{"rufus", "id", "jersey"}
+var PasswordPhrases = []string{"Rufus", "0904"}
 
 // PasswordObjectPhrases maps each object id to its phrase.
 var PasswordObjectPhrases = map[int]string{

@@ -43,7 +43,7 @@ func CyberLanding() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"cyber-landing\"><div class=\"cyber-landing__scene\"><div class=\"cyber-landing__title-wrap\"><h1 class=\"cyber-landing__title\" data-text=\"CAUGHT IN THE NET\">CAUGHT IN THE NET</h1></div><nav class=\"cyber-landing__menu\" aria-label=\"Main menu\"><a class=\"cyber-landing__menu-item\" href=\"/comic/password\">[ START INVESTIGATION ]</a> <a class=\"cyber-landing__menu-item\" href=\"/chapter-select-cyber\">[ CHAPTER SELECT ]</a></nav></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"cyber-landing\"><div class=\"cyber-landing__scene\"><div class=\"cyber-landing__title-wrap\"><h1 class=\"cyber-landing__title\" data-text=\"CAUGHT IN THE NET\">CAUGHT IN THE NET</h1></div><nav class=\"cyber-landing__menu\" aria-label=\"Main menu\"><a class=\"cyber-landing__menu-item\" href=\"/comic/password\">[ START INVESTIGATION ]</a> <a class=\"cyber-landing__menu-item\" href=\"/chapter-select\">[ CHAPTER SELECT ]</a></nav></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

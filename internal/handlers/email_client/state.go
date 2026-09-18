@@ -44,6 +44,7 @@ func newGameState() *gameState {
 	return &gameState{
 		selectedPhrases: make(map[string]map[int]bool),
 		gameLevel:       1,
+		activeID:        "mobile-plan-renewal-notice",
 	}
 }
 

@@ -97,21 +97,21 @@ func (s *Service) ObjectCloseUp(st IPasswordGameState, objectId int) templ.Compo
 func (s *Service) AddHint(st IPasswordGameState, objectId int, itemId int) []templ.Component {
 	switch objectId {
 	case 1:
-		st.AddHint("jersey")
+		st.AddHint("20")
 	case 2:
-		st.AddHint("calendar")
+		st.AddHint("0904")
 	case 3:
 		// The trash can is a narrative easter egg about Eugene's motive, not
 		// a real clue - viewing it must never count toward the puzzle.
 		return []templ.Component{s.Popup("Just an old note - doesn't look important.")}
 	case 4:
-		st.AddHint("rufus")
+		st.AddHint("Rufus")
 	case 5:
-		st.AddHint("drawing")
+		st.AddHint("Mia")
 	case 6:
-		st.AddHint("id")
+		st.AddHint("0408")
 	default:
-		st.AddHint("desk")
+		st.AddHint("1990")
 	}
 	parts := []templ.Component{s.Popup("hint added to notebook")}
 	if st.AllHintsCollected() {

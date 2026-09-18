@@ -1,0 +1,103 @@
+.comic__bg {
+  height: 100vh;
+  width: 100vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Game 1 */
+.comic__bg--1 {
+  background-image: url("../../../images/comics/Game_1/image-1.png");
+}
+
+.comic__bg--2 {
+  background-image: url("../../../images/comics/Game_1/image-2.png");
+}
+.comic__bg--3 {
+  background-image: url("../../../images/comics/Game_1/image-3.png");
+}
+.comic__bg--4 {
+  background-image: url("../../../images/comics/Game_1/image-4.png");
+}
+.comic__bg--5 {
+  background-image: url("../../../images/comics/Game_1/image-5.png");
+}
+
+/* Game 2 */
+.comic__bg--6 {
+  background-image: url("../../../images/comics/Game_2/image-1.png");
+}
+.comic__bg--7 {
+  background-image: url("../../../images/comics/Game_2/image-2.png");
+}
+.comic__bg--8 {
+  background-image: url("../../../images/comics/Game_2/image-3.png");
+}
+
+/* Game 3 */
+.comic__bg--9 {
+  background-image: url("../../../images/comics/Game_3/image-1.png");
+}
+.comic__bg--10 {
+  background-image: url("../../../images/comics/Game_3/image-2.png");
+}
+.comic__bg--11 {
+  background-image: url("../../../images/comics/Game_3/image-3.png");
+}
+
+/* Game 4 */
+.comic__bg--12 {
+  background-image: url("../../../images/comics/Game_4/image-1.png");
+}
+.comic__bg--13 {
+  background-image: url("../../../images/comics/Game_4/image-2.png");
+}
+.comic__bg--14 {
+  background-image: url("../../../images/comics/Game_4/image-3.png");
+}
+.comic__bg--15 {
+  background-image: url("../../../images/comics/Game_4/image-4.png");
+}
+.comic__bg--16 {
+  background-image: url("../../../images/comics/Game_4/image-5.png");
+}
+
+/* Game 5 */
+.comic__bg--17 {
+  background-image: url("../../../images/comics/Game_5/image-1.png");
+}
+.comic__bg--18 {
+  background-image: url("../../../images/comics/Game_5/image-2.png");
+}
+.comic__bg--19 {
+  background-image: url("../../../images/comics/Game_5/image-3.png");
+}
+.comic__bg--20 {
+  background-image: url("../../../images/comics/Game_5/image-4.png");
+}
+
+/* Game 6 */
+.comic__bg--21 {
+  background-image: url("../../../images/comics/Game_6/image-1.png");
+}
+.comic__bg--22 {
+  background-image: url("../../../images/comics/Game_6/image-2.png");
+}
+.comic__bg--23 {
+  background-image: url("../../../images/comics/Game_6/image-3.png");
+}
+
+/* Game 7 */
+.comic__bg--24 {
+  background-image: url("../../../images/comics/Game_7/image-1.png");
+}
+.comic__bg--25 {
+  background-image: url("../../../images/comics/Game_7/image-2.png");
+}
+.comic__bg--26 {
+  background-image: url("../../../images/comics/Game_7/image-3.png");
+}
+.comic__bg--27 {
+  background-image: url("../../../images/comics/Game_7/image-4.png");
+}
