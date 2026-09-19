@@ -12,6 +12,12 @@
   --size-xl: 1.5rem;
   --size-2xl: 1.7rem;
   --size-3xl: 2rem;
+
+  /* The colour behind every page. Landing, chapter-select and the htmx
+     loading overlay were already black; this makes it the default everywhere
+     so letterbox bars and any uncovered area match across the whole app
+     instead of falling back to the browser's white. */
+  --page-bg: #000;
 }
 
 @font-face {
@@ -24,6 +30,10 @@
   padding: 0;
   user-select: none;
   box-sizing: border-box;
+}
+
+body {
+  background: var(--page-bg);
 }
 
 .font-jetbrains-mono {
@@ -106,7 +116,7 @@ button:hover {
   position: absolute;
   height: var(--loading-height);
   width: var(--loading-width);
-  background: black;
+  background: var(--page-bg);
   z-index: 100;
   visibility: hidden;
 }

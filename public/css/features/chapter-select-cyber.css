@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
 
-    background: #000;
+    background: var(--page-bg);
 }
 
 .cyber-chapter-select__scene {

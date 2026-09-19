@@ -1,9 +1,19 @@
 .comic__bg {
   height: 100vh;
   width: 100vw;
+  /* Letterbox fill. Deliberately the shared page background rather than a
+     colour of its own, so the bars here match every other page. */
+  background-color: var(--page-bg);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  /* `contain`, not `cover`. The panel IS the content here, so it has to be
+     whole - `cover` scales until the viewport is filled and silently crops
+     the overflow, which loses ~16% of a typical panel on a 16:9 screen, ~36%
+     on an ultrawide, and 48% of Game_2/image-3.png (the one portrait panel
+     among landscape siblings). The trade-off is bars whose size varies per
+     panel, because the source art ranges from 0.92 to 1.81 in aspect ratio;
+     exporting the panels at one consistent ratio would remove them. */
+  background-size: contain;
 }
 
 /* Game 1 */
