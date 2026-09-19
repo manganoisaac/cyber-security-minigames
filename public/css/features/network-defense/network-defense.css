@@ -29,6 +29,7 @@
   --nd-swatch-gap: 8px;
   --nd-hairline-gap: 2px;
   --nd-micro-space: 4px;
+  --nd-callout-accent-width: 4px;
 
   /* Column and panel dimensions. */
   --nd-briefing-max-width: 60rem;
@@ -49,12 +50,24 @@
   --nd-overlay-z: 200;
   --nd-disabled-opacity: 0.5;
 
+  /* Intro typewriter caret. Mirrors modal.css so the effect matches the
+     shared modal typewriter the other games use. */
+  --nd-caret-width: 2px;
+  --nd-caret-margin: 2px;
+  --nd-caret-blink: 0.7s;
+  --nd-skip-hint-opacity: 0.65;
+
   /* Motion. --nd-enemy-glide is deliberately just under GAME_CONFIG.tickMs
      and --nd-projectile-glide is paired with the projectile's cleanup
      setTimeout in network-defense-game.js; retune both together. */
   --nd-enemy-glide: 90ms;
   --nd-projectile-glide: 0.3s;
   --nd-meter-transition: 0.3s;
+  /* themes.css only sets the pixel font on button/h1-h4/p/a, so the span,
+     li, strong and div text in this game - the wave counter, credits, threat
+     reference, event log, EDGE/CORE markers - fell through to the browser's
+     default serif. Set it once here and let it inherit. */
+  font-family: "Pixelify Sans", sans-serif;
   position: relative;
   min-height: 100vh;
   background-color: var(--bg);
@@ -179,10 +192,12 @@
 
 .network-defense-threat-legend {
   margin-top: var(--size-m);
+  padding-top: var(--size-m);
+  border-top: var(--nd-border-width) solid var(--bg-selected);
 }
 
 .network-defense-threat-legend h3 {
-  font-size: var(--size-m);
+  font-size: var(--size-l);
 }
 
 .network-defense-threat-legend__list {
@@ -197,8 +212,8 @@
   display: flex;
   align-items: center;
   gap: var(--nd-swatch-gap);
-  font-size: var(--size-xs);
-  color: var(--text-muted);
+  font-size: var(--size-s);
+  color: var(--text);
 }
 
 .network-defense-threat-legend__swatch {
@@ -372,10 +387,21 @@
 }
 
 .network-defense-upcoming {
-  font-size: var(--size-xs);
-  color: var(--text-muted);
-  font-style: italic;
   flex-basis: 100%;
+  margin-top: var(--size-xs);
+  padding: var(--size-s) var(--size-m);
+  border-left: var(--nd-callout-accent-width) solid var(--nd-warning);
+  border-radius: var(--nd-cell-radius);
+  background: var(--bg-selected);
+  font-size: var(--size-m);
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Cleared while a wave is running - without this the styled callout would
+   still show as an empty box. */
+.network-defense-upcoming:empty {
+  display: none;
 }
 
 /* The wave launcher and the modal confirm buttons are the same control in two
@@ -512,4 +538,51 @@
   margin-top: var(--size-l);
   display: flex;
   justify-content: flex-end;
+}
+
+/* -- Intro typewriter ------------------------------------------------------ */
+
+/* Caret matches .modal__text--typing in modal.css (2px, 0.7s step-end blink)
+   so this game's intro reads as the same effect as the other games'. */
+.network-defense-intro__line--typing::after {
+  content: "";
+  display: inline-block;
+  width: var(--nd-caret-width);
+  height: 1em;
+  margin-left: var(--nd-caret-margin);
+  vertical-align: text-bottom;
+  background: var(--text);
+  animation: nd-caret-blink var(--nd-caret-blink) step-end infinite;
+}
+
+@keyframes nd-caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.network-defense-intro__skip {
+  margin-top: var(--size-m);
+  font-size: var(--size-xs);
+  font-style: italic;
+  color: var(--text-muted);
+  opacity: var(--nd-skip-hint-opacity);
+}
+
+/* Three paragraphs are reserved by the time the caret reaches the last one, so
+   the dialog would otherwise grow line by line and shift the button downwards
+   as it types. */
+.network-defense-intro__line {
+  min-height: 1em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .network-defense-intro__line--typing::after {
+    animation: none;
+  }
 }

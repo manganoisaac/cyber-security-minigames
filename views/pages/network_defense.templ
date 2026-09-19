@@ -89,8 +89,39 @@ templ NetworkDefensePage() {
 				</section>
 			</div>
 
+			<!-- Topic introduction. Deliberately sits in front of the instructions so
+			     the security concept lands before the rules do - the point of the game
+			     is the idea that different attacks need different defenses. The lines
+			     type themselves in, matching the shared modal typewriter used by the
+			     other games. -->
+			<div class="network-defense-modal-overlay" id="nd-intro-modal">
+				<section class="network-defense-modal" role="dialog" aria-modal="true" aria-labelledby="nd-intro-title">
+					<h2 id="nd-intro-title">Defense in depth</h2>
+					<p class="network-defense-intro__line">
+						Real networks aren't kept safe by one strong wall. They're kept safe by
+						layers of different security controls, each doing a different job.
+					</p>
+					<p class="network-defense-intro__line">
+						No single control stops everything. A firewall that filters malicious
+						payloads does nothing against an attacker signing in with stolen
+						credentials - stopping that takes multi-factor authentication instead.
+					</p>
+					<p class="network-defense-intro__line">
+						Layering controls so they cover each other is called defense in depth.
+						Match the right defense to each threat - and see what gets through when
+						you don't.
+					</p>
+					<p class="network-defense-intro__skip" id="nd-intro-skip">Click anywhere to skip</p>
+					<div class="network-defense-modal__actions">
+						<button type="button" class="network-defense-button network-defense-button--primary" id="nd-intro-continue">
+							Continue
+						</button>
+					</div>
+				</section>
+			</div>
+
 			<!-- Start instructions -->
-			<div class="network-defense-modal-overlay" id="nd-instructions-modal">
+			<div class="network-defense-modal-overlay" id="nd-instructions-modal" hidden>
 				<section class="network-defense-modal" role="dialog" aria-modal="true" aria-labelledby="nd-instructions-title">
 					<h2 id="nd-instructions-title">Hold the perimeter</h2>
 					<p>
