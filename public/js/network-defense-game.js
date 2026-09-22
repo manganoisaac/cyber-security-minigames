@@ -6,7 +6,7 @@
    * GAME CONFIGURATION
    * ------------------------------------------------------------------------
    * A grid-based tower defence. Hostile traffic spawns at the EDGE and
-   * follows a fixed path to the CORE. Defenses are placed on buildable
+   * follows a fixed path to the CORE. Defences are placed on buildable
    * nodes bordering the path and automatically fire at traffic within
    * range once a wave is launched.
    *
@@ -244,7 +244,7 @@
   // Every adjacent path index is kept, not just the lowest one. The path
   // doubles back on itself, so a node between two stretches of it - say the
   // gap between the middle row and the bottom row - genuinely borders both,
-  // and a defense there should reach both. Keeping only the lowest index
+  // and a defence there should reach both. Keeping only the lowest index
   // silently orphaned the entire bottom row (7 of 26 tiles, the whole final
   // approach to the CORE), because those cells always anchored to the
   // middle-row stretch instead. Nothing could be built that reached the last
@@ -490,7 +490,7 @@
   // "Threat reference" panel has this too, but it's easy to never look at it;
   // surfacing it right when a wave ends is when a player is most likely to
   // actually read it. Anything that reached the core gets called out by name
-  // with the defense that should have stopped it, addressing the specific
+  // with the defence that should have stopped it, addressing the specific
   // "why did that get through" moment rather than just the general reference.
   function showWaveSummary() {
     const items = state.currentWavePool.map((typeId) => {
@@ -606,7 +606,7 @@
     }
 
     if (!state.selectedTower) {
-      selectedInfoEl.textContent = "Nothing selected. Choose a defense above.";
+      selectedInfoEl.textContent = "Nothing selected. Choose a defence above.";
     } else {
       const def = GAME_CONFIG.towers[state.selectedTower];
       selectedInfoEl.textContent =
@@ -657,7 +657,7 @@
         el.textContent = "";
         el.style.backgroundImage = "";
         el.disabled = false;
-        el.setAttribute("aria-label", "Buildable node. Empty. Select a defense, then activate to deploy it here.");
+        el.setAttribute("aria-label", "Buildable node. Empty. Select a defence, then activate to deploy it here.");
       }
     }
   }
@@ -950,7 +950,7 @@
     });
     beginBtn.addEventListener("click", () => {
       instructionsModal.hidden = true;
-      logEvent("Operation started. Deploy defenses, then launch the first wave.");
+      logEvent("Operation started. Deploy defences, then launch the first wave.");
     });
     resultBtn.addEventListener("click", () => {
       // A win continues the story into this game's "What have we learned" page
