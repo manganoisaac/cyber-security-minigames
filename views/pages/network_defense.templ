@@ -4,11 +4,11 @@ import "cyber-security-minigames/views/layouts"
 import "cyber-security-minigames/views/components/ui"
 
 templ NetworkDefensePage() {
-	@layouts.Base("Metacortex NOC - Perimeter Defense") {
+	@layouts.Base("Metacortex NOC - Perimeter Defence") {
 		<main class="network-defense" id="network-defense-game">
 			@ui.BackButton()
 			<header class="network-defense__briefing">
-				<h1>Perimeter defense</h1>
+				<h1>Perimeter defence</h1>
 				<p>
 					Metacortex's outbound transfer is still scheduled. Hold the perimeter
 					and stop the intrusion before it reaches the core.
@@ -17,16 +17,16 @@ templ NetworkDefensePage() {
 
 			<div class="network-defense__layout">
 				<section class="network-defense-panel network-defense-panel--build" aria-labelledby="nd-build-heading">
-					<h2 id="nd-build-heading">Deploy defenses</h2>
-					<p class="network-defense-panel__hint">Select a defense, then choose a highlighted node to place it.</p>
+					<h2 id="nd-build-heading">Deploy defences</h2>
+					<p class="network-defense-panel__hint">Select a defence, then choose a highlighted node to place it.</p>
 					<div
 						id="nd-tower-list"
 						class="network-defense-tower-list"
 						role="group"
-						aria-label="Available defenses"
+						aria-label="Available defences"
 					></div>
 					<p class="network-defense-selected-info" id="nd-selected-info" aria-live="polite">
-						Nothing selected. Choose a defense above.
+						Nothing selected. Choose a defence above.
 					</p>
 					<div class="network-defense-threat-legend">
 						<h3>Threat reference</h3>
@@ -50,7 +50,7 @@ templ NetworkDefensePage() {
 					<div class="network-defense-battlefield__footer">
 						<p class="network-defense-legend">
 							<span>Path tile - traffic travels here</span>
-							<span>Buildable node - place a defense</span>
+							<span>Buildable node - place a defence</span>
 						</p>
 						<p class="network-defense-upcoming" id="nd-upcoming-preview" aria-live="polite"></p>
 						<button type="button" id="nd-launch-wave" class="network-defense-launch-button">
@@ -91,12 +91,12 @@ templ NetworkDefensePage() {
 
 			<!-- Topic introduction. Deliberately sits in front of the instructions so
 			     the security concept lands before the rules do - the point of the game
-			     is the idea that different attacks need different defenses. The lines
+			     is the idea that different attacks need different defences. The lines
 			     type themselves in, matching the shared modal typewriter used by the
 			     other games. -->
 			<div class="network-defense-modal-overlay" id="nd-intro-modal">
 				<section class="network-defense-modal" role="dialog" aria-modal="true" aria-labelledby="nd-intro-title">
-					<h2 id="nd-intro-title">Defense in depth</h2>
+					<h2 id="nd-intro-title">Defence in depth</h2>
 					<p class="network-defense-intro__line">
 						Real networks aren't kept safe by one strong wall. They're kept safe by
 						layers of different security controls, each doing a different job.
@@ -107,8 +107,8 @@ templ NetworkDefensePage() {
 						credentials - stopping that takes multi-factor authentication instead.
 					</p>
 					<p class="network-defense-intro__line">
-						Layering controls so they cover each other is called defense in depth.
-						Match the right defense to each threat - and see what gets through when
+						Layering controls so they cover each other is called defence in depth.
+						Match the right defence to each threat - and see what gets through when
 						you don't.
 					</p>
 					<p class="network-defense-intro__skip" id="nd-intro-skip">Click anywhere to skip</p>
@@ -125,14 +125,14 @@ templ NetworkDefensePage() {
 				<section class="network-defense-modal" role="dialog" aria-modal="true" aria-labelledby="nd-instructions-title">
 					<h2 id="nd-instructions-title">Hold the perimeter</h2>
 					<p>
-						An intrusion attempt is inbound. Place defenses along the network path
+						An intrusion attempt is inbound. Place defences along the network path
 						to stop hostile traffic before it reaches the core server.
 					</p>
 					<ul class="network-defense-instructions-rules">
-						<li>Choose a defense, then click a highlighted node next to the path to deploy it.</li>
-						<li>Each defense only stops one kind of traffic - check "Threat reference" to plan ahead. Anything you have no matching defense for will reach the core untouched.</li>
-						<li>Each defense costs credits. Earn more by stopping traffic.</li>
-						<li>Click "Launch wave" when you're ready - defenses fire automatically once a wave begins.</li>
+						<li>Choose a defence, then click a highlighted node next to the path to deploy it.</li>
+						<li>Each defence only stops one kind of traffic - check "Threat reference" to plan ahead. Anything you have no matching defence for will reach the core untouched.</li>
+						<li>Each defence costs credits. Earn more by stopping traffic.</li>
+						<li>Click "Launch wave" when you're ready - defences fire automatically once a wave begins.</li>
 						<li>If network integrity reaches zero, the core is breached.</li>
 					</ul>
 					<p>For the best experience, play in full screen.</p>

@@ -19,11 +19,11 @@ func getFileName(objectId int) string {
 	case 3:
 		return "../../../public/images/password/trash.png"
 	case 4:
-		return "../../../public/images/password/Rufus.png"
+		return "../../../public/images/password/rufus.png"
 	case 5:
 		return "../../../public/images/password/drawing.png"
 	case 6:
-		return "../../../public/images/password/ID 1.png"
+		return "../../../public/images/password/id.png"
 
 	default:
 		return "../../../public/images/password/calendar.png"

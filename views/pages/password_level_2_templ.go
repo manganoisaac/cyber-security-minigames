@@ -54,7 +54,8 @@ func PasswordLevel2Page(hints []string, guesses []types.Guess) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = ui.Modal("", "", false).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = ui.Modal(`Click on the clues to find the password.
+      Click the "backspace" button to clear your search.`, "", false).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
