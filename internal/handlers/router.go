@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"cyber-security-minigames/data"
 	"cyber-security-minigames/internal/handlers/comic"
 	"cyber-security-minigames/internal/session"
 	"cyber-security-minigames/views/pages"
@@ -52,6 +53,14 @@ func Routes(games ...Game) http.Handler {
 	mux.Handle("GET /whwl/phishing", templ.Handler(whwl.PhishingLearnedPage()))
 	mux.Handle("GET /whwl/encryption", templ.Handler(whwl.EncryptionLearnedPage()))
 	mux.Handle("GET /whwl/network-defense", templ.Handler(whwl.NetworkDefenceLearnedPage()))
+
+	// End-of-game credits. In normal play this is only reached by finishing
+	// the whole game: the last case-closed panel continues here (see
+	// internal/handlers/comic/routes.go), and the roll's only exit is back to
+	// the landing screen. Registering it as an ordinary route also means
+	// /credits can be opened directly to work on it, the same way every other
+	// page in this app can.
+	mux.Handle("GET /credits", templ.Handler(pages.CreditsPage(data.Credits())))
 
 	// Each game registers its page and htmx endpoints here.
 	for _, g := range games {
