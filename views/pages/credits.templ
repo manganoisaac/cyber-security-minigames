@@ -1,0 +1,80 @@
+package pages
+
+import (
+	"cyber-security-minigames/types"
+	"cyber-security-minigames/views/layouts"
+)
+
+// CreditsPage is the end-of-game credits roll. Content comes in as a
+// parameter rather than being read from the data package here, so the roll
+// can be rendered with any set of entries (and so tests or a preview can pass
+// their own).
+templ CreditsPage(credits types.CreditsData) {
+	@layouts.Base("Credits - " + credits.Title) {
+		<main class="credits">
+			<!-- The roll and the scanline overlay are siblings inside the
+			     viewport so the overlay stays put while the roll moves under
+			     it. The viewport is what clips the roll; the roll itself is
+			     taller than the screen. -->
+			<div class="credits__viewport">
+				<div class="credits__roll">
+					<header class="credits__titles">
+						<h1 class="credits__title" data-text={ credits.Title }>
+							{ credits.Title }
+						</h1>
+						<p class="credits__subtitle">{ credits.Subtitle }</p>
+					</header>
+
+					<section class="credits__commission">
+						<p class="credits__commission-label">
+							{ credits.CommissionedLabel }
+						</p>
+						<p class="credits__commission-name">
+							{ credits.CommissionedFor }
+						</p>
+						<p class="credits__commission-org">
+							{ credits.CommissionedOrg }
+						</p>
+					</section>
+
+					for _, group := range credits.Groups {
+						<section class="credits__group">
+							<h2 class="credits__group-heading">{ group.Heading }</h2>
+
+							<ul class="credits__list">
+								for _, entry := range group.Entries {
+									<li class="credits__entry">
+										<span class="credits__entry-name">{ entry.Name }</span>
+										if entry.Role != "" {
+											<span class="credits__entry-role">{ entry.Role }</span>
+										}
+									</li>
+								}
+							</ul>
+						</section>
+					}
+
+					<section class="credits__thanks">
+						<h2 class="credits__thanks-heading">{ credits.ThanksHeading }</h2>
+
+						for _, paragraph := range credits.ThanksParagraphs {
+							<p class="credits__thanks-text">{ paragraph }</p>
+						}
+					</section>
+
+					<p class="credits__signoff">{ credits.SignOff }</p>
+				</div>
+
+				<div class="credits__scanlines" aria-hidden="true"></div>
+			</div>
+
+			<!-- Outside the viewport so it never scrolls away: a player who
+			     has seen enough should always have a way out. -->
+			<a class="credits__return" href={ templ.SafeURL(credits.ReturnHref) }>
+				{ credits.ReturnLabel }
+			</a>
+
+			<p class="credits__hint">Hover or focus the roll to pause</p>
+		</main>
+	}
+}

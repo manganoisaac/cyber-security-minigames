@@ -34,6 +34,9 @@ func Register(mux *http.ServeMux) {
 	mux.Handle("GET /case-closed", templ.Handler(comic.Comic(24, "/case-closed-2")))
 	mux.Handle("GET /case-closed-2", templ.Handler(comic.Comic(25, "/case-closed-3")))
 	mux.Handle("GET /case-closed-3", templ.Handler(comic.Comic(26, "/case-closed-4")))
-	mux.Handle("GET /case-closed-4", templ.Handler(comic.Comic(27, "/")))
+	// Last panel of the game. Continues into the credits roll rather than
+	// straight back to the landing screen, so finishing the whole game is the
+	// only way play arrives at the credits.
+	mux.Handle("GET /case-closed-4", templ.Handler(comic.Comic(27, "/credits")))
 
 }

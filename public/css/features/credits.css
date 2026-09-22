@@ -1,0 +1,538 @@
+.credits {
+  /* Palette. Deliberately the landing screen's terminal green
+     (landing-cyber.css) rather than a new scheme, so the last screen of the
+     game matches the first one the player saw. themes.css sets h1/h2/p to
+     --text (#222) and --text-muted (#444), which are near-invisible on
+     --page-bg black, so every text colour here is set explicitly. */
+  --credits-green: #87f7aa;
+  --credits-green-bright: #2bff9c;
+  --credits-green-dim: #5fbd87;
+  /* The quietest colour still used for words. Lightened from the landing
+     screen's darker greens because the smallest text on this page (the
+     commission label, the pause hint) sits at ~0.9rem: #3d7a5a would be
+     4.1:1 on black, under the 4.5:1 AA floor for text this size, where this
+     is 6.4:1. --credits-rule keeps the darker value for the divider and the
+     button border, which are non-text and only need 3:1. */
+  --credits-green-faint: #4e9e74;
+  --credits-rule: #3d7a5a;
+  --credits-glow-strong: rgba(135, 247, 170, 0.35);
+  --credits-glow-mid: rgba(95, 220, 135, 0.24);
+  --credits-glow-soft: rgba(60, 185, 105, 0.14);
+  --credits-scanline: rgba(135, 247, 170, 0.06);
+
+  /* Type scale. clamp() keeps the roll readable on a laptop and on the
+     exhibit's larger screen without a media query per element. */
+  --credits-title-size: clamp(2.6rem, 5.4vw, 5.5rem);
+  --credits-subtitle-size: clamp(1rem, 1.5vw, 1.6rem);
+  --credits-heading-size: clamp(1.1rem, 1.7vw, 1.9rem);
+  --credits-name-size: clamp(0.95rem, 1.35vw, 1.5rem);
+  --credits-role-size: clamp(0.8rem, 1.1vw, 1.2rem);
+  --credits-body-size: clamp(0.85rem, 1.2vw, 1.3rem);
+  --credits-signoff-size: clamp(1.3rem, 2.4vw, 2.6rem);
+  --credits-chrome-size: clamp(0.7rem, 0.9vw, 0.95rem);
+
+  /* Layout. */
+  --credits-roll-width: min(56rem, 88vw);
+  --credits-column-gap: 2.5rem;
+  --credits-group-gap: 0.85rem;
+  --credits-section-gap: 5.5rem;
+  --credits-lead-in: 100vh;
+  /* Where the roll comes to rest. The animation stops with the bottom of the
+     roll at this height, so the last line ("STAY SAFE OUT THERE") is still on
+     screen when it finishes, rather than the roll carrying on past the top
+     and leaving the player on a blank page. */
+  --credits-rest: 68vh;
+  --credits-line-height: 1.45;
+  --credits-title-tracking: -0.04em;
+  --credits-heading-tracking: 0.32em;
+  --credits-signoff-tracking: 0.2em;
+  --credits-rule-width: 4rem;
+  --credits-rule-height: 2px;
+  --credits-scanline-period: 4px;
+  --credits-scanline-thickness: 1px;
+
+  /* Chrome pinned over the roll. */
+  --credits-chrome-inset: 1.75rem;
+  --credits-return-padding-y: 0.6rem;
+  --credits-return-padding-x: 1.4rem;
+  --credits-return-border: 2px;
+
+  /* Roll timing. The animation runs for a fixed duration, so the roll moves
+     faster as content grows. Adding a handful of names is fine; if the list
+     ever doubles, raise this to keep the reading pace. */
+  --credits-roll-duration: 58s;
+  --credits-flicker-duration: 6.5s;
+  --credits-reveal-delay: 1.2s;
+  --credits-reveal-duration: 0.6s;
+
+  position: relative;
+
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  background: var(--page-bg);
+
+  /* Pixelify Sans ships an "ffi" ligature whose glyph reads as capitals, so
+     "Griffith" renders as "GriFFIth". Nothing on this page wants ligatures,
+     and one of the words it breaks is a real institution's name. */
+  font-variant-ligatures: none;
+}
+
+/* ---------------------------------------------------------
+   VIEWPORT + ROLL
+--------------------------------------------------------- */
+
+.credits__viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.credits__roll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--credits-section-gap);
+
+  width: var(--credits-roll-width);
+  margin: 0 auto;
+
+  text-align: center;
+
+  /* Starts one screen below the fold. `forwards` holds the final frame so the
+     sign-off stays put once the roll finishes. */
+  animation: credits-roll var(--credits-roll-duration) linear forwards;
+}
+
+/* A player who wants to read a name should be able to stop on it.
+   Deliberately scoped to the roll and not to .credits__viewport: the viewport
+   is inset:0, so hovering it means hovering anywhere on the page, which would
+   leave the roll paused for good on a machine whose cursor just happens to
+   sit over the window - exactly the case on the exhibit. Hovering the text
+   itself is the intent we actually want, and once it pauses the text stops
+   under the cursor, so it stays paused until the cursor leaves.
+   :focus-within covers any focusable element added to the roll later. */
+.credits__roll:hover,
+.credits__roll:focus-within {
+  animation-play-state: paused;
+}
+
+@keyframes credits-roll {
+  from {
+    transform: translateY(var(--credits-lead-in));
+  }
+
+  to {
+    transform: translateY(calc(var(--credits-rest) - 100%));
+  }
+}
+
+/* ---------------------------------------------------------
+   TITLES
+--------------------------------------------------------- */
+
+.credits__titles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--credits-group-gap);
+}
+
+.credits__title {
+  position: relative;
+  display: inline-block;
+
+  font-family: "Komodore", "Pixelify Sans", monospace;
+  font-size: var(--credits-title-size);
+  font-weight: normal;
+  letter-spacing: var(--credits-title-tracking);
+  line-height: 1;
+
+  color: var(--credits-green);
+
+  text-shadow:
+    0 0 10px var(--credits-glow-strong),
+    0 0 24px var(--credits-glow-mid),
+    0 0 42px var(--credits-glow-soft);
+}
+
+/* Same glitch ghost as the landing title, so the wordmark behaves the same
+   way in both places. Uses the title text via data-text rather than being
+   hardcoded here. */
+.credits__title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+
+  font-family: "Komodore Destroy", "Komodore", monospace;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+
+  color: var(--credits-green-bright);
+  opacity: 0;
+  pointer-events: none;
+
+  animation: credits-title-glitch var(--credits-flicker-duration) infinite;
+}
+
+.credits__subtitle {
+  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-size: var(--credits-subtitle-size);
+  font-weight: normal;
+  letter-spacing: var(--credits-signoff-tracking);
+
+  color: var(--credits-green-dim);
+}
+
+/* ---------------------------------------------------------
+   COMMISSION BLOCK
+--------------------------------------------------------- */
+
+.credits__commission {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--credits-group-gap);
+}
+
+.credits__commission-label {
+  font-family: "Pixelify Sans", monospace;
+  font-size: var(--credits-chrome-size);
+  font-weight: 400;
+  letter-spacing: var(--credits-heading-tracking);
+  text-transform: uppercase;
+
+  color: var(--credits-green-faint);
+}
+
+.credits__commission-name {
+  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-size: var(--credits-heading-size);
+  font-weight: normal;
+
+  color: var(--credits-green);
+}
+
+.credits__commission-org {
+  font-family: "Pixelify Sans", monospace;
+  font-size: var(--credits-body-size);
+  font-weight: 400;
+
+  color: var(--credits-green-dim);
+}
+
+/* ---------------------------------------------------------
+   CREDIT GROUPS
+--------------------------------------------------------- */
+
+.credits__group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--credits-group-gap);
+
+  width: 100%;
+}
+
+.credits__group-heading {
+  position: relative;
+
+  margin-bottom: var(--credits-group-gap);
+  padding-bottom: var(--credits-group-gap);
+
+  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-size: var(--credits-heading-size);
+  font-weight: normal;
+  letter-spacing: var(--credits-heading-tracking);
+
+  color: var(--credits-green-bright);
+
+  text-shadow: 0 0 12px var(--credits-glow-mid);
+}
+
+/* Short rule under each heading - the only divider on the page, so the
+   groups read as separate blocks while scrolling past. */
+.credits__group-heading::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  width: var(--credits-rule-width);
+  height: var(--credits-rule-height);
+  transform: translateX(-50%);
+
+  background: var(--credits-rule);
+}
+
+.credits__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: baseline;
+  gap: var(--credits-group-gap) var(--credits-column-gap);
+
+  width: 100%;
+  list-style: none;
+}
+
+/* Each entry spans the grid as its own row so the name/role spine lines up
+   down the whole list rather than per entry. */
+.credits__entry {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.credits__entry-name {
+  grid-column: 1;
+
+  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-size: var(--credits-name-size);
+  line-height: var(--credits-line-height);
+  text-align: right;
+
+  color: var(--credits-green);
+}
+
+.credits__entry-role {
+  grid-column: 2;
+
+  font-family: "Pixelify Sans", monospace;
+  font-size: var(--credits-role-size);
+  line-height: var(--credits-line-height);
+  text-align: left;
+
+  color: var(--credits-green-dim);
+}
+
+/* ---------------------------------------------------------
+   THANKS + SIGN-OFF
+--------------------------------------------------------- */
+
+.credits__thanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--credits-group-gap);
+}
+
+.credits__thanks-heading {
+  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-size: var(--credits-heading-size);
+  font-weight: normal;
+  letter-spacing: var(--credits-heading-tracking);
+
+  color: var(--credits-green-bright);
+
+  text-shadow: 0 0 12px var(--credits-glow-mid);
+}
+
+.credits__thanks-text {
+  font-family: "Pixelify Sans", monospace;
+  font-size: var(--credits-body-size);
+  font-weight: 400;
+  line-height: var(--credits-line-height);
+
+  color: var(--credits-green-dim);
+}
+
+.credits__signoff {
+  font-family: "Komodore", "Pixelify Sans", monospace;
+  font-size: var(--credits-signoff-size);
+  font-weight: 400;
+  letter-spacing: var(--credits-signoff-tracking);
+
+  color: var(--credits-green);
+
+  text-shadow:
+    0 0 10px var(--credits-glow-strong),
+    0 0 26px var(--credits-glow-mid);
+}
+
+/* ---------------------------------------------------------
+   CRT SCANLINES
+--------------------------------------------------------- */
+
+/* Sits over the roll, not inside it, so the lines stay fixed on screen while
+   the text travels under them. */
+.credits__scanlines {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--credits-scanline) 0,
+    var(--credits-scanline) var(--credits-scanline-thickness),
+    transparent var(--credits-scanline-thickness),
+    transparent var(--credits-scanline-period)
+  );
+
+  animation: credits-flicker var(--credits-flicker-duration) steps(1, end) infinite;
+}
+
+@keyframes credits-flicker {
+  0%,
+  97%,
+  100% {
+    opacity: 1;
+  }
+
+  97.5% {
+    opacity: 0.55;
+  }
+
+  98% {
+    opacity: 1;
+  }
+
+  98.5% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes credits-title-glitch {
+  0%,
+  88%,
+  89.2%,
+  94%,
+  95.2%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  88.2% {
+    opacity: 0.8;
+    transform: translate(-2px, 1px);
+  }
+
+  88.7% {
+    opacity: 0.95;
+    transform: translate(2px, -1px);
+  }
+
+  89% {
+    opacity: 0.5;
+    transform: translate(-1px, 0);
+  }
+
+  94.2% {
+    opacity: 0.75;
+    transform: translate(2px, 0);
+  }
+
+  94.7% {
+    opacity: 0.9;
+    transform: translate(-2px, -1px);
+  }
+
+  95% {
+    opacity: 0.45;
+    transform: translate(1px, 0);
+  }
+}
+
+/* ---------------------------------------------------------
+   PINNED CHROME
+--------------------------------------------------------- */
+
+.credits__return {
+  position: absolute;
+  bottom: var(--credits-chrome-inset);
+  left: var(--credits-chrome-inset);
+  z-index: 1;
+
+  padding: var(--credits-return-padding-y) var(--credits-return-padding-x);
+
+  border: var(--credits-return-border) solid var(--credits-rule);
+
+  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-size: var(--credits-chrome-size);
+  font-weight: normal;
+  letter-spacing: var(--credits-signoff-tracking);
+
+  color: var(--credits-green);
+
+  /* Fades in just after the page settles - on screen from the start, but not
+     competing with the title for the first glance. */
+  opacity: 0;
+  animation: credits-chrome-reveal var(--credits-reveal-duration) ease
+    var(--credits-reveal-delay) forwards;
+}
+
+.credits__return:hover,
+.credits__return:focus-visible {
+  border-color: var(--credits-green-bright);
+  color: var(--credits-green-bright);
+
+  text-shadow: 0 0 10px var(--credits-glow-mid);
+}
+
+.credits__hint {
+  position: absolute;
+  right: var(--credits-chrome-inset);
+  bottom: var(--credits-chrome-inset);
+  z-index: 1;
+
+  font-family: "Pixelify Sans", monospace;
+  font-size: var(--credits-chrome-size);
+  font-weight: 400;
+  letter-spacing: var(--credits-signoff-tracking);
+
+  color: var(--credits-green-faint);
+
+  opacity: 0;
+  animation: credits-chrome-reveal var(--credits-reveal-duration) ease
+    var(--credits-reveal-delay) forwards;
+}
+
+@keyframes credits-chrome-reveal {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------
+   REDUCED MOTION
+--------------------------------------------------------- */
+
+/* No roll, no flicker, no glitch. The roll becomes a normal scrollable
+   column so the same content is still fully reachable - a credits list that
+   only exists while it animates would otherwise be unreadable here. */
+@media (prefers-reduced-motion: reduce) {
+  .credits__viewport {
+    overflow-y: auto;
+  }
+
+  .credits__roll {
+    padding-top: var(--credits-chrome-inset);
+    padding-bottom: var(--credits-chrome-inset);
+
+    transform: none;
+    animation: none;
+  }
+
+  .credits__title::after,
+  .credits__scanlines {
+    animation: none;
+  }
+
+  .credits__title::after {
+    display: none;
+  }
+
+  .credits__return,
+  .credits__hint {
+    opacity: 1;
+    animation: none;
+  }
+
+  .credits__hint {
+    display: none;
+  }
+}
