@@ -66,7 +66,7 @@ func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions i
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<img src=\"../../public/images/password/desk.jpg\" class=\"password__image\" alt=\"\"> ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<img src=\"../../public/images/password/desk.png\" class=\"password__image\" alt=\"\"> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
