@@ -4,10 +4,11 @@ import "cyber-security-minigames/types"
 
 // Credits is the end-of-game credits roll.
 //
-// TODO(team): the entries in "THE TEAM" below are PLACEHOLDERS. Replace each
-// Name and Role with the real ones before this ships. Nothing else on the page
-// needs editing to do that - add or remove CreditEntry lines freely, the roll
-// is driven by its own content height so it re-times itself automatically.
+// Entries render in the order given, so "THE TEAM" is listed by role rather
+// than alphabetically. Adding or removing a few lines needs no other change;
+// the roll animates for a fixed duration (--credits-roll-duration in
+// features/credits.css), so if this list ever grows a lot, raise that to keep
+// the reading pace.
 func Credits() types.CreditsData {
 	return types.CreditsData{
 		Title:    "CAUGHT IN THE NET",
@@ -21,11 +22,12 @@ func Credits() types.CreditsData {
 			{
 				Heading: "THE TEAM",
 				Entries: []types.CreditEntry{
-					{Name: "[ Team member 1 ]", Role: "[ Role ]"},
-					{Name: "[ Team member 2 ]", Role: "[ Role ]"},
-					{Name: "[ Team member 3 ]", Role: "[ Role ]"},
-					{Name: "[ Team member 4 ]", Role: "[ Role ]"},
-					{Name: "[ Team member 5 ]", Role: "[ Role ]"},
+					{Name: "Chloe Badrick", Role: "Project Manager & Team Leader"},
+					{Name: "Isaac Mangano", Role: "Lead Developer"},
+					{Name: "David Pearsall", Role: "Activity & Content Designer / Assistant Developer"},
+					{Name: "Jeremy Goodger", Role: "Integration & Deployment / Assistant Developer"},
+					{Name: "Cody Perkins", Role: "UI/UX Designer"},
+					{Name: "Taylor Campbell", Role: "UI/UX Designer & Testing Lead"},
 				},
 			},
 			{
