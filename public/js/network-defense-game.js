@@ -314,7 +314,8 @@
    */
   let gridEl, waveLabelEl, creditsLabelEl, launchBtn, selectedInfoEl, upcomingPreviewEl;
   let integrityTextEl, integrityBarEl, threatTextEl, threatBarEl, eventLogEl;
-  let instructionsModal, beginBtn, resultModal, resultTitleEl, resultMessageEl, resultBtn;
+  let introModal, introContinueBtn, introSkipEl, instructionsModal, beginBtn;
+  let resultModal, resultTitleEl, resultMessageEl, resultBtn;
   let waveSummaryModal, waveSummaryListEl, waveSummaryContinueBtn;
 
   const towerButtons = new Map(); // towerId -> button element
@@ -527,7 +528,7 @@
     resultMessageEl.textContent = won
       ? "All waves neutralised. Metacortex's network held the line."
       : "Network integrity reached zero. The intrusion broke through.";
-    resultBtn.textContent = won ? "Play again" : "Try again";
+    resultBtn.textContent = won ? "Continue" : "Try again";
     resultModal.hidden = false;
   }
 
@@ -726,6 +727,108 @@
 
   /*
    * ------------------------------------------------------------------------
+   * INTRO TYPEWRITER
+   * ------------------------------------------------------------------------
+   * Matches the shared modal typewriter (public/js/modal-typewriter.js) - same
+   * 20ms cadence and blinking caret - but that script drives a single
+   * `.modal__text` inside a `.modal`, and this modal is three paragraphs in
+   * this game's own markup. Giving the overlay a `.modal` class to reuse it
+   * would drag in that component's positioning and dialog styles on top of
+   * this game's, so the cadence is shared by constant rather than by code.
+   */
+  const INTRO_TYPE_SPEED_MS = 20;
+  const INTRO_TYPING_CLASS = "network-defense-intro__line--typing";
+
+  let introTimer = null;
+  let introFinished = false;
+  let introSkipKeyHandler = null;
+
+  // Releases the interval and the document-level key listener. Called both when
+  // the text finishes and when a boosted swap takes the page away mid-type -
+  // otherwise either would outlive the page, against a detached modal.
+  function stopIntroTyping() {
+    if (introTimer) {
+      clearInterval(introTimer);
+      introTimer = null;
+    }
+    if (introSkipKeyHandler) {
+      document.removeEventListener("keydown", introSkipKeyHandler);
+      introSkipKeyHandler = null;
+    }
+  }
+
+  // Fills in everything at once and hands control back to the player. Safe to
+  // call twice - skipping and finishing naturally both land here.
+  function finishIntroTyping(lines) {
+    if (introFinished) return;
+    introFinished = true;
+    stopIntroTyping();
+    for (const line of lines) {
+      line.textContent = line.dataset.fullText;
+      line.classList.remove(INTRO_TYPING_CLASS);
+    }
+    introContinueBtn.disabled = false;
+    if (introSkipEl) introSkipEl.hidden = true;
+  }
+
+  function startIntroTyping() {
+    const lines = Array.from(introModal.querySelectorAll(".network-defense-intro__line"));
+    if (!lines.length) return;
+
+    // Collapse the source indentation in the template down to single spaces so
+    // the typed-out text doesn't stutter through runs of whitespace.
+    for (const line of lines) {
+      line.dataset.fullText = line.textContent.replace(/\s+/g, " ").trim();
+    }
+
+    // Respect a reduced-motion preference, and don't trap a screen reader
+    // behind three paragraphs being spelled out one character at a time.
+    const reduceMotion =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      finishIntroTyping(lines);
+      return;
+    }
+
+    for (const line of lines) line.textContent = "";
+    introContinueBtn.disabled = true;
+    if (introSkipEl) introSkipEl.hidden = false;
+
+    let lineIndex = 0;
+    let charIndex = 0;
+    lines[0].classList.add(INTRO_TYPING_CLASS);
+
+    introTimer = setInterval(() => {
+      const line = lines[lineIndex];
+      const full = line.dataset.fullText;
+      if (charIndex < full.length) {
+        charIndex += 1;
+        line.textContent = full.slice(0, charIndex);
+        return;
+      }
+      line.classList.remove(INTRO_TYPING_CLASS);
+      lineIndex += 1;
+      charIndex = 0;
+      if (lineIndex >= lines.length) {
+        finishIntroTyping(lines);
+        return;
+      }
+      lines[lineIndex].classList.add(INTRO_TYPING_CLASS);
+    }, INTRO_TYPE_SPEED_MS);
+
+    // Anywhere on the modal, or any of the obvious "get on with it" keys.
+    introModal.addEventListener("click", () => finishIntroTyping(lines));
+    introSkipKeyHandler = (e) => {
+      if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+        e.preventDefault();
+        finishIntroTyping(lines);
+      }
+    };
+    document.addEventListener("keydown", introSkipKeyHandler);
+  }
+
+  /*
+   * ------------------------------------------------------------------------
    * INITIALISATION
    * ------------------------------------------------------------------------
    */
@@ -773,9 +876,9 @@
         ";background-image:url(" +
         def.icon +
         ')"></span>' +
-        "<span>" +
+        "<span><strong>" +
         def.name +
-        " - stopped by " +
+        "</strong> - stopped by " +
         (counterTower ? counterTower.name : "nothing yet") +
         "</span>";
       list.appendChild(li);
@@ -822,6 +925,9 @@
     threatTextEl = document.getElementById("nd-threat-text");
     threatBarEl = document.getElementById("nd-threat-bar");
     eventLogEl = document.getElementById("nd-event-log");
+    introModal = document.getElementById("nd-intro-modal");
+    introContinueBtn = document.getElementById("nd-intro-continue");
+    introSkipEl = document.getElementById("nd-intro-skip");
     instructionsModal = document.getElementById("nd-instructions-modal");
     beginBtn = document.getElementById("nd-begin-button");
     resultModal = document.getElementById("nd-result-modal");
@@ -835,16 +941,24 @@
     buildTowerList();
     buildThreatLegend();
     buildGrid();
+    startIntroTyping();
 
     launchBtn.addEventListener("click", launchWave);
+    introContinueBtn.addEventListener("click", () => {
+      introModal.hidden = true;
+      instructionsModal.hidden = false;
+    });
     beginBtn.addEventListener("click", () => {
       instructionsModal.hidden = true;
       logEvent("Operation started. Deploy defenses, then launch the first wave.");
     });
     resultBtn.addEventListener("click", () => {
-      // Winning should hand the player back to chapter-select rather than
-      // restarting this same game - only a loss's "Try again" should replay it.
-      window.location.href = state.status === "won" ? "/chapter-select" : "/network-defense";
+      // A win continues the story into this game's "What have we learned" page
+      // (the route is /whwl/network-defense - American spelling, matching this
+      // game's own route, even though the templ and component say "defence").
+      // Only a loss's "Try again" replays the game.
+      window.location.href =
+        state.status === "won" ? "/whwl/network-defense" : "/network-defense";
     });
     waveSummaryContinueBtn.addEventListener("click", () => {
       waveSummaryModal.hidden = true;
@@ -879,5 +993,12 @@
   // into the page, and without it each visit would leave another listener
   // bound to a dead closure on a document that never unloads. One swap away
   // is the end of this execution's life, so the listener retires with it.
-  document.addEventListener("htmx:beforeSwap", stopTickTimer, { once: true });
+  document.addEventListener(
+    "htmx:beforeSwap",
+    () => {
+      stopTickTimer();
+      stopIntroTyping();
+    },
+    { once: true }
+  );
 })();
