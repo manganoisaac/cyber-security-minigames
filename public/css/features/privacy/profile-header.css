@@ -1,0 +1,106 @@
+/* Colours, font and shapes come from the .privacy tokens (privacy.css). */
+.profile-header {
+  --profile-header-cover-height: 7.5rem;
+  --profile-header-avatar-size: 5.5rem;
+  --profile-header-avatar-ring: 4px;
+
+  flex: none;
+  overflow: hidden;
+  padding-bottom: var(--size-l);
+
+  border: var(--privacy-border-width) solid var(--privacy-border);
+  border-radius: var(--privacy-radius);
+  background: var(--privacy-surface);
+}
+
+.profile-header__cover {
+  height: var(--profile-header-cover-height);
+
+  background: linear-gradient(
+    120deg,
+    var(--privacy-brand),
+    var(--privacy-brand-alt)
+  );
+}
+
+/* Avatar overlaps the bottom of the cover by half its height; the Follow
+   button sits level with the avatar's lower half. */
+.profile-header__main {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-top: calc(var(--profile-header-avatar-size) / -2);
+  padding: 0 var(--size-l);
+}
+
+.profile-header__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: var(--profile-header-avatar-size);
+  height: var(--profile-header-avatar-size);
+
+  border: var(--profile-header-avatar-ring) solid var(--privacy-surface);
+  border-radius: 50%;
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-3xl);
+
+  color: var(--privacy-text);
+}
+
+.profile-header__follow {
+  padding: var(--size-s) var(--size-xl);
+
+  border-radius: var(--privacy-pill-radius);
+  background: var(--privacy-text);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+
+  color: var(--privacy-app-bg);
+}
+
+.profile-header__name {
+  margin-top: var(--size-s);
+  padding: 0 var(--size-l);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-xl);
+  font-weight: normal;
+
+  color: var(--privacy-text);
+}
+
+.profile-header__handle {
+  padding: 0 var(--size-l);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+
+  color: var(--privacy-text-muted);
+}
+
+.profile-header__stats {
+  display: flex;
+  gap: var(--size-l);
+
+  padding: var(--size-s) var(--size-l) 0;
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+
+  color: var(--privacy-text-muted);
+}
+
+.profile-header__stat-value {
+  font-family: var(--privacy-font);
+  font-weight: normal;
+
+  color: var(--privacy-text);
+}

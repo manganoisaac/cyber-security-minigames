@@ -1,0 +1,182 @@
+/* Colours, font and shapes come from the .privacy tokens (privacy.css). */
+.post-item {
+  --post-item-avatar-size: 2.75rem;
+  --post-item-icon-size: 1.1rem;
+  --post-item-focus-ring: 2px;
+  --post-item-press-scale: 0.99;
+  --post-item-transition: 0.15s ease;
+  --post-item-collect-duration: 0.5s;
+
+  display: grid;
+  flex: none;
+  grid-template-columns: var(--post-item-avatar-size) minmax(0, 1fr);
+  column-gap: var(--size-m);
+
+  padding: var(--size-l);
+
+  border: var(--privacy-border-width) solid var(--privacy-border);
+  border-radius: var(--privacy-radius);
+  background: var(--privacy-surface);
+
+  cursor: pointer;
+  transition:
+    background var(--post-item-transition),
+    border-color var(--post-item-transition);
+}
+
+.post-item:hover {
+  background: var(--privacy-surface-hover);
+}
+
+.post-item:active {
+  transform: scale(var(--post-item-press-scale));
+}
+
+.post-item:focus-visible {
+  outline: var(--post-item-focus-ring) solid var(--privacy-brand);
+  outline-offset: var(--post-item-focus-ring);
+}
+
+/* Collected posts pick up the Clues Found panel's green, so the player can
+   see at a glance which posts are already in their notes. The glow plays
+   once, as the collected card is swapped in. */
+.post-item--collected,
+.post-item--collected:hover {
+  border-color: var(--privacy-clue);
+  background:
+    linear-gradient(var(--privacy-clue-surface), var(--privacy-clue-surface)),
+    var(--privacy-surface);
+
+  animation: post-item-collect var(--post-item-collect-duration) ease-out;
+}
+
+@keyframes post-item-collect {
+  from {
+    box-shadow: 0 0 var(--size-xl) var(--privacy-clue-glow);
+  }
+
+  to {
+    box-shadow: none;
+  }
+}
+
+/* Sits above the avatar/body row, lined up with the post text. */
+.post-item__context {
+  grid-column: 2;
+  margin-bottom: var(--size-xs);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-s);
+  font-weight: normal;
+
+  color: var(--privacy-text-muted);
+}
+
+.post-item__avatar {
+  display: flex;
+  grid-column: 1;
+  align-items: center;
+  justify-content: center;
+
+  width: var(--post-item-avatar-size);
+  height: var(--post-item-avatar-size);
+
+  border-radius: 50%;
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-l);
+
+  color: var(--privacy-text);
+}
+
+.post-item__body {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+  gap: var(--size-s);
+
+  min-width: 0;
+}
+
+.post-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--size-s);
+}
+
+.post-item__author {
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+
+  color: var(--privacy-text);
+}
+
+.post-item__handle {
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+
+  color: var(--privacy-text-muted);
+}
+
+.post-item__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-xs);
+
+  margin-left: auto;
+  padding: var(--size-xs) var(--size-s);
+
+  border: var(--privacy-border-width) solid var(--privacy-clue);
+  border-radius: var(--privacy-pill-radius);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-s);
+
+  color: var(--privacy-clue);
+}
+
+.post-item__content {
+  font-family: var(--privacy-font);
+  font-size: var(--size-l);
+  font-weight: normal;
+  line-height: var(--privacy-line-height);
+
+  color: var(--privacy-text);
+}
+
+.post-item__actions {
+  display: flex;
+  gap: var(--size-3xl);
+
+  margin-top: var(--size-xs);
+
+  color: var(--privacy-text-muted);
+}
+
+.post-item__action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-xs);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-s);
+}
+
+.post-item__icon {
+  flex: none;
+
+  width: var(--post-item-icon-size);
+  height: var(--post-item-icon-size);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-item--collected,
+  .post-item--collected:hover {
+    animation: none;
+  }
+
+  .post-item:active {
+    transform: none;
+  }
+}

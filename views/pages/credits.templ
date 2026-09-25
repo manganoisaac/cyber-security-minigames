@@ -54,15 +54,20 @@ templ CreditsPage(credits types.CreditsData) {
 						</section>
 					}
 
-					<section class="credits__thanks">
-						<h2 class="credits__thanks-heading">{ credits.ThanksHeading }</h2>
+					<!-- The finale is one screen tall and is where the roll comes
+					     to rest, so the thank-you ends centred on its own with
+					     everything above it scrolled off. -->
+					<div class="credits__finale">
+						<section class="credits__thanks">
+							<h2 class="credits__thanks-heading">{ credits.ThanksHeading }</h2>
 
-						for _, paragraph := range credits.ThanksParagraphs {
-							<p class="credits__thanks-text">{ paragraph }</p>
-						}
-					</section>
+							for _, paragraph := range credits.ThanksParagraphs {
+								<p class="credits__thanks-text">{ paragraph }</p>
+							}
+						</section>
 
-					<p class="credits__signoff">{ credits.SignOff }</p>
+						<p class="credits__signoff">{ credits.SignOff }</p>
+					</div>
 				</div>
 
 				<div class="credits__scanlines" aria-hidden="true"></div>

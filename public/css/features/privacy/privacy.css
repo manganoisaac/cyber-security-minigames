@@ -1,0 +1,140 @@
+.privacy {
+  /* Type. The landing screen's menu font (landing-cyber.css), so the game's
+     text matches START INVESTIGATION / CHAPTER SELECT. It only ships a bold
+     cut, so every rule that uses it sets font-weight: normal to stop the
+     browser faux-bolding it again. themes.css sets h1/h2/p to Pixelify Sans,
+     so each rule in this game names the font explicitly. */
+  --privacy-font: "Pixel Operator Bold", "Pixelify Sans", monospace;
+
+  /* SnapTrail's palette - a dark-mode social app. */
+  --privacy-app-bg: #0d1117;
+  --privacy-surface: #151b23;
+  --privacy-surface-hover: #1b2330;
+  --privacy-border: #283241;
+  --privacy-text: #e6edf3;
+  --privacy-text-muted: #8b98a8;
+  --privacy-brand: #6d8dff;
+  --privacy-brand-alt: #b66dff;
+  --privacy-app-glow: rgba(109, 141, 255, 0.12);
+
+  /* The player's notes, in the landing screen's terminal green, so they
+     read as the investigator's tool rather than part of SnapTrail. */
+  --privacy-clue: #2bff9c;
+  --privacy-clue-soft: #87f7aa;
+  --privacy-clue-dim: #5fbd87;
+  --privacy-clue-rule: #3d7a5a;
+  --privacy-clue-surface: rgba(43, 255, 156, 0.08);
+  --privacy-clue-glow: rgba(43, 255, 156, 0.18);
+  --privacy-terminal: #040806;
+
+  /* Shared shapes. */
+  --privacy-radius: 16px;
+  --privacy-pill-radius: 999px;
+  --privacy-border-width: 1px;
+  --privacy-line-height: 1.4;
+
+  /* Layout. The side gutters leave room for the shared back button
+     (ui.BackButton, 110px wide plus its 2rem margin), which sits in the
+     top-left corner of the page outside the app window. */
+  --privacy-gutter: 10rem;
+  --privacy-app-max-width: 72rem;
+  --privacy-topbar-height: 4rem;
+  --privacy-nav-underline: 2px;
+  --privacy-clues-width: 22rem;
+  /* Below this width the gutters would squeeze the feed, so the app moves
+     down under the back button instead (see the media query at the end). */
+  --privacy-back-clearance: 8.5rem;
+
+  display: flex;
+  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  padding: var(--size-3xl) var(--privacy-gutter);
+
+  background: var(--page-bg);
+}
+
+/* The SnapTrail web app, drawn as a window on the page. */
+.privacy__app {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: var(--privacy-app-max-width);
+  height: 100%;
+  overflow: hidden;
+
+  border: var(--privacy-border-width) solid var(--privacy-border);
+  border-radius: var(--privacy-radius);
+  background: var(--privacy-app-bg);
+  box-shadow: 0 0 var(--size-3xl) var(--privacy-app-glow);
+}
+
+.privacy__topbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--size-3xl);
+
+  height: var(--privacy-topbar-height);
+  padding: 0 var(--size-xl);
+
+  border-bottom: var(--privacy-border-width) solid var(--privacy-border);
+  background: var(--privacy-surface);
+}
+
+.privacy__logo {
+  font-family: var(--privacy-font);
+  font-size: var(--size-3xl);
+  font-weight: normal;
+
+  background: linear-gradient(
+    90deg,
+    var(--privacy-brand),
+    var(--privacy-brand-alt)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.privacy__nav {
+  display: flex;
+  gap: var(--size-xl);
+  margin-left: auto;
+}
+
+.privacy__nav-item {
+  padding: var(--size-xs) 0;
+
+  border-bottom: var(--privacy-nav-underline) solid transparent;
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+
+  color: var(--privacy-text-muted);
+}
+
+.privacy__nav-item--active {
+  border-bottom-color: var(--privacy-brand);
+  color: var(--privacy-text);
+}
+
+.privacy__body {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) var(--privacy-clues-width);
+  gap: var(--size-xl);
+
+  min-height: 0;
+  padding: var(--size-xl);
+}
+
+@media (max-width: 1200px) {
+  .privacy {
+    padding: var(--privacy-back-clearance) var(--size-m) var(--size-m);
+  }
+}

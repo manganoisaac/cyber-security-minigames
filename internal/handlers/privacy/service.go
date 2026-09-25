@@ -2,7 +2,6 @@ package privacy
 
 import (
 	"cyber-security-minigames/data"
-	"cyber-security-minigames/types"
 	"cyber-security-minigames/utils/privacyutils"
 	"cyber-security-minigames/views/components/privacy"
 	"cyber-security-minigames/views/components/ui"
@@ -37,7 +36,7 @@ func PrivacyService() IPrivacyService {
 func (s *Service) Page(st IPrivacyGameState) templ.Component {
 	posts := st.Posts()
 	postData := privacyutils.PostDataToUI(posts)
-	return pages.PrivacyPage(postData.Posts, postData.Clues, data.PrivacyIntro)
+	return pages.PrivacyPage(data.PrivacyProfile, postData.Posts, postData.Clues, data.PrivacyIntro)
 }
 
 // Instructions renders just the instructions modal shown after the player
@@ -48,19 +47,11 @@ func (s *Service) Instructions(st IPrivacyGameState) templ.Component {
 
 func (s *Service) ClickPost(id int, st IPrivacyGameState) []templ.Component {
 	post := st.ClickPost(id)
-	postUI := types.PostUI{
-		Id:      post.Id,
-		Author:  post.Author,
-		Content: post.Content,
-	}
-	if post.Clue != nil {
-		postUI.AddedToFolder = post.Clue.AddedToFolder
-	}
 
 	posts := st.Posts()
 	privacyUI := privacyutils.PostDataToUI(posts)
 	components := []templ.Component{
-		privacy.PostItem(postUI),
+		privacy.PostItem(privacyutils.PostToUI(post)),
 		privacy.ClueList(privacyUI.Clues, true),
 	}
 	if st.AllCluesFound(len(privacyUI.Clues)) {

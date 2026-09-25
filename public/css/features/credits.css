@@ -37,11 +37,21 @@
   --credits-group-gap: 0.85rem;
   --credits-section-gap: 5.5rem;
   --credits-lead-in: 100vh;
-  /* Where the roll comes to rest. The animation stops with the bottom of the
-     roll at this height, so the last line ("STAY SAFE OUT THERE") is still on
-     screen when it finishes, rather than the roll carrying on past the top
-     and leaving the player on a blank page. */
-  --credits-rest: 68vh;
+  /* The finale (thank-you + sign-off) is one screen tall with its content
+     centred, and the roll comes to rest with its bottom at the bottom of the
+     screen. So when the roll stops the finale exactly fills the screen, the
+     thank-you sits in the middle, and everything above it is off the top. */
+  --credits-finale-height: 100vh;
+  --credits-rest: var(--credits-finale-height);
+  /* Extra space before the finale, on top of the usual section gap. With
+     the finale's own centring this leaves close to a full screen of black
+     between the last name and the thank-you, so the ending reads as its
+     own moment rather than the next item in the list. */
+  --credits-finale-gap: 40vh;
+  /* The roll moves at a constant speed until the finale is this far from its
+     resting place, then slows to a stop over that distance instead of
+     halting dead. */
+  --credits-settle: 12vh;
   --credits-line-height: 1.45;
   --credits-title-tracking: -0.04em;
   --credits-heading-tracking: 0.32em;
@@ -59,8 +69,17 @@
 
   /* Roll timing. The animation runs for a fixed duration, so the roll moves
      faster as content grows. Adding a handful of names is fine; if the list
-     ever doubles, raise this to keep the reading pace. */
-  --credits-roll-duration: 58s;
+     ever doubles, raise this to keep the reading pace. Tuned for ~48px/s on
+     a 1440x900 screen.
+
+     The settle has to start at the speed the roll is already moving or the
+     hand-over shows as a jolt. --credits-settle-easing is a constant
+     deceleration whose starting speed is twice its average, so the settle
+     should last 2 x settle distance / roll speed: 2 x 108px / 48px/s is
+     ~4.5s. Change the roll speed and this wants recalculating to match. */
+  --credits-roll-duration: 50s;
+  --credits-settle-duration: 4.5s;
+  --credits-settle-easing: cubic-bezier(0.333, 0.667, 0.667, 1);
   --credits-flicker-duration: 6.5s;
   --credits-reveal-delay: 1.2s;
   --credits-reveal-duration: 0.6s;
@@ -100,18 +119,35 @@
 
   text-align: center;
 
-  /* Starts one screen below the fold. `forwards` holds the final frame so the
-     sign-off stays put once the roll finishes. */
-  animation: credits-roll var(--credits-roll-duration) linear forwards;
+  /* Starts one screen below the fold. Two animations on the same transform:
+     the steady roll, then the settle, which starts as the roll ends (its
+     delay is the roll's duration) and takes over because it comes later in
+     the list. `forwards` on both holds the final frame so the finale stays
+     put once the roll finishes. */
+  animation:
+    credits-roll var(--credits-roll-duration) linear forwards,
+    credits-settle var(--credits-settle-duration) var(--credits-settle-easing)
+      var(--credits-roll-duration) forwards;
+
+  /* Only the words pause the roll (see the :hover rule below), so the roll
+     box itself - which spans the gaps between sections and the whole
+     screen-tall finale - is not a hover target. */
+  pointer-events: none;
+}
+
+.credits__roll :is(h1, h2, p, li) {
+  pointer-events: auto;
 }
 
 /* A player who wants to read a name should be able to stop on it.
-   Deliberately scoped to the roll and not to .credits__viewport: the viewport
-   is inset:0, so hovering it means hovering anywhere on the page, which would
-   leave the roll paused for good on a machine whose cursor just happens to
-   sit over the window - exactly the case on the exhibit. Hovering the text
-   itself is the intent we actually want, and once it pauses the text stops
-   under the cursor, so it stays paused until the cursor leaves.
+   Deliberately scoped to the roll's text and not to .credits__viewport: the
+   viewport is inset:0, so hovering it means hovering anywhere on the page,
+   and the finale fills the screen, so hovering it would be the same. Either
+   would pause the roll whenever the mouse happened to move - exactly the
+   case on the exhibit. Hovering the text itself is the intent we actually
+   want, and once it pauses the text stops under the cursor, so it stays
+   paused until the cursor leaves. animation-play-state applies to both the
+   roll and the settle, and a paused roll also holds the settle's delay.
    :focus-within covers any focusable element added to the roll later. */
 .credits__roll:hover,
 .credits__roll:focus-within {
@@ -121,6 +157,20 @@
 @keyframes credits-roll {
   from {
     transform: translateY(var(--credits-lead-in));
+  }
+
+  to {
+    transform: translateY(
+      calc(var(--credits-rest) - 100% + var(--credits-settle))
+    );
+  }
+}
+
+@keyframes credits-settle {
+  from {
+    transform: translateY(
+      calc(var(--credits-rest) - 100% + var(--credits-settle))
+    );
   }
 
   to {
@@ -311,6 +361,17 @@
 /* ---------------------------------------------------------
    THANKS + SIGN-OFF
 --------------------------------------------------------- */
+
+.credits__finale {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--credits-section-gap) / 2);
+
+  min-height: var(--credits-finale-height);
+  margin-top: var(--credits-finale-gap);
+}
 
 .credits__thanks {
   display: flex;
@@ -515,6 +576,13 @@
 
     transform: none;
     animation: none;
+  }
+
+  /* The screen-tall finale and the gap before it only exist to frame the
+     roll's resting place; in a plain scrolling column they're dead space. */
+  .credits__finale {
+    min-height: auto;
+    margin-top: 0;
   }
 
   .credits__title::after,

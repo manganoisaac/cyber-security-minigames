@@ -1,0 +1,26 @@
+package privacy
+
+import "cyber-security-minigames/types"
+import "cyber-security-minigames/utils/avatar"
+import "strconv"
+
+// ProfileHeader is the top of the profile page: cover banner, avatar, name,
+// handle and follower counts. The Follow button is scenery, like the top bar.
+templ ProfileHeader(profile types.SocialProfile, postCount int) {
+	<header class="profile-header">
+		<div class="profile-header__cover"></div>
+		<div class="profile-header__main">
+			<div class="profile-header__avatar" style={ "background: " + avatar.Color(profile.Name) }>
+				{ avatar.Letter(profile.Name) }
+			</div>
+			<span class="profile-header__follow" aria-hidden="true">Follow</span>
+		</div>
+		<h2 class="profile-header__name">{ profile.Name }</h2>
+		<p class="profile-header__handle">{ profile.Handle }</p>
+		<p class="profile-header__stats">
+			<span><b class="profile-header__stat-value">{ strconv.Itoa(postCount) }</b> Posts</span>
+			<span><b class="profile-header__stat-value">{ profile.Followers }</b> Followers</span>
+			<span><b class="profile-header__stat-value">{ profile.Following }</b> Following</span>
+		</p>
+	</header>
+}

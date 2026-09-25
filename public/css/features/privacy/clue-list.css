@@ -1,0 +1,74 @@
+/* Colours, font and shapes come from the .privacy tokens (privacy.css).
+   The terminal look is deliberately not SnapTrail's: these are the player's
+   notes, not part of the profile they're reading. */
+.clue-list {
+  --clue-list-heading-tracking: 0.08em;
+  --clue-list-key-tracking: 0.12em;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-l);
+
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--size-l);
+
+  border: var(--privacy-border-width) solid var(--privacy-clue-rule);
+  border-radius: var(--privacy-radius);
+  background: var(--privacy-terminal);
+  box-shadow: inset 0 0 var(--size-3xl) var(--privacy-clue-surface);
+
+  scrollbar-color: var(--privacy-clue-rule) transparent;
+  scrollbar-width: thin;
+}
+
+.clue-list__heading {
+  font-family: var(--privacy-font);
+  font-size: var(--size-xl);
+  font-weight: normal;
+  letter-spacing: var(--clue-list-heading-tracking);
+  text-align: center;
+
+  color: var(--privacy-clue);
+  text-shadow: 0 0 var(--size-s) var(--privacy-clue-glow);
+}
+
+.clue-list__empty {
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+  line-height: var(--privacy-line-height);
+
+  color: var(--privacy-clue-dim);
+}
+
+.clue-list__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-m);
+}
+
+.clue-list__item {
+  padding-bottom: var(--size-m);
+
+  border-bottom: var(--privacy-border-width) dashed var(--privacy-clue-rule);
+}
+
+.clue-list__key {
+  font-family: var(--privacy-font);
+  font-size: var(--size-s);
+  letter-spacing: var(--clue-list-key-tracking);
+  text-transform: uppercase;
+
+  color: var(--privacy-clue-dim);
+}
+
+.clue-list__value {
+  margin-top: var(--size-xs);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  line-height: var(--privacy-line-height);
+
+  color: var(--privacy-clue-soft);
+}

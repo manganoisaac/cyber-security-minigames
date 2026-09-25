@@ -23,7 +23,11 @@
 @import "./features/password/level-2.css";
 @import "./features/encryption/encryption.css";
 @import "./features/network-defense/network-defense.css";
-@import "./features/privacy/main.css";
+@import "./features/privacy/privacy.css";
+@import "./features/privacy/profile-header.css";
+@import "./features/privacy/post-list.css";
+@import "./features/privacy/post-item.css";
+@import "./features/privacy/clue-list.css";
 @import "./features/digital-investigation/digital-investigation.css";
 @import "./components/what-have-we-learned.css";
 @import "./components/case-closed.css";
