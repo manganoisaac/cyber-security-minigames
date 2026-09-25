@@ -50,7 +50,7 @@ func CreditsPage(credits types.CreditsData) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"credits\"><!-- The roll and the scanline overlay are siblings inside the\n\t\t\t     viewport so the overlay stays put while the roll moves under\n\t\t\t     it. The viewport is what clips the roll; the roll itself is\n\t\t\t     taller than the screen. --><div class=\"credits__viewport\"><div class=\"credits__roll\"><header class=\"credits__titles\"><h1 class=\"credits__title\" data-text=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"credits\"><!-- The roll and the scanline overlay are siblings inside the\r\n\t\t\t     viewport so the overlay stays put while the roll moves under\r\n\t\t\t     it. The viewport is what clips the roll; the roll itself is\r\n\t\t\t     taller than the screen. --><div class=\"credits__viewport\"><div class=\"credits__roll\"><header class=\"credits__titles\"><h1 class=\"credits__title\" data-text=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -197,14 +197,14 @@ func CreditsPage(credits types.CreditsData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<section class=\"credits__thanks\"><h2 class=\"credits__thanks-heading\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<!-- The finale is one screen tall and is where the roll comes\r\n\t\t\t\t\t     to rest, so the thank-you ends centred on its own with\r\n\t\t\t\t\t     everything above it scrolled off. --><div class=\"credits__finale\"><section class=\"credits__thanks\"><h2 class=\"credits__thanks-heading\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(credits.ThanksHeading)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 58, Col: 65}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 62, Col: 66}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -222,7 +222,7 @@ func CreditsPage(credits types.CreditsData) templ.Component {
 				var templ_7745c5c3_Var13 string
 				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(paragraph)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 61, Col: 50}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 65, Col: 51}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
@@ -240,20 +240,20 @@ func CreditsPage(credits types.CreditsData) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(credits.SignOff)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 65, Col: 50}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 69, Col: 51}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</p></div><div class=\"credits__scanlines\" aria-hidden=\"true\"></div></div><!-- Outside the viewport so it never scrolls away: a player who\n\t\t\t     has seen enough should always have a way out. --><a class=\"credits__return\" href=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</p></div></div><div class=\"credits__scanlines\" aria-hidden=\"true\"></div></div><!-- Outside the viewport so it never scrolls away: a player who\r\n\t\t\t     has seen enough should always have a way out. --><a class=\"credits__return\" href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var15 templ.SafeURL
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(credits.ReturnHref))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 73, Col: 70}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 78, Col: 70}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
@@ -266,7 +266,7 @@ func CreditsPage(credits types.CreditsData) templ.Component {
 			var templ_7745c5c3_Var16 string
 			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(credits.ReturnLabel)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 74, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/pages/credits.templ`, Line: 79, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 			if templ_7745c5c3_Err != nil {
