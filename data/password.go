@@ -10,6 +10,10 @@ characters lock in green, wrong ones turn red.
 Good luck, Detective. It won't take much digging to prove that personal
 information makes for lousy passwords`
 
+// PasswordIntro is the pre-instruction overview shown before
+// PasswordInstructions. It frames what the player is about to learn.
+const PasswordIntro = "Passwords & Social Engineering - Most people build their passwords from things that matter to them: a pet's name, a birthday, a favourite number. That makes them easy to remember, and just as easy to guess. Eugene's computer is locked, and everything needed to get in is somewhere in his office. Search the room for personal details, and see how quickly they add up to a password."
+
 // PasswordWinMessage is shown when the player guesses every phrase correctly.
 const PasswordWinMessage = "Well done! You cracked every phrase."
 

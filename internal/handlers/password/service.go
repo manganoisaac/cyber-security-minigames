@@ -50,13 +50,13 @@ func PasswordService() IPasswordService {
 }
 
 func (s *Service) Instructions(st IPasswordGameState) templ.Component {
-	return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), "test instructions", false)
+	return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), data.InstructionsForPassword(), false)
 }
 
 func (s *Service) Page(st IPasswordGameState) templ.Component {
 	if st.Level() == 1 {
 
-		return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), "test overview", true)
+		return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), data.PasswordIntro, true)
 	} else {
 		return pages.PasswordLevel2Page(
 			// data.PasswordPhrases,
