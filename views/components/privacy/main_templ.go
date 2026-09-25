@@ -11,7 +11,11 @@ import templruntime "github.com/a-h/templ/runtime"
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/views/components/ui"
 
-func Main(posts []types.PostUI, clues []types.ClueUI, intro string) templ.Component {
+// Main lays the game out as the SnapTrail web app: the profile feed the
+// player reads through, with their Clues Found notes alongside it. The app's
+// top bar is scenery - nothing in it is clickable - so the posts stay the
+// only thing on the page that does anything.
+func Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, intro string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -32,11 +36,19 @@ func Main(posts []types.PostUI, clues []types.ClueUI, intro string) templ.Compon
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"privacy__container\"><a class=\"password__back-arrow\" href=\"/\">Back</a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"privacy\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = PostList(posts).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ui.BackButton().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"privacy__app\"><header class=\"privacy__topbar\"><span class=\"privacy__logo\">SnapTrail</span><div class=\"privacy__nav\" aria-hidden=\"true\"><span class=\"privacy__nav-item\">Home</span> <span class=\"privacy__nav-item\">Explore</span> <span class=\"privacy__nav-item\">Notifications</span> <span class=\"privacy__nav-item\">Messages</span> <span class=\"privacy__nav-item privacy__nav-item--active\">Profile</span></div></header><div class=\"privacy__body\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = PostList(profile, posts).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -44,7 +56,7 @@ func Main(posts []types.PostUI, clues []types.ClueUI, intro string) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><div id=\"modal-root\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div></div><div id=\"modal-root\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -52,7 +64,7 @@ func Main(posts []types.PostUI, clues []types.ClueUI, intro string) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -4,21 +4,64 @@ import "cyber-security-minigames/types"
 import "strconv"
 import "cyber-security-minigames/utils/avatar"
 
+// PostItem is one post in the feed. The whole card is the click target that
+// collects it; the comment/share/like row is scenery, so the counts read like
+// a real feed without giving the player a second thing to click.
 templ PostItem(post types.PostUI) {
-	<div
-		class={ "privacy__post-item--container", templ.KV("clicked", post.AddedToFolder) }
+	<article
+		class={ "post-item", templ.KV("post-item--collected", post.AddedToFolder) }
 		hx-post={ "/privacy/clickpost/" + strconv.Itoa(post.Id) }
+		hx-trigger="click, keyup[key=='Enter']"
 		hx-swap="outerHTML"
+		role="button"
+		tabindex="0"
 	>
-		<div class="privacy__post-item--avatar" style={ "background: " + avatar.Color(strconv.Itoa(post.Id)) }>
-			<h3>{ avatar.Letter(post.Author) }</h3>
-		</div>
-		<div class={ "privacy__post-item--centre" }>
-			<h2 class="privacy__post-item--author">{ post.Author }</h2>
-			<p class="privacy__post-item--content">{ post.Content }</p>
-		</div>
-		if post.AddedToFolder == true {
-			<p>&#10004</p>
+		if post.Context != "" {
+			<p class="post-item__context">{ post.Context }</p>
 		}
-	</div>
+		<div class="post-item__avatar" style={ "background: " + avatar.Color(post.Author) }>
+			{ avatar.Letter(post.Author) }
+		</div>
+		<div class="post-item__body">
+			<p class="post-item__meta">
+				<span class="post-item__author">{ post.Author }</span>
+				<span class="post-item__handle">{ post.Handle } · { post.Posted }</span>
+				if post.AddedToFolder {
+					<span class="post-item__badge">
+						@postIcon("M5 12l5 5L19 7")
+						Added to clues
+					</span>
+				}
+			</p>
+			<p class="post-item__content">{ post.Content }</p>
+			<div class="post-item__actions" aria-hidden="true">
+				<span class="post-item__action">
+					@postIcon("M4 5h16v11H9l-5 4z")
+					@postCount(post.Comments)
+				</span>
+				<span class="post-item__action">
+					@postIcon("M4 11V9a2 2 0 0 1 2-2h13M16 4l3 3-3 3M20 13v2a2 2 0 0 1-2 2H5M8 20l-3-3 3-3")
+					@postCount(post.Shares)
+				</span>
+				<span class="post-item__action">
+					@postIcon("M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z")
+					@postCount(post.Likes)
+				</span>
+			</div>
+		</div>
+	</article>
+}
+
+// postIcon draws a single-path line icon in the current text colour.
+templ postIcon(path string) {
+	<svg class="post-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<path d={ path }></path>
+	</svg>
+}
+
+// postCount shows a reaction count, left blank at zero the way feeds do.
+templ postCount(n int) {
+	if n > 0 {
+		<span>{ strconv.Itoa(n) }</span>
+	}
 }

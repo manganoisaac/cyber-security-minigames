@@ -2,11 +2,19 @@ package privacy
 
 import "cyber-security-minigames/types"
 
-templ PostList(posts []types.PostUI) {
-	<div class="privacy__post-list--container">
-		<h1 class="privacy__header">SnapTrailFeed</h1>
+// PostList is the feed column: the profile header, the profile's tabs, then
+// the posts. The whole column scrolls together, the way a profile page does.
+templ PostList(profile types.SocialProfile, posts []types.PostUI) {
+	<section class="post-list" aria-label={ profile.Name + "'s posts" }>
+		@ProfileHeader(profile, len(posts))
+		<div class="post-list__tabs" aria-hidden="true">
+			<span class="post-list__tab post-list__tab--active">Posts</span>
+			<span class="post-list__tab">Replies</span>
+			<span class="post-list__tab">Media</span>
+			<span class="post-list__tab">Likes</span>
+		</div>
 		for _, post := range posts {
 			@PostItem(post)
 		}
-	</div>
+	</section>
 }
