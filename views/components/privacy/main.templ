@@ -1,16 +1,15 @@
 package privacy
 
-import "cyber-security-minigames/data"
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/views/components/ui"
 
-templ Main(posts []types.PostUI, clues []types.ClueUI) {
+templ Main(posts []types.PostUI, clues []types.ClueUI, intro string) {
 	<div class="privacy__container">
 		<a class="password__back-arrow" href="/">Back</a>
 		@PostList(posts)
 		@ClueList(clues, false)
 	</div>
 	<div id="modal-root">
-		@ui.Modal(data.PrivacyInstructions, "", false)
+		@ui.ModalStep(intro, "/privacy/instructions")
 	</div>
 }

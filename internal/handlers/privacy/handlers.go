@@ -7,6 +7,7 @@ import (
 
 type IPrivacyHandler interface {
 	Page(w http.ResponseWriter, r *http.Request)
+	Instructions(w http.ResponseWriter, r *http.Request)
 	ClickPost(w http.ResponseWriter, r *http.Request)
 }
 
@@ -21,6 +22,10 @@ func NewHandler(svc IPrivacyService) IPrivacyHandler {
 func (h *privacyHandler) Page(w http.ResponseWriter, r *http.Request) {
 	h.svc.Page(stateForRequest(r)).Render(r.Context(), w)
 
+}
+
+func (h *privacyHandler) Instructions(w http.ResponseWriter, r *http.Request) {
+	h.svc.Instructions(stateForRequest(r)).Render(r.Context(), w)
 }
 
 func (h *privacyHandler) ClickPost(w http.ResponseWriter, r *http.Request) {

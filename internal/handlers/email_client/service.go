@@ -8,6 +8,7 @@ import (
 	"cyber-security-minigames/types"
 	"cyber-security-minigames/utils/emailtext"
 	"cyber-security-minigames/views/components/email"
+	"cyber-security-minigames/views/components/ui"
 	"cyber-security-minigames/views/pages"
 
 	"github.com/a-h/templ"
@@ -33,6 +34,7 @@ type checkResult struct {
 // returned components.
 type IEmailService interface {
 	Page(st IEmailGameState) templ.Component
+	Instructions(st IEmailGameState) templ.Component
 	Select(st IEmailGameState, em types.Email) []templ.Component
 	TogglePhrase(st IEmailGameState, em types.Email, phraseIdx int, sel bool) ([]templ.Component, error)
 	Submit(st IEmailGameState, em types.Email) submitResult
@@ -69,7 +71,17 @@ func (s *Service) Page(st IEmailGameState) templ.Component {
 		active, _, _ = data.PhishingEmail()
 		st.SetActiveEmail(active.ID)
 	}
-	return pages.EmailClientPage(data.Emails, active, st.SelectedPhrasesMap(active.ID), st.Level(), data.InstructionsForLevel(st.Level()), st.Revealed())
+	intro := ""
+	if st.Level() == 1 {
+		intro = data.InstructionsIntroLevel1
+	}
+	return pages.EmailClientPage(data.Emails, active, st.SelectedPhrasesMap(active.ID), st.Level(), intro, data.InstructionsForLevel(st.Level()), st.Revealed())
+}
+
+// Instructions renders just the instructions modal shown after the player
+// dismisses the pre-instruction overview. It is swapped into #modal-root.
+func (s *Service) Instructions(st IEmailGameState) templ.Component {
+	return ui.Modal(data.InstructionsForLevel(st.Level()), "", false)
 }
 
 func (s *Service) Select(st IEmailGameState, em types.Email) []templ.Component {

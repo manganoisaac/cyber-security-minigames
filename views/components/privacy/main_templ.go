@@ -8,11 +8,10 @@ package privacy
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "cyber-security-minigames/data"
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/views/components/ui"
 
-func Main(posts []types.PostUI, clues []types.ClueUI) templ.Component {
+func Main(posts []types.PostUI, clues []types.ClueUI, intro string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -49,7 +48,7 @@ func Main(posts []types.PostUI, clues []types.ClueUI) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = ui.Modal(data.PrivacyInstructions, "", false).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ui.ModalStep(intro, "/privacy/instructions").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

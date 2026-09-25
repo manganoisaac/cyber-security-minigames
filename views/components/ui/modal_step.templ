@@ -1,0 +1,16 @@
+package ui
+
+// ModalStep is a modal whose Okay button loads the next step into the existing
+// #modal-root, rather than navigating the whole page. Used for the
+// pre-instruction overview that leads into a game's instructions modal.
+templ ModalStep(message string, url string) {
+	<div class="modal">
+		<div class="modal__backdrop" aria-label="Close"></div>
+		<div class="modal__dialog" role="dialog" aria-modal="true">
+			<div class="modal__text-container">
+				<p class="modal__text">{ message }</p>
+			</div>
+			<button class="modal__button" hx-get={ url } hx-target="#modal-root" hx-swap="innerHTML">Okay</button>
+		</div>
+	</div>
+}

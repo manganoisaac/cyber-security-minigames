@@ -14,6 +14,7 @@ import (
 // IEmailHandler is the HTTP handler contract for the email minigame.
 type IEmailHandler interface {
 	Page(w http.ResponseWriter, r *http.Request)
+	Instructions(w http.ResponseWriter, r *http.Request)
 	Select(w http.ResponseWriter, r *http.Request)
 	Phrase(w http.ResponseWriter, r *http.Request)
 	Submit(w http.ResponseWriter, r *http.Request)
@@ -33,6 +34,10 @@ func NewHandler(svc IEmailService) IEmailHandler {
 
 func (h *emailHandler) Page(w http.ResponseWriter, r *http.Request) {
 	h.svc.Page(stateForRequest(r)).Render(r.Context(), w)
+}
+
+func (h *emailHandler) Instructions(w http.ResponseWriter, r *http.Request) {
+	h.svc.Instructions(stateForRequest(r)).Render(r.Context(), w)
 }
 
 func (h *emailHandler) Select(w http.ResponseWriter, r *http.Request) {

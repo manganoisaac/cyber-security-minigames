@@ -1,6 +1,7 @@
 package privacy
 
 import (
+	"cyber-security-minigames/data"
 	"cyber-security-minigames/types"
 	"cyber-security-minigames/utils/privacyutils"
 	"cyber-security-minigames/views/components/privacy"
@@ -13,6 +14,7 @@ import (
 
 type IPrivacyService interface {
 	Page(IPrivacyGameState) templ.Component
+	Instructions(IPrivacyGameState) templ.Component
 	ClickPost(id int, st IPrivacyGameState) []templ.Component
 }
 
@@ -33,9 +35,15 @@ func PrivacyService() IPrivacyService {
 }
 
 func (s *Service) Page(st IPrivacyGameState) templ.Component {
-	data := st.Posts()
-	postData := privacyutils.PostDataToUI(data)
-	return pages.PrivacyPage(postData.Posts, postData.Clues)
+	posts := st.Posts()
+	postData := privacyutils.PostDataToUI(posts)
+	return pages.PrivacyPage(postData.Posts, postData.Clues, data.PrivacyIntro)
+}
+
+// Instructions renders just the instructions modal shown after the player
+// dismisses the pre-instruction overview. It is swapped into #modal-root.
+func (s *Service) Instructions(st IPrivacyGameState) templ.Component {
+	return ui.Modal(data.PrivacyInstructions, "", false)
 }
 
 func (s *Service) ClickPost(id int, st IPrivacyGameState) []templ.Component {

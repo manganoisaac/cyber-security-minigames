@@ -13,7 +13,7 @@ import "cyber-security-minigames/views/components/email"
 import "cyber-security-minigames/views/components/ui"
 import "cyber-security-minigames/types"
 
-func EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, instructions string, revealed bool) templ.Component {
+func EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, intro string, instructions string, revealed bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -79,7 +79,12 @@ func EmailClientPage(emails []types.Email, active types.Email, selectedPhrases m
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if instructions != "" {
+			if level == 1 && intro != "" {
+				templ_7745c5c3_Err = ui.ModalStep(intro, "/email-client/instructions").Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else if instructions != "" {
 				templ_7745c5c3_Err = ui.Modal(instructions, "", false).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err

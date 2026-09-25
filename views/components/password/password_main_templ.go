@@ -13,7 +13,7 @@ import (
 	"cyber-security-minigames/views/components/ui"
 )
 
-func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions int, instructions string) templ.Component {
+func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions int, modalText string, isOverview bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -89,19 +89,36 @@ func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions i
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- @Guess(guesses, numPositions) --><img class=\"password__notebook\" src=\"../../../public/images/password/Notepad Icon.png\" alt=\"\" hx-get=\"/password/gethints\" hx-swap=\"afterend\"></main></div><div id=\"modal-root\" hx-preserve=\"true\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- @Guess(guesses, numPositions) --><img class=\"password__notebook\" src=\"../../../public/images/password/Notepad Icon.png\" alt=\"\" hx-get=\"/password/gethints\" hx-swap=\"afterend\"></main></div><!-- <div id=\"modal-root\" hx-preserve=\"true\"> -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if instructions != "" {
-			templ_7745c5c3_Err = ui.Modal(instructions, "", false).Render(ctx, templ_7745c5c3_Buffer)
+		if isOverview == true {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div id=\"modal-root\" hx-preserve=\"true\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+			templ_7745c5c3_Err = ui.Modal(modalText, "/password/instructions", false).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div id=\"modal-root\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = ui.Modal(modalText, "", false).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
 		return nil
 	})

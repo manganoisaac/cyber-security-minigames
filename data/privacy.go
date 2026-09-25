@@ -5,6 +5,10 @@ import "cyber-security-minigames/types"
 // PrivacyInstructions is shown in the modal when the Online Privacy game starts.
 const PrivacyInstructions = "Some of these posts are giving away more than they should. Click through the feed and collect every post that leaks real information into your Clues Found list. For the best experience, play in full screen."
 
+// PrivacyIntro is the pre-instruction overview shown before PrivacyInstructions.
+// It frames what the player is about to learn.
+const PrivacyIntro = "Online Privacy - Every post adds to your digital footprint. On their own the details people share seem harmless, but combined they can reveal where you work, who you know and when you'll be away. Eugene built a picture of Angela from what she posted publicly. Read through her feed and collect the posts that give away real personal information - and see how much a stranger could learn."
+
 func GetPostData() []types.Post {
 	copiedData := make([]types.Post, len(PostData))
 	for i := range len(PostData) {

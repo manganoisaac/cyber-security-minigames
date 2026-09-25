@@ -18,6 +18,7 @@ type IPasswordHandler interface {
 	AddHint(w http.ResponseWriter, r *http.Request)
 	GetHints(w http.ResponseWriter, r *http.Request)
 	CloseHints(w http.ResponseWriter, r *http.Request)
+	Instructions(w http.ResponseWriter, r *http.Request)
 	// DeleteElement(w http.ResponseWriter, r *http.Request)
 }
 
@@ -29,6 +30,9 @@ type passwordHandler struct {
 // NewHandler wires the service into the HTTP layer.
 func NewHandler(svc IPasswordService) IPasswordHandler {
 	return &passwordHandler{svc: svc}
+}
+func (h *passwordHandler) Instructions(w http.ResponseWriter, r *http.Request) {
+	h.svc.Instructions(stateForRequest(r)).Render(r.Context(), w)
 }
 
 // Page renders the password minigame page.

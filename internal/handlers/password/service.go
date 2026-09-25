@@ -26,6 +26,7 @@ type IPasswordService interface {
 	AddHint(st IPasswordGameState, objectId int, itemId int) []templ.Component
 	GetHints(st IPasswordGameState) templ.Component
 	CloseHints() templ.Component
+	Instructions(st IPasswordGameState) templ.Component
 }
 
 // Service implements IPasswordService.
@@ -48,10 +49,14 @@ func PasswordService() IPasswordService {
 	return serviceGlobal
 }
 
+func (s *Service) Instructions(st IPasswordGameState) templ.Component {
+	return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), "test instructions", false)
+}
+
 func (s *Service) Page(st IPasswordGameState) templ.Component {
 	if st.Level() == 1 {
 
-		return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), data.InstructionsForPassword())
+		return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), "test overview", true)
 	} else {
 		return pages.PasswordLevel2Page(
 			// data.PasswordPhrases,

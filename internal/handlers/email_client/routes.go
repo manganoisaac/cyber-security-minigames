@@ -6,6 +6,7 @@ import "net/http"
 // delegating to the given handler.
 func Register(mux *http.ServeMux, h IEmailHandler) {
 	mux.HandleFunc("GET /email-client", h.Page)
+	mux.HandleFunc("GET /email-client/instructions", h.Instructions)
 	mux.HandleFunc("GET /email/{id}", h.Select)
 	mux.HandleFunc("POST /email-phrase/{emailID}/{phraseIndex}/{select}", h.Phrase)
 	mux.HandleFunc("POST /email-submit/{emailID}", h.Submit)

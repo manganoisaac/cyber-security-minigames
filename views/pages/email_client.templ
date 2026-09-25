@@ -5,7 +5,7 @@ import "cyber-security-minigames/views/components/email"
 import "cyber-security-minigames/views/components/ui"
 import "cyber-security-minigames/types"
 
-templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, instructions string, revealed bool) {
+templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, intro string, instructions string, revealed bool) {
 	@layouts.Base("Cyber Security Minigames") {
 		<section class="email-client-page">
 			@ui.BackButton()
@@ -14,7 +14,9 @@ templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases 
 			@email.EmailClient(emails, active, selectedPhrases, level, revealed)
 		</section>
 		<div id="modal-root">
-			if instructions != "" {
+			if level == 1 && intro != "" {
+				@ui.ModalStep(intro, "/email-client/instructions")
+			} else if instructions != "" {
 				@ui.Modal(instructions, "", false)
 			}
 		</div>
