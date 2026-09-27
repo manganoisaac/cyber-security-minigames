@@ -8,11 +8,10 @@ package pages
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "cyber-security-minigames/types"
 import "cyber-security-minigames/views/layouts"
 import "cyber-security-minigames/views/components/password"
 
-func PasswordPage(view types.PasswordView, guesses []types.Guess, numPositions int, modalText string, isOverview bool) templ.Component {
+func PasswordPage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -45,13 +44,13 @@ func PasswordPage(view types.PasswordView, guesses []types.Guess, numPositions i
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = password.PasswordMain(view, guesses, numPositions, modalText, isOverview).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = password.PasswordMain().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Base("Password Game").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Base("Password Investigation").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -2,9 +2,9 @@
   /* Type. The landing screen's menu font (landing-cyber.css), so the game's
      text matches START INVESTIGATION / CHAPTER SELECT. It only ships a bold
      cut, so every rule that uses it sets font-weight: normal to stop the
-     browser faux-bolding it again. themes.css sets h1/h2/p to Pixelify Sans,
-     so each rule in this game names the font explicitly. */
-  --privacy-font: "Pixel Operator Bold", "Pixelify Sans", monospace;
+     browser faux-bolding it again. themes.css applies the global Pixel Operator family, while this game uses
+     the bold cut explicitly for its social-app UI. */
+  --privacy-font: "Pixel Operator Bold", "Pixel Operator", monospace;
 
   /* SnapTrail's palette - a dark-mode social app. */
   --privacy-app-bg: #0d1117;
@@ -137,4 +137,315 @@
   .privacy {
     padding: var(--privacy-back-clearance) var(--size-m) var(--size-m);
   }
+}
+
+
+/* --------------------------------------------------------------------------
+   Post analysis modal
+   -------------------------------------------------------------------------- */
+
+.privacy-analysis-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-xl);
+}
+
+.privacy-analysis-modal[hidden] {
+  display: none !important;
+}
+
+.privacy-analysis-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.privacy-analysis-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: min(46rem, calc(100vh - 2rem));
+  overflow: auto;
+
+  border: var(--privacy-border-width) solid var(--privacy-border);
+  border-radius: var(--privacy-radius);
+  background: var(--privacy-app-bg);
+  box-shadow:
+    0 0 0 1px rgba(109, 141, 255, 0.15),
+    0 1.5rem 5rem rgba(0, 0, 0, 0.55),
+    0 0 2rem var(--privacy-app-glow);
+
+  color: var(--privacy-text);
+}
+
+.privacy-analysis-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--size-l);
+  padding: var(--size-xl);
+
+  border-bottom: var(--privacy-border-width) solid var(--privacy-border);
+  background: var(--privacy-surface);
+}
+
+.privacy-analysis-modal__eyebrow {
+  margin: 0 0 var(--size-xs);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-s);
+  font-weight: normal;
+  letter-spacing: 0.12em;
+
+  color: var(--privacy-brand);
+}
+
+.privacy-analysis-modal__header h2 {
+  margin: 0;
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-xl);
+  font-weight: normal;
+
+  color: var(--privacy-text);
+}
+
+.privacy-analysis-modal__close {
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  padding: 0;
+
+  border: var(--privacy-border-width) solid var(--privacy-border);
+  border-radius: 50%;
+  background: transparent;
+
+  font-family: var(--privacy-font);
+  font-size: 1.35rem;
+  line-height: 1;
+
+  color: var(--privacy-text-muted);
+  cursor: pointer;
+}
+
+.privacy-analysis-modal__close:hover,
+.privacy-analysis-modal__close:focus-visible {
+  border-color: var(--privacy-brand);
+  color: var(--privacy-text);
+  outline: none;
+}
+
+.privacy-analysis-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-l);
+  padding: var(--size-xl);
+}
+
+.privacy-analysis-modal__post {
+  margin: 0;
+  padding: var(--size-l);
+
+  border-left: 3px solid var(--privacy-brand);
+  border-radius: 0 var(--size-s) var(--size-s) 0;
+  background: var(--privacy-surface);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-l);
+  font-style: normal;
+  font-weight: normal;
+  line-height: var(--privacy-line-height);
+
+  color: var(--privacy-text);
+}
+
+.privacy-analysis-modal__question {
+  margin: 0;
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-l);
+  font-weight: normal;
+  line-height: var(--privacy-line-height);
+
+  color: var(--privacy-text);
+}
+
+.privacy-analysis-modal__options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--size-s);
+}
+
+.privacy-analysis-modal__option {
+  width: 100%;
+  padding: 0.85rem 1rem;
+
+  border: var(--privacy-border-width) solid var(--privacy-border);
+  border-radius: 10px;
+  background: var(--privacy-surface);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+  line-height: 1.3;
+  text-align: left;
+
+  color: var(--privacy-text);
+  cursor: pointer;
+
+  transition:
+    border-color 120ms ease,
+    background 120ms ease,
+    color 120ms ease;
+}
+
+.privacy-analysis-modal__option:hover:not(:disabled),
+.privacy-analysis-modal__option:focus-visible:not(:disabled) {
+  border-color: var(--privacy-brand);
+  background: rgba(109, 141, 255, 0.11);
+  outline: none;
+}
+
+.privacy-analysis-modal__option--incorrect,
+.privacy-analysis-modal__option--incorrect:hover {
+  border-color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  color: #ffb3b3;
+}
+
+.privacy-analysis-modal__option--correct,
+.privacy-analysis-modal__option--correct:hover {
+  border-color: var(--privacy-clue);
+  background: var(--privacy-clue-surface);
+  color: var(--privacy-clue-soft);
+}
+
+.privacy-analysis-modal__option:disabled {
+  cursor: default;
+}
+
+.privacy-analysis-modal__feedback {
+  margin: 0;
+  padding: var(--size-m) var(--size-l);
+
+  border: var(--privacy-border-width) solid var(--privacy-border);
+  border-radius: 10px;
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+  line-height: var(--privacy-line-height);
+}
+
+.privacy-analysis-modal__feedback--incorrect {
+  border-color: rgba(255, 107, 107, 0.55);
+  background: rgba(255, 107, 107, 0.08);
+  color: #ffb3b3;
+}
+
+.privacy-analysis-modal__feedback--correct {
+  border-color: var(--privacy-clue-rule);
+  background: var(--privacy-clue-surface);
+  color: var(--privacy-clue-soft);
+}
+
+.privacy-analysis-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 var(--size-xl) var(--size-xl);
+}
+
+.privacy-analysis-modal__continue {
+  min-width: 8rem;
+  padding: 0.65rem 1.2rem;
+
+  border: var(--privacy-border-width) solid var(--privacy-clue);
+  border-radius: var(--privacy-pill-radius);
+  background: var(--privacy-clue-surface);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+
+  color: var(--privacy-clue-soft);
+  cursor: pointer;
+}
+
+.privacy-analysis-modal__continue:hover,
+.privacy-analysis-modal__continue:focus-visible {
+  background: rgba(43, 255, 156, 0.16);
+  color: #d0ffe2;
+  outline: none;
+}
+
+body.privacy-analysis-open {
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Privacy opening / instruction modals
+   -------------------------------------------------------------------------- */
+
+.privacy-modal-root .modal__backdrop {
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.privacy-modal-root .modal__dialog {
+  width: min(36rem, calc(100vw - 2rem));
+  padding: var(--size-xl);
+
+  border: 1px solid #283241;
+  border-radius: 16px;
+  background: #0d1117;
+
+  box-shadow:
+    0 0 0 1px rgba(109, 141, 255, 0.15),
+    0 1.5rem 5rem rgba(0, 0, 0, 0.55),
+    0 0 2rem rgba(109, 141, 255, 0.12);
+
+  color: #e6edf3;
+}
+
+.privacy-modal-root .modal__text {
+  margin-bottom: var(--size-xl);
+
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
+  font-size: var(--size-l);
+  font-weight: normal;
+  line-height: 1.45;
+
+  color: #e6edf3;
+}
+
+.privacy-modal-root .modal__text--typing::after {
+  background: #6d8dff;
+}
+
+.privacy-modal-root .modal__button {
+  padding: 0.7rem 1.4rem;
+
+  border: 1px solid #6d8dff;
+  border-radius: 10px;
+  background: rgba(109, 141, 255, 0.14);
+
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
+  font-size: var(--size-l);
+  font-weight: normal;
+
+  color: #e6edf3;
+
+  box-shadow: 0 0 1rem rgba(109, 141, 255, 0.12);
+}
+
+.privacy-modal-root .modal__button:hover {
+  background: rgba(109, 141, 255, 0.24);
+  border-color: #8ca3ff;
+  filter: none;
+  transform: none;
 }

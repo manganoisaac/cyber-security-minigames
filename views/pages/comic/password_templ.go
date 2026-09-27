@@ -46,16 +46,23 @@ func PasswordComicPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-				Title:        "Passwords",
-				ContinueHref: "/password",
+			templ_7745c5c3_Err = comiccomp.ComicPage(comiccomp.ComicData{
+				PanelImages: []string{
+					"/public/images/comics/Game_1/image-1.png",
+					"/public/images/comics/Game_1/image-2.png",
+					"/public/images/comics/Game_1/image-3.png",
+					"/public/images/comics/Game_1/image-4.png",
+					"/public/images/comics/Game_1/image-5.png",
+				},
+				ContinueHref:  "/password",
+				ContinueLabel: "Continue",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Base("Story Comic - Passwords").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Base("Caught in the Net - Password Security").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

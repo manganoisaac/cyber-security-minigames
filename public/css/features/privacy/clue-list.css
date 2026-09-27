@@ -33,6 +33,31 @@
   text-shadow: 0 0 var(--size-s) var(--privacy-clue-glow);
 }
 
+.clue-list__progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-m);
+  padding: var(--size-s) var(--size-m);
+
+  border: var(--privacy-border-width) solid var(--privacy-clue-rule);
+  background: var(--privacy-clue-surface);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-s);
+  letter-spacing: 0.08em;
+
+  color: var(--privacy-clue-dim);
+}
+
+.clue-list__progress strong {
+  font-family: var(--privacy-font);
+  font-size: var(--size-m);
+  font-weight: normal;
+  letter-spacing: normal;
+  color: var(--privacy-clue-soft);
+}
+
 .clue-list__empty {
   font-family: var(--privacy-font);
   font-size: var(--size-m);

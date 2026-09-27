@@ -5,9 +5,24 @@
      background. --nd-success shadows the shared --success token (kept
      untouched in themes.css for every other game) at a contrast-safe value
      scoped to this game only. */
-  --nd-success: #1b6b34;
-  --nd-warning: #a15c00;
-  --nd-danger: #a3122a;
+  /* SnapTrail-inspired dark interface palette. These override the shared
+     grey theme only inside Network Defence, leaving the game logic untouched. */
+  --bg: #0d1117;
+  --bg-light: #151b23;
+  --bg-selected: #1b2330;
+  --text: #e6edf3;
+  --text-muted: #8b98a8;
+
+  --nd-border: #283241;
+  --nd-accent: #6d8dff;
+  --nd-accent-alt: #b66dff;
+  --nd-accent-soft: rgba(109, 141, 255, 0.14);
+  --nd-accent-glow: rgba(109, 141, 255, 0.16);
+
+  /* Semantic game-state colours remain distinct from the general UI accent. */
+  --nd-success: #2bff9c;
+  --nd-warning: #f0b84b;
+  --nd-danger: #ff6b7a;
   --nd-grid-cols: 8;
   --nd-grid-rows: 5;
   --nd-tower-icon-scale: 70%;
@@ -32,19 +47,28 @@
   --nd-callout-accent-width: 4px;
 
   /* Column and panel dimensions. */
-  --nd-briefing-max-width: 60rem;
-  --nd-layout-max-width: 90rem;
-  --nd-build-column: 16rem;
-  --nd-telemetry-column: 18rem;
-  --nd-log-max-height: 14rem;
-  --nd-modal-width: min(32rem, 90vw);
+  --nd-briefing-max-width: 80rem;
+  --nd-layout-max-width: 112rem;
+  --nd-build-column: 18rem;
+  --nd-telemetry-column: 20rem;
+  --nd-log-max-height: 17rem;
+  --nd-modal-width: min(40rem, 90vw);
   --nd-modal-max-height: 85vh;
+
+  /* Size Overrides for the game-specific UI elements that fall below the --size-* scale. */
+  --size-xs: 0.75rem;
+  --size-s: 0.95rem;
+  --size-m: 1.1rem;
+  --size-l: 1.4rem;
+  --size-xl: 1.7rem;
+  --size-2xl: 1.9rem;
+  --size-3xl: 2.2rem;
 
   /* Meters, overlays and the two badge labels that sit below --size-xs. */
   --nd-meter-height: 10px;
   --nd-meter-radius: 5px;
-  --nd-swatch-label-size: 9px;
-  --nd-enemy-label-size: 10px;
+  --nd-swatch-label-size: 11px;
+  --nd-enemy-label-size: 12px;
   --nd-swatch-label-color: #fff;
   --nd-overlay-bg: rgba(0, 0, 0, 0.6);
   --nd-overlay-z: 200;
@@ -67,10 +91,13 @@
      li, strong and div text in this game - the wave counter, credits, threat
      reference, event log, EDGE/CORE markers - fell through to the browser's
      default serif. Set it once here and let it inherit. */
-  font-family: "Pixelify Sans", sans-serif;
+  font-family: "Pixel Operator", monospace;
   position: relative;
   min-height: 100vh;
-  background-color: var(--bg);
+  background:
+    radial-gradient(circle at 78% 16%, rgba(109, 141, 255, 0.10), transparent 28%),
+    radial-gradient(circle at 18% 82%, rgba(182, 109, 255, 0.07), transparent 30%),
+    var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,8 +135,12 @@
 
 .network-defense-panel {
   background: var(--bg-light);
+  border: var(--nd-hairline) solid var(--nd-border);
   border-radius: var(--nd-panel-radius);
   padding: var(--size-m);
+  box-shadow:
+    0 0 0 1px rgba(109, 141, 255, 0.04),
+    0 14px 36px rgba(0, 0, 0, 0.24);
 }
 
 .network-defense-panel h2 {
@@ -142,8 +173,9 @@
 }
 
 .network-defense-tower-list__item[aria-pressed="true"] {
-  border-color: var(--text);
-  background: var(--bg-selected);
+  border-color: var(--nd-accent);
+  background: var(--nd-accent-soft);
+  box-shadow: 0 0 14px var(--nd-accent-glow);
 }
 
 .network-defense-tower-list__item:disabled {
@@ -258,9 +290,10 @@
   grid-template-rows: repeat(var(--nd-grid-rows), 1fr);
   gap: var(--nd-cell-gap);
   background: var(--bg);
-  border: var(--nd-border-width) solid var(--text-muted);
+  border: var(--nd-border-width) solid var(--nd-border);
   border-radius: var(--nd-control-radius);
   padding: var(--size-s);
+  box-shadow: inset 0 0 20px rgba(109, 141, 255, 0.04);
   aspect-ratio: var(--nd-grid-cols) / var(--nd-grid-rows);
 }
 
@@ -290,7 +323,9 @@
 
 .network-defense-grid__cell--buildable:hover,
 .network-defense-grid__cell--buildable:focus-visible {
-  background: var(--bg);
+  background: var(--nd-accent-soft);
+  border-color: var(--nd-accent);
+  box-shadow: inset 0 0 10px var(--nd-accent-glow);
   transform: none;
 }
 
@@ -408,10 +443,18 @@
    places, so they share one rule rather than repeating it per block. */
 .network-defense-launch-button,
 .network-defense-button--primary {
-  background: var(--nd-success);
-  border: var(--nd-border-width) solid var(--text-muted);
+  background: var(--nd-accent);
+  color: #fff;
+  border: var(--nd-border-width) solid #8ca3ff;
   border-radius: var(--nd-control-radius);
   padding: var(--size-s) var(--size-m);
+  box-shadow: 0 0 14px var(--nd-accent-glow);
+}
+
+.network-defense-launch-button:hover,
+.network-defense-button--primary:hover {
+  background: #7c98ff;
+  filter: none;
 }
 
 .network-defense-launch-button:disabled,
@@ -500,8 +543,13 @@
   max-height: var(--nd-modal-max-height);
   overflow-y: auto;
   background: var(--bg-light);
+  border: var(--nd-hairline) solid var(--nd-border);
   border-radius: var(--nd-panel-radius);
   padding: var(--size-l);
+  box-shadow:
+    0 0 0 1px rgba(109, 141, 255, 0.10),
+    0 24px 70px rgba(0, 0, 0, 0.55),
+    0 0 28px var(--nd-accent-glow);
 }
 
 .network-defense-modal p,
@@ -556,10 +604,12 @@
 }
 
 @keyframes nd-caret-blink {
+
   0%,
   49% {
     opacity: 1;
   }
+
   50%,
   100% {
     opacity: 0;
@@ -585,4 +635,61 @@
   .network-defense-intro__line--typing::after {
     animation: none;
   }
+}
+
+
+/* --------------------------------------------------------------------------
+   SnapTrail-inspired finishing touches
+   -------------------------------------------------------------------------- */
+
+.network-defense__briefing h1,
+.network-defense-panel h2,
+.network-defense-threat-legend h3,
+.network-defense-log h3,
+.network-defense-modal h2 {
+  color: var(--text);
+}
+
+.network-defense__briefing h1 {
+  text-shadow: 0 0 18px var(--nd-accent-glow);
+}
+
+.network-defense-selected-info,
+.network-defense-battlefield__stats {
+  color: var(--text);
+}
+
+.network-defense-grid__cell--edge,
+.network-defense-grid__cell--core {
+  text-shadow: 0 0 10px var(--nd-accent-glow);
+}
+
+.network-defense-upcoming {
+  border-left-color: var(--nd-warning);
+  background: rgba(240, 184, 75, 0.08);
+}
+
+.network-defense-log__list {
+  scrollbar-color: var(--nd-border) var(--bg);
+}
+
+.network-defense-modal-overlay {
+  backdrop-filter: blur(2px);
+}
+
+/* Ensure all Network Defence text remains readable on the dark theme */
+.network-defense {
+  color: var(--text);
+}
+
+.network-defense-modal,
+.network-defense-modal p,
+.network-defense-modal li,
+.network-defense-wave-summary__item {
+  color: var(--text);
+}
+
+.network-defense-integrity__row,
+.network-defense-threat__row {
+  color: var(--text);
 }

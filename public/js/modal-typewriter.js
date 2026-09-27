@@ -9,34 +9,82 @@ const typed = new WeakSet();
 
 function typewriteModal(modal) {
   const textEl = modal.querySelector(MODAL_TEXT_SELECTOR);
-  if (!textEl || animations.has(textEl) || typed.has(textEl)) return;
+
+  if (!textEl || animations.has(textEl) || typed.has(textEl)) {
+    return;
+  }
 
   const buttonEl = modal.querySelector(MODAL_BUTTON_SELECTOR);
   const fullText = textEl.textContent;
 
   textEl.textContent = "";
   textEl.classList.add(MODAL_TYPING_CLASS);
-  if (buttonEl) buttonEl.disabled = true;
+
+  if (buttonEl) {
+    buttonEl.disabled = true;
+  }
 
   let i = 0;
+  let finished = false;
+
+  function finishTyping() {
+    if (finished) {
+      return;
+    }
+
+    finished = true;
+
+    const interval = animations.get(textEl);
+
+    if (interval) {
+      clearInterval(interval);
+      animations.delete(textEl);
+    }
+
+    textEl.textContent = fullText;
+    textEl.classList.remove(MODAL_TYPING_CLASS);
+    typed.add(textEl);
+
+    if (buttonEl) {
+      buttonEl.disabled = false;
+    }
+  }
+
   const interval = setInterval(() => {
     if (!document.body.contains(modal)) {
       clearInterval(interval);
       animations.delete(textEl);
       return;
     }
+
     if (i >= fullText.length) {
-      clearInterval(interval);
-      animations.delete(textEl);
-      typed.add(textEl);
-      textEl.classList.remove(MODAL_TYPING_CLASS);
-      if (buttonEl) buttonEl.disabled = false;
+      finishTyping();
       return;
     }
+
     textEl.textContent = fullText.slice(0, ++i);
   }, MODAL_SPEED_MS);
 
   animations.set(textEl, interval);
+
+  /*
+   * Privacy has longer instructional text, so allow the player to instantly
+   * reveal the full message without advancing the modal.
+   *
+   * They must still press the modal button afterwards to continue.
+   */
+  if (modal.closest(".privacy-modal-root")) {
+    modal.addEventListener(
+      "click",
+      (event) => {
+        if (!finished) {
+          event.preventDefault();
+          finishTyping();
+        }
+      },
+      { once: true }
+    );
+  }
 }
 
 function typewriteNewModals() {

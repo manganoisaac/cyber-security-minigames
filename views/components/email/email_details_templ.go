@@ -32,7 +32,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"email-details\" id=\"email-details\"><p class=\"email-details__title\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"email-details\" id=\"email-details\"><header class=\"email-details__header\"><div class=\"email-details__header-icon\" aria-hidden=\"true\">✉</div><div class=\"email-details__header-text\"><p class=\"email-details__label\">OPEN MESSAGE</p><h2 class=\"email-details__title\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,14 +45,14 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(email.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 12, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 16, Col: 19}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</p><div class=\"email-details__content-container\"><p class=\"email-details__to\"><b>To: </b> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</h2></div></header><div class=\"email-details__metadata\"><p class=\"email-details__to\"><b>To:</b> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -63,16 +63,16 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 			}
 		} else {
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(email.To)
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(" " + email.To)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 21, Col: 15}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 28, Col: 21}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><p class=\"email-details__from\"><b>From: </b> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><p class=\"email-details__from\"><b>From:</b> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -83,16 +83,16 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 			}
 		} else {
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(email.From)
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(" " + email.From)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 29, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 37, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</p><p class=\"email-details__description\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</p><p class=\"email-details__description\"><b>Subject:</b> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -103,16 +103,16 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 			}
 		} else {
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(email.Subject)
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(" " + email.Subject)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 36, Col: 20}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 46, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</p><p class=\"email-details__content\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</p></div><div class=\"email-details__content-container\"><div class=\"email-details__content\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -136,7 +136,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(phrase)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 48, Col: 20}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/email/email_details.templ`, Line: 61, Col: 20}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -148,7 +148,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 				}
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</p></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -157,8 +157,7 @@ func EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, re
 }
 
 // EmailPhrases renders one field's phrases inline, breaking onto a new line
-// between phrases (not just after the last one) so a multi-sentence field
-// like Content reads as separate lines instead of one run-on block.
+// between phrases so each suspicious unit can be selected independently.
 func EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool, revealed bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

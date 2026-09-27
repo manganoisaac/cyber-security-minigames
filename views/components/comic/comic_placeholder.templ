@@ -1,28 +1,31 @@
 package comic
 
-type PlaceholderData struct {
-	Title       string
-	ContinueHref string
+type ComicData struct {
+	PanelImages   []string
+	ContinueHref  string
+	ContinueLabel string
 }
 
-templ ComicPlaceholder(data PlaceholderData) {
-	<main class="comic-placeholder">
-		<div class="comic-placeholder__content">
-
-			<h1>STORY COMIC</h1>
-
-			<h2>{ data.Title }</h2>
-
-			<p>Comic coming soon...</p>
-
-			<a
-                class="comic-placeholder__continue"
-                href={ data.ContinueHref }
-                hx-boost="false"
-            >
-                Begin Activity
-            </a>
-
+templ ComicPage(data ComicData) {
+	<main class="comic-page" data-comic-page>
+		<div class="comic-page__grid" data-comic-grid>
+			for _, imageSrc := range data.PanelImages {
+				<div class="comic-page__panel">
+					<img
+						src={ imageSrc }
+						alt="Story comic panel"
+					/>
+				</div>
+			}
 		</div>
+
+		<a
+			class="comic-page__continue"
+			href={ data.ContinueHref }
+			hx-boost="false"
+			data-comic-continue
+		>
+			{ data.ContinueLabel }
+		</a>
 	</main>
 }

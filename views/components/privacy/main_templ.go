@@ -11,11 +11,9 @@ import templruntime "github.com/a-h/templ/runtime"
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/views/components/ui"
 
-// Main lays the game out as the SnapTrail web app: the profile feed the
-// player reads through, with their Clues Found notes alongside it. The app's
-// top bar is scenery - nothing in it is clickable - so the posts stay the
-// only thing on the page that does anything.
-func Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, intro string) templ.Component {
+// Main lays the game out as the SnapTrail web app: the profile feed the player
+// analyses, with their discovered information alongside it.
+func Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, analysedCount int, totalPosts int, intro string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -52,11 +50,11 @@ func Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueU
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = ClueList(clues, false).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ClueList(clues, analysedCount, totalPosts, false).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div></div><div id=\"modal-root\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div><div class=\"privacy-analysis-modal\" id=\"privacy-analysis-modal\" hidden><div class=\"privacy-analysis-modal__backdrop\" data-privacy-analysis-close></div><section class=\"privacy-analysis-modal__dialog\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"privacy-analysis-title\"><header class=\"privacy-analysis-modal__header\"><div><p class=\"privacy-analysis-modal__eyebrow\">POST ANALYSIS</p><h2 id=\"privacy-analysis-title\">What does this post reveal?</h2></div><button class=\"privacy-analysis-modal__close\" type=\"button\" aria-label=\"Close analysis\" data-privacy-analysis-close>×</button></header><div class=\"privacy-analysis-modal__body\"><blockquote class=\"privacy-analysis-modal__post\" id=\"privacy-analysis-post\"></blockquote><p class=\"privacy-analysis-modal__question\">Which piece of useful personal information does this post reveal?</p><div class=\"privacy-analysis-modal__options\" id=\"privacy-analysis-options\"></div><p class=\"privacy-analysis-modal__feedback\" id=\"privacy-analysis-feedback\" hidden aria-live=\"polite\"></p></div><footer class=\"privacy-analysis-modal__footer\"><button class=\"privacy-analysis-modal__continue\" id=\"privacy-analysis-continue\" type=\"button\" hidden>Continue</button></footer></section></div></div><div id=\"modal-root\" class=\"privacy-modal-root\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -64,7 +62,7 @@ func Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueU
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><script src=\"/public/js/privacy-analysis.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -162,8 +162,68 @@ templ Encryption() {
 				</div>
 			</footer>
 
+<!-- Encryption concept introduction -->
+<div class="game-modal-overlay" id="encryption-intro-modal">
+	<section
+		class="win98-window game-modal encryption-intro-modal"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="encryption-intro-title"
+	>
+		<header class="win98-titlebar win98-titlebar--active">
+			<div class="win98-titlebar__title">
+				<span class="window-app-icon window-app-icon--key" aria-hidden="true">K</span>
+				<span>Encryption Basics</span>
+			</div>
+		</header>
+
+		<div class="game-modal__body">
+			<h2 id="encryption-intro-title">What is Encryption?</h2>
+
+			<p>
+				Encryption protects information by transforming readable data, called
+				<strong>plaintext</strong>, into unreadable <strong>ciphertext</strong>
+				using an encryption algorithm and a key.
+			</p>
+
+			<p>
+				To recover the original information, the correct key is used to decrypt
+				the ciphertext back into plaintext.
+			</p>
+
+			<div class="encryption-intro__flow" aria-label="Encryption and decryption process">
+				<span>Message</span>
+				<span class="encryption-intro__arrow">+</span>
+				<span>Secret Key</span>
+				<span class="encryption-intro__arrow">→</span>
+				<span>Encrypted Message</span>
+				<span class="encryption-intro__arrow">+</span>
+				<span>Secret Key</span>
+				<span class="encryption-intro__arrow">→</span>
+				<span>Message</span>
+			</div>
+
+			<p>
+				In this activity, the real encryption process is simplified into a word
+				puzzle. Your goal is to discover the correct key and reveal the hidden
+				message.
+			</p>
+
+			<div class="game-modal__actions">
+				<button
+					class="win98-button win98-button--default"
+					id="encryption-intro-continue"
+					type="button"
+				>
+					Continue
+				</button>
+			</div>
+		</div>
+	</section>
+</div>
+
 			<!-- Start instructions -->
-			<div class="game-modal-overlay" id="instructions-modal">
+			<div class="game-modal-overlay" id="instructions-modal" hidden>
 				<section class="win98-window game-modal" role="dialog" aria-modal="true" aria-labelledby="instructions-title">
 					<header class="win98-titlebar win98-titlebar--active">
 						<div class="win98-titlebar__title">
@@ -202,11 +262,13 @@ templ Encryption() {
 						</div>
 
 						<p class="game-modal__note">
+							<strong>Hint:</strong> All possible decryption keys are five-letter words related to computers or cybersecurity.
+						</p>
+
+						<p class="game-modal__note">
 							Every new best result increases the amount of plaintext recovered.
 							Progress never goes backwards.
 						</p>
-
-						<p class="game-modal__note">For the best experience, play in full screen.</p>
 
 						<div class="game-modal__actions">
 							<button class="win98-button win98-button--default" id="begin-decryption" type="button">

@@ -10,26 +10,29 @@ templ EmailItem(email types.Email, active bool, oob bool) {
 		hx-get={ "/email/" + email.ID }
 		hx-target="#email-details"
 		hx-swap="outerHTML"
-		hx-trigger="click[!event.target.closest('.email-item__checkbox')]"
+		hx-trigger="click[!event.target.closest('.email-item__select')]"
 		if oob {
 			hx-swap-oob={ "outerHTML:#email-item-" + email.ID }
 		}
 	>
 		@EmailAvatar(email)
+
 		<div class="email-item__text">
-			<h3>{ textutil.TruncateChars(email.Title, 20) }</h3>
-			<h4>{ textutil.TruncateChars(email.Subject, 30) }</h4>
-			<p>{ textutil.TruncateChars(email.Content, 50) }</p>
+			<p class="email-item__sender">{ textutil.TruncateChars(email.From, 42) }</p>
+			<p class="email-item__subject">{ textutil.TruncateChars(email.Subject, 52) }</p>
+			<p class="email-item__preview">{ textutil.TruncateChars(email.Content, 78) }</p>
 		</div>
-		<p class="email-item__timestamp"><b>{ email.Timestamp }</b></p>
-		<p
-			class="email-item__checkbox"
+
+		<p class="email-item__timestamp">{ email.Timestamp }</p>
+
+		<button
+			class="email-item__select"
+			type="button"
 			hx-post={ "/email-check/" + email.ID }
-			hx-trigger="click"
 			hx-target="#modal-root"
 			hx-swap="innerHTML"
 		>
-			?
-		</p>
+			SELECT
+		</button>
 	</div>
 }

@@ -4,8 +4,8 @@ import "cyber-security-minigames/views/layouts"
 import "cyber-security-minigames/views/components/privacy"
 import "cyber-security-minigames/types"
 
-templ PrivacyPage(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, intro string) {
+templ PrivacyPage(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, analysedCount int, totalPosts int, intro string) {
 	@layouts.Base("Privacy") {
-		@privacy.Main(profile, posts, clues, intro)
+		@privacy.Main(profile, posts, clues, analysedCount, totalPosts, intro)
 	}
 }

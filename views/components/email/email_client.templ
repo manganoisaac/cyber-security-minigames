@@ -4,14 +4,77 @@ import "cyber-security-minigames/types"
 
 templ EmailClient(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, revealed bool) {
 	<div class="email-client__container" id="email-client-container">
-		<div class={ "email-client__list", templ.KV("email-client__list--details-only", level >= 2) }>
-			if level < 2 {
-				@EmailSidebar(emails, active)
-			}
-			@EmailDetails(active, selectedPhrases, level, revealed)
-			if level >= 2 {
-				@EmailSubmit("Submit", len(selectedPhrases), false, active.ID)
-			}
-		</div>
+		<section class="email-client__window">
+			<header class="email-client__titlebar">
+				<div class="email-client__titlebar-title">
+					<span class="email-client__app-icon" aria-hidden="true">✉</span>
+					<span>CyberMail - Inbox</span>
+				</div>
+				<div class="email-client__titlebar-controls" aria-hidden="true">
+					<span>_</span>
+					<span>□</span>
+					<span>×</span>
+				</div>
+			</header>
+
+			<div class="email-client__menubar" aria-hidden="true">
+				<span><u>F</u>ile</span>
+				<span><u>E</u>dit</span>
+				<span><u>V</u>iew</span>
+				<span><u>T</u>ools</span>
+				<span><u>H</u>elp</span>
+			</div>
+
+			<div class="email-client__toolbar" aria-hidden="true">
+				<div class="email-client__tool"><span>✉</span><small>New Mail</small></div>
+				<div class="email-client__tool"><span>↩</span><small>Reply</small></div>
+				<div class="email-client__tool"><span>↪</span><small>Forward</small></div>
+				<div class="email-client__tool"><span>✕</span><small>Delete</small></div>
+				<div class="email-client__tool"><span>⇅</span><small>Send/Recv</small></div>
+			</div>
+
+			<div class="email-client__workspace">
+				<aside class="email-client__folders" aria-label="Mail folders">
+					<p class="email-client__folders-title">Folders</p>
+					<div class="email-client__folder-tree">
+						<p class="email-client__folder email-client__folder--root">▾ CyberMail</p>
+						<p class="email-client__folder email-client__folder--active">✉ Inbox <span>({ len(emails) })</span></p>
+						<p class="email-client__folder">▤ Drafts</p>
+						<p class="email-client__folder">➤ Sent Items</p>
+						<p class="email-client__folder">▧ Deleted Items</p>
+					</div>
+				</aside>
+
+				<div class={ "email-client__mail", templ.KV("email-client__mail--analysis", level >= 2) }>
+					if level < 2 {
+						<section class="email-client__message-list">
+							<header class="email-client__message-list-header">
+								<span>Inbox</span>
+								<small>{ len(emails) } messages</small>
+							</header>
+							@EmailSidebar(emails, active)
+						</section>
+					}
+
+					<section class="email-client__preview-pane">
+						@EmailDetails(active, selectedPhrases, level, revealed)
+						if level >= 2 {
+							@EmailSubmit("Submit Selection", len(selectedPhrases), false, active.ID)
+						}
+					</section>
+				</div>
+			</div>
+
+			<footer class="email-client__statusbar">
+				<span>Online</span>
+				<span>
+					if level == 1 {
+						Open messages and press SELECT when you identify the phishing email.
+					} else {
+						Select suspicious phrases, then submit your analysis.
+					}
+				</span>
+			</footer>
+		</section>
 	</div>
 }

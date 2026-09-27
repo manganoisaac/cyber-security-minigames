@@ -5,7 +5,7 @@
    * ------------------------------------------------------------------------
    * GAME CONFIGURATION
    * ------------------------------------------------------------------------
-   * Each scenario has a six-letter cybersecurity key and its own plaintext.
+   * Each scenario has a five-letter cybersecurity key and its own plaintext.
    * The ciphertext in the left terminal is generated automatically from the
    * plaintext using the selected key as a simple columnar-transposition key.
    *
@@ -18,68 +18,44 @@
     validWordsUrl: "/public/data/valid-words-5.txt",
     continueUrl: "/whwl/encryption",
 
-scenarios: [
-  {
-    id: "email",
-    secretWord: "EMAIL",
-    plaintextMessage:
-      "EUGENE HAS SCHEDULED THE SOURCE CODE TRANSFER FOR 2130. THE ARCHIVE WILL LEAVE THROUGH THE INTERNAL SERVER. BLOCK THE OUTBOUND CONNECTION BEFORE THE TRANSFER BEGINS."
-  },
-  {
-    id: "phish",
-    secretWord: "PHISH",
-    plaintextMessage:
-      "THE PROPRIETARY SOURCE CODE WILL BE EXFILTRATED AT 2130. EUGENE PLANS TO MOVE THE ARCHIVE THROUGH THE INTERNAL SERVER. STOP THE OUTBOUND TRANSFER BEFORE IT STARTS."
-  },
-  {
-    id: "admin",
-    secretWord: "ADMIN",
-    plaintextMessage:
-      "EUGENE WILL USE THE INTERNAL SERVER AT 2130 TO MOVE THE SOURCE CODE ARCHIVE OFF THE NETWORK. BLOCK THE OUTBOUND CONNECTION BEFORE THE FILE TRANSFER CAN COMPLETE."
-  },
-  {
-    id: "login",
-    secretWord: "LOGIN",
-    plaintextMessage:
-      "THE SOURCE CODE ARCHIVE IS READY FOR TRANSFER AT 2130. EUGENE WILL ROUTE IT THROUGH THE INTERNAL SERVER TO AN EXTERNAL DESTINATION. PREVENT THE OUTBOUND CONNECTION."
-  },
-  {
-    id: "token",
-    secretWord: "TOKEN",
-    plaintextMessage:
-      "AT 2130 EUGENE INTENDS TO SEND THE PROPRIETARY SOURCE CODE THROUGH THE INTERNAL SERVER AND OUT OF THE NETWORK. BLOCK THE EXTERNAL TRANSFER BEFORE IT BEGINS."
-  },
-  {
-    id: "shell",
-    secretWord: "SHELL",
-    plaintextMessage:
-      "EUGENE CONFIRMED A 2130 TRANSFER WINDOW FOR THE SOURCE CODE ARCHIVE. THE FILES WILL PASS THROUGH THE INTERNAL SERVER. STOP THE OUTBOUND NETWORK CONNECTION IN TIME."
-  },
-  {
-    id: "virus",
-    secretWord: "VIRUS",
-    plaintextMessage:
-      "THE SOURCE CODE THEFT IS PLANNED FOR 2130. EUGENE WILL USE THE INTERNAL SERVER TO PUSH THE ARCHIVE OUTSIDE THE NETWORK. BLOCK THE OUTBOUND TRANSFER BEFORE THEN."
-  },
-  {
-    id: "proxy",
-    secretWord: "PROXY",
-    plaintextMessage:
-      "EUGENE PLANS TO EXFILTRATE THE SOURCE CODE AT 2130 USING THE INTERNAL SERVER. THE ARCHIVE WILL BE SENT TO AN EXTERNAL DESTINATION. STOP THE OUTBOUND CONNECTION."
-  },
-  {
-    id: "bytes",
-    secretWord: "BYTES",
-    plaintextMessage:
-      "THE SOURCE CODE ARCHIVE WILL BE TRANSFERRED AT 2130 THROUGH THE INTERNAL SERVER. EUGENE INTENDS TO SEND THE FILES OUTSIDE THE NETWORK. BLOCK THE CONNECTION FIRST."
-  },
-  {
-    id: "patch",
-    secretWord: "PATCH",
-    plaintextMessage:
-      "EUGENE HAS PREPARED THE SOURCE CODE FOR EXFILTRATION AT 2130. THE INTERNAL SERVER WILL BE USED TO MOVE THE ARCHIVE OUTSIDE THE NETWORK. STOP THE TRANSFER."
-  }
-]
+    scenarios: [
+      {
+        id: "admin",
+        secretWord: "ADMIN",
+        plaintextMessage:
+          "Everything is set for 21:30. Send the source-code archive through the internal server and leave no traces. Once delivery is confirmed, your payment and position at NURV will be arranged."
+      },
+      {
+        id: "login",
+        secretWord: "LOGIN",
+        plaintextMessage:
+          "The transfer is scheduled for 21:30. Use the internal server to send the source-code archive and make sure nothing can be traced back to you. Payment and your position at NURV will follow once delivery is complete."
+      },
+      {
+        id: "email",
+        secretWord: "EMAIL",
+        plaintextMessage:
+          "Be ready at 21:30. The connection will remain open while you transfer the source-code archive through the internal server. Leave nothing behind. Your payment and NURV position will be confirmed after delivery."
+      },
+      {
+        id: "virus",
+        secretWord: "VIRUS",
+        plaintextMessage:
+          "We are ready for the 21:30 transfer. Send the source-code archive through the internal server and avoid leaving evidence. Once the archive is delivered, we will arrange your payment and position at NURV."
+      },
+      {
+        id: "cyber",
+        secretWord: "CYBER",
+        plaintextMessage:
+          "The connection opens at 21:30. Transfer the source-code archive through the internal server and do not leave any traces. After successful delivery, your payment and position at NURV will be finalised."
+      },
+      {
+        id: "links",
+        secretWord: "LINKS",
+        plaintextMessage:
+          "Proceed at 21:30. Send the source-code archive through the internal server while the connection is open. Make sure the transfer cannot be traced. Your payment and NURV position will follow once delivery is confirmed."
+      }
+    ]
   };
 
   const KEYBOARD_ROWS = [
@@ -126,6 +102,8 @@ scenarios: [
     const progressBar = root.querySelector("#decryption-progress-bar");
     const terminalProgress = root.querySelector("#terminal-progress-line");
     const terminalStatus = root.querySelector("#terminal-status-line");
+    const introModal = root.querySelector("#encryption-intro-modal");
+    const introContinueButton = root.querySelector("#encryption-intro-continue");
     const instructionsModal = root.querySelector("#instructions-modal");
     const instructionsClose = root.querySelector("#instructions-close");
     const beginButton = root.querySelector("#begin-decryption");
@@ -165,6 +143,15 @@ scenarios: [
     prepareWordList();
 
     window.__caughtInTheNetEncryptionClockInterval = window.setInterval(updateClock, 1000);
+
+    introContinueButton.addEventListener(
+      "click",
+      () => {
+        introModal.hidden = true;
+        instructionsModal.hidden = false;
+      },
+      { signal }
+    );
 
     beginButton.addEventListener("click", closeInstructions, { signal });
     restartSessionButton.addEventListener("click", () => resetGame(true), { signal });

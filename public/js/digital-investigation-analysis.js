@@ -1,271 +1,228 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    const analysisClock = document.getElementById("analysis-clock");
+
+    function updateAnalysisClock() {
+        if (!analysisClock) {
+            return;
+        }
+
+        const now = new Date();
+        analysisClock.textContent = now.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
+
+    updateAnalysisClock();
+
+    if (window.__caughtInTheNetAnalysisClockInterval) {
+        window.clearInterval(window.__caughtInTheNetAnalysisClockInterval);
+    }
+
+    window.__caughtInTheNetAnalysisClockInterval = window.setInterval(
+        updateAnalysisClock,
+        1000
+    );
+
     // ---------------------------------------------------------
     // EVIDENCE DATA
     // ---------------------------------------------------------
 
     const evidenceFiles = {
         E01: {
-            title: "Promotion Review Outcome",
-            content: `METACORTEX INDUSTRIES
-INTERNAL - PROMOTION REVIEW OUTCOME
+            title: "Senior Developer Promotion Rejected - Eugene",
+            content: `PROMOTION REVIEW OUTCOME
 
-Employee: Eugene
 Date: 12 June 2026
-Application: Senior Developer
-
-Thank you for your recent application for advancement to the position of Senior Developer.
-
-Following review, your application has not been approved at this time.
-
-While your technical performance remains strong, management would like to see further development in collaborative project work and team leadership before considering advancement to a senior position.
-
-Your eligibility may be reviewed again during the next promotion cycle.
-
-Human Resources
-Metacortex Industries`
+Employee: Eugene
+Position Applied For: Senior Developer
+Outcome: Application unsuccessful
+Reason: Strong technical performance, but further team leadership and collaborative project experience required`
         },
 
         E02: {
-            title: "Project Application Outcome",
-            content: `METACORTEX INDUSTRIES
-INTERNAL - PROJECT APPLICATION OUTCOME
+            title: "Project HELIOS Application Rejected - Eugene",
+            content: `PROJECT HELIOS APPLICATION OUTCOME
 
+Date: 31 July 2026
 Employee: Eugene
 Project: Project HELIOS
-Date: 31 July 2026
-
-Thank you for expressing interest in joining the Project HELIOS development team.
-
-Following review of the internal applications, you have not been selected for a position on the project.
-
-Due to the specialised nature of the project and limited number of available positions, the development team has now been finalised.
-
-We appreciate your interest and encourage you to apply for future internal project opportunities.
-
-Research & Development Management
-Metacortex Industries`
+Outcome: Not selected for the development team`
         },
 
         E03: {
-            title: "Internal Project Announcement",
-            content: `METACORTEX INDUSTRIES
-INTERNAL STAFF ANNOUNCEMENT
+            title: "Project HELIOS Development Team Announcement",
+            content: `PROJECT HELIOS DEVELOPMENT TEAM ANNOUNCEMENT
 
 Date: 6 August 2026
 Time: 09:10
-Subject: Project HELIOS Development Team
 
-Metacortex Industries is pleased to confirm the development team for Project HELIOS, our latest internal research and development initiative.
-
-The project team will include:
+Selected Team Members:
 - Angela Bennett
 - Marcus Lee
 - Sophie Carter
-- Daniel Ruiz
-
-The team will begin development activities this month, with further project information to be circulated internally as work progresses.
-
-Please join us in congratulating the selected team members.
-
-Research & Development Management
-Metacortex Industries`
+- Daniel Ruiz`
         },
 
         E04: {
-            title: "Browser History - Eugene's Workstation",
-            content: `BROWSER HISTORY EXPORT
+            title: "Angela Research - Eugene's Workstation",
+            content: `ANGELA RESEARCH - EUGENE'S WORKSTATION
 
-Device: MCX-WS17
-Assigned User: Eugene
+Device: MCX-WS17 - Eugene's Workstation
+User: Eugene
 Date: 19 August 2026
 
-19:18:42 - Search: "Angela Bennett Metacortex"
-19:21:07 - Public/professional page
-19:27:31 - Social page
-19:34:18 - Event/attendee page
-19:39:52 - Social post
-19:46:03 - Metacortex public staff page`
+19:18:42: Search "Angela Bennett Metacortex"
+19:21:07: Viewed public/professional profile
+19:27:31: Viewed social media page
+19:34:18: Viewed event/attendee page
+19:39:52: Viewed social media post
+19:46:03: Viewed Metacortex public staff page`
         },
 
-        // Temporary prototype content.
-        // Replace with the final public-profile material from Game 2.
         E05: {
-            title: "Public Profile Records - Angela Bennett",
-            content: `PUBLIC PROFILE RECORDS
-Subject: Angela Bennett
+            title: "Angela's Public Information",
+            content: `PUBLIC INFORMATION - ANGELA BENNETT
 
-The following information was publicly available online:
+Name: Angela Bennett
+Employer: MetaCortex Industries
+Location: South Brisbane
+Current Project: Project HELIOS
+Work Contact: David Walker
+Travel Plans: Away from work 14-28 October for a trip to Japan
 
-- Metacortex employee profile
-- Public social-media information
-- Public event or interest information
-
-FORENSIC NOTE:
-Final profile details will be updated to match the Online Privacy activity.
-
-These records were accessible without logging into Angela's accounts.`
+Source: Public social media and professional information`
         },
 
         E06: {
-            title: "Recovered File Record - Eugene's Workstation",
-            content: `METACORTEX DIGITAL FORENSICS
-RECOVERED FILE RECORD
+            title: "Encrypted File transfer.enc - Eugene's Workstation",
+            content: `RECOVERED FILE RECORD
 
-Source Device: MCX-WS17
-Assigned User: Eugene
-User Account: eugene.h
-Recovered File: transfer.enc
-Original Path: C:\\Users\\eugene\\Documents\\transfer.enc
+Device: MCX-WS17 - Eugene's Workstation
+User: Eugene
+File: transfer.enc
+Location: C:\\Users\\eugene\\Documents\\transfer.enc
 File Type: Encrypted data
 Created: 14 October 2026 - 20:15:06
-Last Modified: 14 October 2026 - 20:15:06
-Status: Preserved for further analysis`
+Modified: 14 October 2026 - 20:15:06`
         },
 
         E07: {
-            title: "Browser History - Competitor Research",
-            content: `BROWSER HISTORY EXPORT
+            title: "NURV Senior Developer Research - Eugene's Workstation",
+            content: `BROWSER HISTORY - EUGENE'S WORKSTATION
 
-Device: MCX-WS17
-Assigned User: Eugene
+Device: MCX-WS17 - Eugene's Workstation
+User: Eugene
 
-3 September 2026
-18:42:16 - NURV Technologies - About
-18:47:03 - NURV Technologies - Research & Development
-18:55:29 - NURV Technologies - Careers
-
-5 September 2026
-20:11:44 - NURV Careers - Software Development
-20:18:07 - NURV Jobs - Senior Developer
-
-8 September 2026
-19:36:22 - NURV Jobs - Senior Developer`
+3 September 2026: Viewed NURV Technologies - About
+3 September 2026: Viewed NURV Research & Development
+5 September 2026: Viewed NURV Careers
+5 September 2026: Viewed Software Development
+8 September 2026: Viewed Senior Developer position`
         },
 
-        // Temporary prototype content.
-        // Replace with the final phishing email from Game 3.
         E08: {
-            title: "Email Message - Angela's Inbox",
-            content: `EMAIL MESSAGE
+            title: "Phishing Email Received - Angela's Inbox",
+            content: `PHISHING EMAIL RECEIVED - ANGELA'S INBOX
 
 To: Angela Bennett
 Sent: 14 October 2026 - 15:36
-Subject: Account Verification Required
+Subject: Project Helios Access Review
+From: David Walker <david.walker@metac0rtex.com.au>
 
-Hi Angela,
+Message:
+Before you head off next week, please confirm your Project Helios repository access by signing in before 4:00pm today.
 
-We need you to confirm your details using the link below.
-
-[LINK TO ACCOUNT VERIFICATION PAGE]
-
-Please complete the verification as soon as possible.
-
-Metacortex Support
-
-FORENSIC NOTE:
-Final email content will be updated to match the Phishing activity.`
+Displayed Link: https://portal.metacortex.com.au/helios
+Actual Link: https://metacortex-access-review.com/helios`
         },
 
-        // URL/page title will later be updated to match E08.
         E09: {
-            title: "Browser Record - Angela's Workstation",
-            content: `BROWSER ACTIVITY RECORD
+            title: "Phishing Link Opened - Angela's Workstation",
+            content: `PHISHING LINK OPENED - ANGELA'S WORKSTATION
 
-Device: MCX-WS04
-Assigned User: Angela Bennett
+Device: MCX-WS04 - Angela's Workstation
 User Account: angela.b
 Date: 14 October 2026
 
-15:41:08 - Navigated to account verification page
-
-Page Title: Metacortex Account Verification
-Previous Page: Angela's webmail session
-Session Duration: 00:02:17`
+15:41:08: Opened link from suspicious email
+Destination: https://metacortex-access-review.com/helios
+Previous Page: Angela's Webmail
+Time on Page: 2 minutes 17 seconds`
         },
 
         E10: {
-            title: "Project Email - Angela's Inbox",
-            content: `From: Dr. Marcus Lee <marcus.lee@metacortex.local>
+            title: "Project HELIOS Source-Code Testing - Angela's Inbox",
+            content: `PROJECT HELIOS EMAIL
+
+Date: 9 October 2026
+Time: 10:24
+From: Dr Marcus Lee
 To: Project HELIOS Development Team
-Sent: 9 October 2026 - 10:24
-Subject: Project HELIOS - Development Update
+Subject: Project HELIOS - Final Source-Code Testing
 
-Hi team,
+Message:
+Project HELIOS is entering its final development stage.
 
-HELIOS is performing very well in testing and could become one of Metacortex's most valuable technologies.
-
-Please keep finalising the source code and preparing it for the next internal demonstration.
-
-Angela, please continue coordinating the source-code testing.
-
-Thanks,
-Dr. Marcus Lee
-Project Lead - Project HELIOS`
+Angela Bennett will coordinate source-code testing and repository access for the development team before the final release.`
         },
 
         E11: {
-            title: "Workstation Session Log - Angela",
-            content: `WORKSTATION SESSION LOG
+            title: "Angela Logged Off - Angela's Workstation",
+            content: `ANGELA BENNETT - WORKSTATION SESSION
 
-Device: MCX-WS04
-Assigned User: Angela Bennett
 Date: 14 October 2026
+User Account: angela.b
+Source Device: MCX-WS04 - Angela's Workstation
 
-17:12:46 - Project repository accessed
-17:16:02 - Email session closed
-17:18:31 - User angela.b logged off`
+17:12:46: Project HELIOS repository accessed
+17:16:02: Email closed
+17:18:31: angela.b logged off`
         },
 
         E12: {
-            title: "Recovered Communication - Eugene's Computer",
+            title: "NURV Source-Code Transfer Plan - Eugene's Computer",
             content: `RECOVERED COMMUNICATION
 
 Date: 14 October 2026
 Time: 20:14
-Remote Contact: G. Winston - NURV Technologies
+Contact: G. Winston - NURV Technologies
 
 G. Winston:
-"Everything is set for 2130. The connection to our server will remain open until the transfer is complete. Send the source-code archive through the internal server as planned, and don't leave anything behind that can be traced back to us."
+Everything is set for 21:30. The connection will remain open until the transfer is complete. Send the source-code archive through the internal server and don't leave any traces. Payment and your position at NURV will be arranged after delivery.
 
 Local User:
-"Understood."
-
-G. Winston:
-"Once delivery is confirmed, the agreed payment will be released and the position at NURV is yours."`
+Understood.`
         },
 
         E13: {
-            title: "Authentication Log - Internal Network",
-            content: `AUTHENTICATION LOG
+            title: "angela.b Login - Eugene's Workstation",
+            content: `AUTHENTICATION LOG - INTERNAL NETWORK
+
 Date: 14 October 2026
+User Account: angela.b
+Source Device: MCX-WS17 - Eugene's Workstation
+Destination: Development Server
 
-18:07:14 - LOGIN SUCCESS
-Account: angela.b
-Source Device: MCX-WS17
-Target: DEV-SRV02
-
-18:09:31 - ACCESS GRANTED
-Account: angela.b
-Resource: Development Server`
+18:07:14: Login successful
+18:09:31: Development Server access granted`
         },
 
         E14: {
-            title: "Network Security Event",
-            content: `NETWORK SECURITY EVENT
+            title: "HELIOS Transfer to NURV Blocked",
+            content: `NETWORK EVENT - DEVELOPMENT SERVER
+
 Date: 14 October 2026
+Source: Development Server
+Destination: NURV Technologies
 
-21:29:58 - OUTBOUND CONNECTION OPENED
-Source: DEV-SRV02
-Destination: NURV External Server
+21:29:58: Connection opened to NURV Technologies
+21:30:02: HELIOS_SOURCE_ARCHIVE.zip transfer started
+21:30:04: Transfer blocked by network defence controls
 
-21:30:02 - FILE TRANSFER STARTED
-File: HELIOS_SOURCE_ARCHIVE.zip
-
-21:30:04 - TRANSFER BLOCKED
-Action: Network defence controls deployed
-Result: Outbound connection terminated
-Status: No data transfer completed`
-        }
+Result: No data successfully transferred`
+        },
     };
 
     // ---------------------------------------------------------
@@ -319,6 +276,35 @@ Status: No data transfer completed`
     // EVIDENCE FILE VIEWER
     // ---------------------------------------------------------
 
+    function renderEvidenceContent(element, content) {
+        element.textContent = "";
+
+        const lines = content.split("\n");
+
+        lines.forEach((line, index) => {
+            const labelMatch = line.match(/^([A-Za-z][A-Za-z /&'-]{1,40}):\s*(.*)$/);
+
+            if (labelMatch) {
+                const label = document.createElement("strong");
+                label.textContent = `${labelMatch[1]}:`;
+
+                element.appendChild(label);
+
+                if (labelMatch[2]) {
+                    element.appendChild(
+                        document.createTextNode(` ${labelMatch[2]}`)
+                    );
+                }
+            } else {
+                element.appendChild(document.createTextNode(line));
+            }
+
+            if (index < lines.length - 1) {
+                element.appendChild(document.createTextNode("\n"));
+            }
+        });
+    }
+
     function openEvidenceFile(evidenceId) {
         const evidence = evidenceFiles[evidenceId];
 
@@ -327,7 +313,7 @@ Status: No data transfer completed`
         }
 
         evidenceViewerTitle.textContent = evidence.title;
-        evidenceViewerContent.textContent = evidence.content;
+        renderEvidenceContent(evidenceViewerContent, evidence.content);
         evidenceViewer.hidden = false;
     }
 

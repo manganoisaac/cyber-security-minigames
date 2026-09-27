@@ -1,10 +1,15 @@
 package pages
 
-import "cyber-security-minigames/views/layouts"
+import (
+	"cyber-security-minigames/views/layouts"
+	"cyber-security-minigames/views/components/ui"
+)
 
 templ DigitalInvestigationAnalysis() {
 	@layouts.Base("Metacortex Evidence Analysis") {
 		<main class="digital-investigation-page" id="digital-investigation-analysis">
+
+			@ui.BackButton()
 
 			<section class="investigation-phase investigation-phase--analysis">
 				<div class="analysis-desktop">
@@ -57,72 +62,72 @@ templ DigitalInvestigationAnalysis() {
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E01">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Promotion Review Outcome</span>
+					<span>Senior Developer Promotion Rejected - Eugene</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E02">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Project Application Outcome</span>
+					<span>Project HELIOS Application Rejected - Eugene</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E03">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Internal Project Announcement</span>
+					<span>Project HELIOS Development Team Announcement</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E04">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Browser History - Eugene's Workstation</span>
+					<span>Angela Research - Eugene's Workstation</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E05">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Public Profile Records - Angela Bennett</span>
+					<span>Angela's Public Information</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E06">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Recovered File Record - Eugene's Workstation</span>
+					<span>Encrypted File transfer.enc - Eugene's Workstation</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E07">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Browser History - Competitor Research</span>
+					<span>NURV Senior Developer Research - Eugene's Workstation</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E08">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Email Message - Angela's Inbox</span>
+					<span>Phishing Email Received - Angela's Inbox</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E09">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Browser Record - Angela's Workstation</span>
+					<span>Phishing Link Opened - Angela's Workstation</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E10">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Project Email - Angela's Inbox</span>
+					<span>Project HELIOS Source-Code Testing - Angela's Inbox</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E11">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Workstation Session Log - Angela</span>
+					<span>Angela Logged Off - Angela's Workstation</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E12">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Recovered Communication - Eugene's Computer</span>
+					<span>NURV Source-Code Transfer Plan - Eugene's Computer</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E13">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Authentication Log - Internal Network</span>
+					<span>angela.b Login - Eugene's Workstation</span>
 				</button>
 
 				<button class="analysis-evidence-file" type="button" draggable="true" data-evidence-id="E14">
 					<span class="analysis-file-icon" aria-hidden="true">TXT</span>
-					<span>Network Security Event</span>
+					<span>HELIOS Transfer to NURV Blocked</span>
 				</button>
 
 			</div>
@@ -519,34 +524,38 @@ templ DigitalInvestigationAnalysis() {
 			<div class="investigation-hint-section">
 				<h3>Culprit</h3>
 				<p>
-					Look for evidence showing when Angela stopped using her account,
-					where her account was later used, and which workstation contains
-					evidence connected to the theft.
+					Compare the evidence showing when Angela logged off with the later
+					<strong>angela.b</strong> login. Pay close attention to the source device
+					and workstation named in each record, then look for other suspicious
+					evidence recovered from that same workstation.
 				</p>
 			</div>
 
 			<div class="investigation-hint-section">
 				<h3>Method</h3>
 				<p>
-					Look for evidence connecting Eugene's research into Angela,
-					information that was publicly available, the phishing email,
-					and what Angela opened afterwards.
+					Follow the sequence from Eugene researching Angela, to the information
+					publicly available about her, to the Project HELIOS access email and the
+					phishing link opened on Angela's workstation. Look for details that repeat
+					across these pieces of evidence.
 				</p>
 			</div>
 
 			<div class="investigation-hint-section">
 				<h3>Goal</h3>
 				<p>
-					Look for evidence showing what Project HELIOS contained,
-					what NURV requested, and what the network controls later blocked.
+					Compare the Project HELIOS source-code testing email, the recovered NURV
+					transfer plan, and the blocked network transfer. Ask what valuable asset
+					appears across all three pieces of evidence.
 				</p>
 			</div>
 
 			<div class="investigation-hint-section">
 				<h3>Motive</h3>
 				<p>
-					Look for evidence about Eugene's career setbacks, his interest
-					in jobs at NURV, and what NURV offered him.
+					Look at the evidence about Eugene's recent career setbacks, then compare
+					it with his later interest in NURV and the offer described in the recovered
+					communication. Consider what might have motivated him to target Project HELIOS.
 				</p>
 			</div>
 
@@ -740,20 +749,27 @@ templ DigitalInvestigationAnalysis() {
 			<!-- Windows-style taskbar -->
 			<footer class="investigation-taskbar" aria-hidden="true">
 				<button class="investigation-start-button" type="button" tabindex="-1">
+					<span class="investigation-start-button__logo" aria-hidden="true"></span>
 					<strong>Start</strong>
 				</button>
 
 				<div class="investigation-taskbar__divider"></div>
 
 				<div class="investigation-taskbar__app">
-					<span class="investigation-app-icon">A</span>
+					<span class="investigation-taskbar__app-icon" aria-hidden="true"></span>
 					<span>Evidence Analysis</span>
+				</div>
+
+				<div class="investigation-taskbar__app">
+					<span class="investigation-taskbar__app-icon" aria-hidden="true"></span>
+					<span>Metacortex Case File</span>
 				</div>
 
 				<div class="investigation-taskbar__spacer"></div>
 
 				<div class="investigation-tray">
-					<span>--:--</span>
+					<span class="investigation-tray__speaker" aria-hidden="true"></span>
+					<span id="analysis-clock">--:--</span>
 				</div>
 			</footer>
 

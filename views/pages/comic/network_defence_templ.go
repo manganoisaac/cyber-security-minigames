@@ -46,16 +46,22 @@ func NetworkDefenceComicPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-				Title:        "Network Defence",
-				ContinueHref: "/network-defense",
+			templ_7745c5c3_Err = comiccomp.ComicPage(comiccomp.ComicData{
+				PanelImages: []string{
+					"/public/images/comics/Game_5/image-1.png",
+					"/public/images/comics/Game_5/image-2.png",
+					"/public/images/comics/Game_5/image-3.png",
+					"/public/images/comics/Game_5/image-4.png",
+				},
+				ContinueHref:  "/network-defense",
+				ContinueLabel: "Continue",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Base("Story Comic - Network Defence").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Base("Caught in the Net - Network Defence").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

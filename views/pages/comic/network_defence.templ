@@ -6,10 +6,16 @@ import (
 )
 
 templ NetworkDefenceComicPage() {
-	@layouts.Base("Story Comic - Network Defence") {
-		@comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-			Title:        "Network Defence",
-			ContinueHref: "/network-defense",
+	@layouts.Base("Caught in the Net - Network Defence") {
+		@comiccomp.ComicPage(comiccomp.ComicData{
+			PanelImages: []string{
+				"/public/images/comics/Game_5/image-1.png",
+				"/public/images/comics/Game_5/image-2.png",
+				"/public/images/comics/Game_5/image-3.png",
+				"/public/images/comics/Game_5/image-4.png",
+			},
+			ContinueHref:  "/network-defense",
+			ContinueLabel: "Continue",
 		})
 	}
 }

@@ -92,7 +92,7 @@
 
   background: var(--page-bg);
 
-  /* Pixelify Sans ships an "ffi" ligature whose glyph reads as capitals, so
+  /* Pixel Operator ships an "ffi" ligature whose glyph reads as capitals, so
      "Griffith" renders as "GriFFIth". Nothing on this page wants ligatures,
      and one of the words it breaks is a real institution's name. */
   font-variant-ligatures: none;
@@ -193,7 +193,7 @@
   position: relative;
   display: inline-block;
 
-  font-family: "Komodore", "Pixelify Sans", monospace;
+  font-family: "Komodore", "Pixel Operator", monospace;
   font-size: var(--credits-title-size);
   font-weight: normal;
   letter-spacing: var(--credits-title-tracking);
@@ -229,7 +229,7 @@
 }
 
 .credits__subtitle {
-  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
   font-size: var(--credits-subtitle-size);
   font-weight: normal;
   letter-spacing: var(--credits-signoff-tracking);
@@ -249,7 +249,7 @@
 }
 
 .credits__commission-label {
-  font-family: "Pixelify Sans", monospace;
+  font-family: "Pixel Operator", monospace;
   font-size: var(--credits-chrome-size);
   font-weight: 400;
   letter-spacing: var(--credits-heading-tracking);
@@ -259,7 +259,7 @@
 }
 
 .credits__commission-name {
-  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
   font-size: var(--credits-heading-size);
   font-weight: normal;
 
@@ -267,7 +267,7 @@
 }
 
 .credits__commission-org {
-  font-family: "Pixelify Sans", monospace;
+  font-family: "Pixel Operator", monospace;
   font-size: var(--credits-body-size);
   font-weight: 400;
 
@@ -293,7 +293,7 @@
   margin-bottom: var(--credits-group-gap);
   padding-bottom: var(--credits-group-gap);
 
-  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
   font-size: var(--credits-heading-size);
   font-weight: normal;
   letter-spacing: var(--credits-heading-tracking);
@@ -339,7 +339,7 @@
 .credits__entry-name {
   grid-column: 1;
 
-  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
   font-size: var(--credits-name-size);
   line-height: var(--credits-line-height);
   text-align: right;
@@ -350,7 +350,7 @@
 .credits__entry-role {
   grid-column: 2;
 
-  font-family: "Pixelify Sans", monospace;
+  font-family: "Pixel Operator", monospace;
   font-size: var(--credits-role-size);
   line-height: var(--credits-line-height);
   text-align: left;
@@ -381,7 +381,7 @@
 }
 
 .credits__thanks-heading {
-  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
   font-size: var(--credits-heading-size);
   font-weight: normal;
   letter-spacing: var(--credits-heading-tracking);
@@ -392,7 +392,7 @@
 }
 
 .credits__thanks-text {
-  font-family: "Pixelify Sans", monospace;
+  font-family: "Pixel Operator", monospace;
   font-size: var(--credits-body-size);
   font-weight: 400;
   line-height: var(--credits-line-height);
@@ -401,7 +401,7 @@
 }
 
 .credits__signoff {
-  font-family: "Komodore", "Pixelify Sans", monospace;
+  font-family: "Komodore", "Pixel Operator", monospace;
   font-size: var(--credits-signoff-size);
   font-weight: 400;
   letter-spacing: var(--credits-signoff-tracking);
@@ -512,7 +512,7 @@
 
   border: var(--credits-return-border) solid var(--credits-rule);
 
-  font-family: "Pixel Operator Bold", "Pixelify Sans", monospace;
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
   font-size: var(--credits-chrome-size);
   font-weight: normal;
   letter-spacing: var(--credits-signoff-tracking);
@@ -540,7 +540,7 @@
   bottom: var(--credits-chrome-inset);
   z-index: 1;
 
-  font-family: "Pixelify Sans", monospace;
+  font-family: "Pixel Operator", monospace;
   font-size: var(--credits-chrome-size);
   font-weight: 400;
   letter-spacing: var(--credits-signoff-tracking);

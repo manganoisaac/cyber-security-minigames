@@ -6,10 +6,15 @@ import (
 )
 
 templ PrivacyComicPage() {
-	@layouts.Base("Story Comic - Online Privacy") {
-		@comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-			Title:        "Online Privacy",
-			ContinueHref: "/privacy",
+	@layouts.Base("Caught in the Net - Online Privacy") {
+		@comiccomp.ComicPage(comiccomp.ComicData{
+			PanelImages: []string{
+				"/public/images/comics/Game_2/image-1.png",
+				"/public/images/comics/Game_2/image-2.png",
+				"/public/images/comics/Game_2/image-3.png",
+			},
+			ContinueHref:  "/privacy",
+			ContinueLabel: "Continue",
 		})
 	}
 }

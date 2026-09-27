@@ -73,7 +73,7 @@
 .encryption-desktop__icons {
   position: absolute;
   z-index: 2;
-  top: 18px;
+  top: 88px;
   left: 14px;
   display: flex;
   width: 86px;
@@ -743,6 +743,75 @@
 
 .game-modal {
   width: min(560px, 92vw);
+}
+
+/* Encryption concept introduction */
+.encryption-intro-modal {
+  width: min(900px, 94vw);
+}
+
+.encryption-intro-modal .game-modal__body {
+  padding: 26px 28px;
+}
+
+.encryption-intro-modal .game-modal__body h2 {
+  margin-bottom: 14px;
+}
+
+.encryption-intro__flow {
+  display: grid;
+  grid-template-columns:
+    minmax(110px, 1fr) auto
+    minmax(110px, 1fr) auto
+    minmax(110px, 1fr) auto
+    minmax(110px, 1fr) auto
+    minmax(110px, 1fr);
+
+  align-items: stretch;
+  gap: 8px;
+
+  margin: 22px 0;
+  padding: 14px;
+
+  border-top: 2px solid var(--win98-shadow);
+  border-left: 2px solid var(--win98-shadow);
+  border-right: 2px solid var(--win98-light);
+  border-bottom: 2px solid var(--win98-light);
+
+  background: #efefef;
+}
+
+.encryption-intro__flow > span:not(.encryption-intro__arrow) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 54px;
+  padding: 8px 10px;
+
+  border-top: 2px solid var(--win98-light);
+  border-left: 2px solid var(--win98-light);
+  border-right: 2px solid var(--win98-dark);
+  border-bottom: 2px solid var(--win98-dark);
+
+  background: var(--win98-face);
+
+  color: #111;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.encryption-intro__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--win98-title);
+  font-family: "Courier New", Courier, monospace !important;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .game-modal__body {

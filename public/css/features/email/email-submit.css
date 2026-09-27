@@ -1,18 +1,36 @@
 .email-submit {
   position: absolute;
-  bottom: var(--size-s);
-  right: var(--size-s);
-  --submit-padding: var(--size-s) var(--size-m);
-  --submit-radius: 8px;
-  --submit-border: 2px;
-  padding: var(--submit-padding);
-  border-radius: var(--submit-radius);
-  border: var(--submit-border) solid var(--text-muted);
-  background: var(--success);
-  color: var(--text);
-  cursor: pointer;
+  right: 16px;
+  bottom: 14px;
+  z-index: 5;
+  min-width: 150px;
+  min-height: 38px;
+  padding: 6px 14px;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  outline: 1px dotted #000;
+  outline-offset: -6px;
+}
+
+.email-submit:hover,
+.email-submit:active {
+  filter: none;
+  transform: none;
+}
+
+.email-submit:active {
+  border-top-color: #000;
+  border-left-color: #000;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
 }
 
 .email-submit__count {
-  margin-left: var(--size-s);
+  margin-left: 6px;
 }

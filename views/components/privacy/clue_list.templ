@@ -1,12 +1,11 @@
 package privacy
 
 import "cyber-security-minigames/types"
+import "strconv"
 
-// ClueList is the player's own notes beside the feed. It is styled as a
-// terminal rather than as part of SnapTrail, so it reads as the
-// investigator's tool and not something on Angela's profile. oob=true swaps
-// it in out-of-band when a post is collected.
-templ ClueList(clues []types.ClueUI, oob bool) {
+// ClueList is the player's investigation notes beside the feed. oob=true
+// swaps it out-of-band after a post is successfully analysed.
+templ ClueList(clues []types.ClueUI, analysedCount int, totalPosts int, oob bool) {
 	<aside
 		id="privacy__clue-list"
 		class="clue-list"
@@ -14,9 +13,13 @@ templ ClueList(clues []types.ClueUI, oob bool) {
 			hx-swap-oob="true"
 		}
 	>
-		<h2 class="clue-list__heading">[ CLUES FOUND ]</h2>
+		<h2 class="clue-list__heading">[ INFORMATION DISCOVERED ]</h2>
+		<p class="clue-list__progress">
+			POSTS ANALYSED
+			<strong>{ strconv.Itoa(analysedCount) } / { strconv.Itoa(totalPosts) }</strong>
+		</p>
 		if len(clues) == 0 {
-			<p class="clue-list__empty">Nothing yet. Click a post that gives away personal information to add it here.</p>
+			<p class="clue-list__empty">Nothing yet. Analyse each post and decide whether it reveals useful personal information.</p>
 		} else {
 			<dl class="clue-list__items">
 				for _, clue := range clues {

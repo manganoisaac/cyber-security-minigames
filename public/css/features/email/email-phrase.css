@@ -1,31 +1,36 @@
 .email-phrase {
-  transition: all 0.2s ease;
-}
-.email-phrase:hover {
-  cursor: pointer;
-  background: var(--bg);
+  display: inline;
+  padding: 1px 2px;
+  border-radius: 1px;
+  transition: background 80ms ease;
 }
 
-/* Neutral until Submit is pressed - selecting a phrase must never give away
-   whether it's actually suspicious on its own (email-phrase--correct/--wrong
-   below only ever apply once the server has revealed a Submit's result). */
+.email-phrase:hover {
+  cursor: pointer;
+  background: #e7ecff;
+  outline: 1px dotted #000080;
+}
+
+/* Selecting a phrase remains neutral until Submit Selection is pressed. */
 .email-phrase--selected {
-  background: var(--bg-selected);
-  border-radius: 3px;
+  display: inline;
+  padding: 1px 2px;
+  background: #000080;
+  color: #fff;
+  outline: 1px dotted #fff;
+  cursor: pointer;
 }
 
 .email-phrase--selected.email-phrase--correct {
-  background: transparent;
-  color: green;
+  background: #d9f4d0;
+  color: #0a5b12;
+  outline: 1px solid #2b8a34;
   font-weight: 700;
 }
 
 .email-phrase--selected.email-phrase--wrong {
-  background: transparent;
-  color: red;
+  background: #f7d2d2;
+  color: #8b1111;
+  outline: 1px solid #b53a3a;
   font-weight: 700;
-}
-
-.email-phrase--selected:hover {
-  cursor: pointer;
 }
