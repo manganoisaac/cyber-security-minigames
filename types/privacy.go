@@ -14,6 +14,15 @@ type Post struct {
 	Comments int
 	Shares   int
 	Clue     *Clue
+
+	// Analysed tracks whether the player has correctly classified this post.
+	Analysed bool
+	// AnalysisOptions are the four multiple-choice answers shown when the
+	// player analyses the post. CorrectOption is the zero-based index of the
+	// right answer.
+	AnalysisOptions  []string
+	CorrectOption    int
+	AnalysisFeedback string
 }
 
 type Clue struct {
@@ -23,16 +32,21 @@ type Clue struct {
 }
 
 type PostUI struct {
-	Id            int
-	Author        string
-	Handle        string
-	Posted        string
-	Context       string
-	Content       string
-	Likes         int
-	Comments      int
-	Shares        int
-	AddedToFolder bool
+	Id               int
+	Author           string
+	Handle           string
+	Posted           string
+	Context          string
+	Content          string
+	Likes            int
+	Comments         int
+	Shares           int
+	AddedToFolder    bool
+	Analysed         bool
+	HasClue          bool
+	AnalysisOptions  []string
+	CorrectOption    int
+	AnalysisFeedback string
 }
 
 type ClueUI struct {
@@ -41,8 +55,10 @@ type ClueUI struct {
 }
 
 type PrivacyUI struct {
-	Posts []PostUI
-	Clues []ClueUI
+	Posts         []PostUI
+	Clues         []ClueUI
+	AnalysedCount int
+	TotalPosts    int
 }
 
 // SocialProfile is the owner of the feed in the Online Privacy game, shown in

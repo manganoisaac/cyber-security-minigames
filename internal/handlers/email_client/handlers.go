@@ -6,7 +6,7 @@ import (
 
 	"cyber-security-minigames/data"
 	"cyber-security-minigames/types"
-	"cyber-security-minigames/views/components/ui"
+	"cyber-security-minigames/views/components/email"
 
 	"github.com/a-h/templ"
 )
@@ -80,7 +80,11 @@ func (h *emailHandler) Submit(w http.ResponseWriter, r *http.Request) {
 	} else {
 		st.Reset()
 	}
-	ui.Modal(res.message, res.nextURL, false).Render(r.Context(), w)
+	if res.correct {
+		email.EmailModal("Analysis Complete", res.message, "Continue", res.nextURL, true).Render(r.Context(), w)
+	} else {
+		email.EmailModal("Check Your Selection", res.message, "Try Again", "", false).Render(r.Context(), w)
+	}
 	for _, part := range reveal {
 		part.Render(r.Context(), w)
 	}
@@ -92,7 +96,11 @@ func (h *emailHandler) Check(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res := h.svc.Check(stateForRequest(r), em)
-	ui.Modal(res.verdict, res.url, false).Render(r.Context(), w)
+	if res.url != "" {
+		email.EmailModal("Phishing Email Identified", res.verdict, "Continue to Analysis", res.url, true).Render(r.Context(), w)
+	} else {
+		email.EmailModal("Not Phishing", res.verdict, "Keep Looking", "", false).Render(r.Context(), w)
+	}
 }
 
 func (h *emailHandler) ModalClose(w http.ResponseWriter, r *http.Request) {

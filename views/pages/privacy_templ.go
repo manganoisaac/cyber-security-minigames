@@ -12,7 +12,7 @@ import "cyber-security-minigames/views/layouts"
 import "cyber-security-minigames/views/components/privacy"
 import "cyber-security-minigames/types"
 
-func PrivacyPage(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, intro string) templ.Component {
+func PrivacyPage(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, analysedCount int, totalPosts int, intro string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -45,7 +45,7 @@ func PrivacyPage(profile types.SocialProfile, posts []types.PostUI, clues []type
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = privacy.Main(profile, posts, clues, intro).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = privacy.Main(profile, posts, clues, analysedCount, totalPosts, intro).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -50,20 +50,14 @@ func PasswordService() IPasswordService {
 }
 
 func (s *Service) Instructions(st IPasswordGameState) templ.Component {
-	return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), data.InstructionsForPassword(), false)
+	return pages.PasswordPage()
 }
 
 func (s *Service) Page(st IPasswordGameState) templ.Component {
-	if st.Level() == 1 {
-
-		return pages.PasswordPage(st.View(), st.Guesses(), len(st.CorrectPhrases()), data.PasswordIntro, true)
-	} else {
-		return pages.PasswordLevel2Page(
-			// data.PasswordPhrases,
-			st.GetHints(),
-			st.Guesses(),
-		)
-	}
+	// The rebuilt password activity is a single client-side two-phase game.
+	// Always render it from the beginning so stale state from the legacy
+	// implementation cannot drop a returning player into the old level 2 view.
+	return pages.PasswordPage()
 }
 
 func (s *Service) Popup(content string) templ.Component {

@@ -1,8 +1,11 @@
 package email
 
 import "cyber-security-minigames/types"
-import "cyber-security-minigames/utils/avatar"
 
+// EmailAvatar is styled as a tiny classic mail envelope rather than a modern
+// circular profile avatar, matching the old desktop mail-client aesthetic.
 templ EmailAvatar(email types.Email) {
-	<div class="email-avatar" style={ "background-color: " + avatar.Color(email.ID) }>{ avatar.Letter(email.Subject) }</div>
+	<div class="email-avatar" aria-hidden="true" title={ email.Subject }>
+		<span class="email-avatar__flap"></span>
+	</div>
 }

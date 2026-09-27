@@ -3,16 +3,16 @@ package privacy
 import "cyber-security-minigames/types"
 import "cyber-security-minigames/views/components/ui"
 
-// Main lays the game out as the SnapTrail web app: the profile feed the
-// player reads through, with their Clues Found notes alongside it. The app's
-// top bar is scenery - nothing in it is clickable - so the posts stay the
-// only thing on the page that does anything.
-templ Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, intro string) {
+// Main lays the game out as the SnapTrail web app: the profile feed the player
+// analyses, with their discovered information alongside it.
+templ Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueUI, analysedCount int, totalPosts int, intro string) {
 	<div class="privacy">
 		@ui.BackButton()
+
 		<div class="privacy__app">
 			<header class="privacy__topbar">
 				<span class="privacy__logo">SnapTrail</span>
+
 				<div class="privacy__nav" aria-hidden="true">
 					<span class="privacy__nav-item">Home</span>
 					<span class="privacy__nav-item">Explore</span>
@@ -21,13 +21,79 @@ templ Main(profile types.SocialProfile, posts []types.PostUI, clues []types.Clue
 					<span class="privacy__nav-item privacy__nav-item--active">Profile</span>
 				</div>
 			</header>
+
 			<div class="privacy__body">
 				@PostList(profile, posts)
-				@ClueList(clues, false)
+				@ClueList(clues, analysedCount, totalPosts, false)
 			</div>
 		</div>
+
+		<div class="privacy-analysis-modal" id="privacy-analysis-modal" hidden>
+			<div
+				class="privacy-analysis-modal__backdrop"
+				data-privacy-analysis-close
+			></div>
+
+			<section
+				class="privacy-analysis-modal__dialog"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="privacy-analysis-title"
+			>
+				<header class="privacy-analysis-modal__header">
+					<div>
+						<p class="privacy-analysis-modal__eyebrow">POST ANALYSIS</p>
+						<h2 id="privacy-analysis-title">What does this post reveal?</h2>
+					</div>
+
+					<button
+						class="privacy-analysis-modal__close"
+						type="button"
+						aria-label="Close analysis"
+						data-privacy-analysis-close
+					>×</button>
+				</header>
+
+				<div class="privacy-analysis-modal__body">
+					<blockquote
+						class="privacy-analysis-modal__post"
+						id="privacy-analysis-post"
+					></blockquote>
+
+					<p class="privacy-analysis-modal__question">
+						Which piece of useful personal information does this post reveal?
+					</p>
+
+					<div
+						class="privacy-analysis-modal__options"
+						id="privacy-analysis-options"
+					></div>
+
+					<p
+						class="privacy-analysis-modal__feedback"
+						id="privacy-analysis-feedback"
+						hidden
+						aria-live="polite"
+					></p>
+				</div>
+
+				<footer class="privacy-analysis-modal__footer">
+					<button
+						class="privacy-analysis-modal__continue"
+						id="privacy-analysis-continue"
+						type="button"
+						hidden
+					>
+						Continue
+					</button>
+				</footer>
+			</section>
+		</div>
 	</div>
-	<div id="modal-root">
+
+	<div id="modal-root" class="privacy-modal-root">
 		@ui.ModalStep(intro, "/privacy/instructions")
 	</div>
+
+	<script src="/public/js/privacy-analysis.js"></script>
 }

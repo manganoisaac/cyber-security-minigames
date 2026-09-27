@@ -46,16 +46,21 @@ func PhishingComicPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-				Title:        "Phishing",
-				ContinueHref: "/email-client",
+			templ_7745c5c3_Err = comiccomp.ComicPage(comiccomp.ComicData{
+				PanelImages: []string{
+					"/public/images/comics/Game_3/image-1.png",
+					"/public/images/comics/Game_3/image-2.png",
+					"/public/images/comics/Game_3/image-3.png",
+				},
+				ContinueHref:  "/phishing",
+				ContinueLabel: "Continue",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Base("Story Comic - Phishing").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Base("Caught in the Net - Phishing").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

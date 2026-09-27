@@ -29,12 +29,12 @@
 
     --whwl-heading-font:
         "WHWL Eldring",
-        "Pixelify Sans",
+        "Pixel Operator",
         monospace;
 
     --whwl-body-font:
         "WHWL Piacevoli",
-        "Pixelify Sans",
+        "Pixel Operator",
         monospace;
 
     font-family: var(--whwl-font);

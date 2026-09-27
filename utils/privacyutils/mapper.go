@@ -2,19 +2,23 @@ package privacyutils
 
 import "cyber-security-minigames/types"
 
-// PostToUI maps a post to what the feed renders. A post only counts as added
-// to the folder if it has a clue to add.
+// PostToUI maps a post to the data the feed and analysis modal need to render.
 func PostToUI(p types.Post) types.PostUI {
 	postUI := types.PostUI{
-		Id:       p.Id,
-		Author:   p.Author,
-		Handle:   p.Handle,
-		Posted:   p.Posted,
-		Context:  p.Context,
-		Content:  p.Content,
-		Likes:    p.Likes,
-		Comments: p.Comments,
-		Shares:   p.Shares,
+		Id:               p.Id,
+		Author:           p.Author,
+		Handle:           p.Handle,
+		Posted:           p.Posted,
+		Context:          p.Context,
+		Content:          p.Content,
+		Likes:            p.Likes,
+		Comments:         p.Comments,
+		Shares:           p.Shares,
+		Analysed:         p.Analysed,
+		HasClue:          p.Clue != nil,
+		AnalysisOptions:  append([]string(nil), p.AnalysisOptions...),
+		CorrectOption:    p.CorrectOption,
+		AnalysisFeedback: p.AnalysisFeedback,
 	}
 	if p.Clue != nil {
 		postUI.AddedToFolder = p.Clue.AddedToFolder
@@ -25,8 +29,13 @@ func PostToUI(p types.Post) types.PostUI {
 func PostDataToUI(posts []types.Post) types.PrivacyUI {
 	postUIs := make([]types.PostUI, len(posts))
 	clueUIs := []types.ClueUI{}
+	analysedCount := 0
+
 	for i, p := range posts {
 		postUIs[i] = PostToUI(p)
+		if p.Analysed {
+			analysedCount++
+		}
 		if p.Clue != nil && p.Clue.AddedToFolder {
 			clueUIs = append(clueUIs, types.ClueUI{
 				Key:   p.Clue.Key,
@@ -34,19 +43,11 @@ func PostDataToUI(posts []types.Post) types.PrivacyUI {
 			})
 		}
 	}
+
 	return types.PrivacyUI{
-		Posts: postUIs,
-		Clues: clueUIs,
+		Posts:         postUIs,
+		Clues:         clueUIs,
+		AnalysedCount: analysedCount,
+		TotalPosts:    len(posts),
 	}
-}
-
-func NumberOfClues(posts []types.Post) int {
-	totalClues := 0
-	for _, post := range posts {
-		if post.Clue != nil {
-			totalClues = totalClues + 1
-		}
-	}
-	return totalClues
-
 }

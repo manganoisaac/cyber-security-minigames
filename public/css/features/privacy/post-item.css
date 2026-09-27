@@ -2,8 +2,6 @@
 .post-item {
   --post-item-avatar-size: 2.75rem;
   --post-item-icon-size: 1.1rem;
-  --post-item-focus-ring: 2px;
-  --post-item-press-scale: 0.99;
   --post-item-transition: 0.15s ease;
   --post-item-collect-duration: 0.5s;
 
@@ -18,35 +16,32 @@
   border-radius: var(--privacy-radius);
   background: var(--privacy-surface);
 
-  cursor: pointer;
   transition:
     background var(--post-item-transition),
-    border-color var(--post-item-transition);
+    border-color var(--post-item-transition),
+    box-shadow var(--post-item-transition);
 }
 
 .post-item:hover {
   background: var(--privacy-surface-hover);
 }
 
-.post-item:active {
-  transform: scale(var(--post-item-press-scale));
+/* Every completed post gets a subtle blue treatment. Posts that actually
+   reveal useful information also pick up the investigator terminal green. */
+.post-item--analysed,
+.post-item--analysed:hover {
+  border-color: rgba(109, 141, 255, 0.65);
+  background:
+    linear-gradient(rgba(109, 141, 255, 0.055), rgba(109, 141, 255, 0.055)),
+    var(--privacy-surface);
 }
 
-.post-item:focus-visible {
-  outline: var(--post-item-focus-ring) solid var(--privacy-brand);
-  outline-offset: var(--post-item-focus-ring);
-}
-
-/* Collected posts pick up the Clues Found panel's green, so the player can
-   see at a glance which posts are already in their notes. The glow plays
-   once, as the collected card is swapped in. */
 .post-item--collected,
 .post-item--collected:hover {
   border-color: var(--privacy-clue);
   background:
     linear-gradient(var(--privacy-clue-surface), var(--privacy-clue-surface)),
     var(--privacy-surface);
-
   animation: post-item-collect var(--post-item-collect-duration) ease-out;
 }
 
@@ -136,6 +131,11 @@
   color: var(--privacy-clue);
 }
 
+.post-item--analysed:not(.post-item--collected) .post-item__badge {
+  border-color: var(--privacy-brand);
+  color: #aebdff;
+}
+
 .post-item__content {
   font-family: var(--privacy-font);
   font-size: var(--size-l);
@@ -145,11 +145,17 @@
   color: var(--privacy-text);
 }
 
+.post-item__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-l);
+  margin-top: var(--size-xs);
+}
+
 .post-item__actions {
   display: flex;
   gap: var(--size-3xl);
-
-  margin-top: var(--size-xs);
 
   color: var(--privacy-text-muted);
 }
@@ -170,13 +176,52 @@
   height: var(--post-item-icon-size);
 }
 
+.post-item__analyse-button {
+  flex: none;
+  min-width: 7.2rem;
+  padding: 0.55rem 0.9rem;
+
+  border: 1px solid var(--privacy-brand);
+  border-radius: var(--privacy-pill-radius);
+  background: rgba(109, 141, 255, 0.12);
+
+  font-family: var(--privacy-font);
+  font-size: var(--size-s);
+  font-weight: normal;
+  letter-spacing: 0.08em;
+
+  color: #c4ceff;
+  cursor: pointer;
+
+  transition:
+    background var(--post-item-transition),
+    color var(--post-item-transition),
+    box-shadow var(--post-item-transition);
+}
+
+.post-item__analyse-button:hover:not(:disabled),
+.post-item__analyse-button:focus-visible:not(:disabled) {
+  background: rgba(109, 141, 255, 0.24);
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(109, 141, 255, 0.18);
+  outline: none;
+}
+
+.post-item__analyse-button:disabled {
+  border-color: var(--privacy-border);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--privacy-text-muted);
+  cursor: default;
+}
+
+.post-item--collected .post-item__analyse-button:disabled {
+  border-color: var(--privacy-clue-rule);
+  color: var(--privacy-clue-dim);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .post-item--collected,
   .post-item--collected:hover {
     animation: none;
-  }
-
-  .post-item:active {
-    transform: none;
   }
 }

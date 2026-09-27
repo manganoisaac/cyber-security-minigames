@@ -43,7 +43,7 @@ func CaseClosedPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"case-closed-page\"><div class=\"case-closed-content\"><h1>CONGRATULATIONS!</h1><p class=\"case-closed-message\">You completed the investigation and closed the Metacortex case.</p><p class=\"case-closed-thanks\">Thank you for playing <strong>Caught in the Net</strong>. We hope you learned something about how cybersecurity works in the real world.</p><!-- Placeholder for a future pixel-art image --><div class=\"case-closed-art\"></div><div class=\"case-closed-stamp\">CASE CLOSED</div><a class=\"case-closed-button\" href=\"/landing-cyber\">Return to Main Menu</a></div></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"case-closed-page\"><div class=\"case-closed-content\"><h1>CONGRATULATIONS!</h1><p class=\"case-closed-message\">You completed the investigation and closed the Metacortex case.</p><p class=\"case-closed-thanks\">Thank you for playing <strong>Caught in the Net</strong>. We hope you learned something about how cybersecurity works in the real world.</p><!-- Placeholder for a future pixel-art image --><div class=\"case-closed-art\"></div><div class=\"case-closed-stamp\">CASE CLOSED</div><a class=\"case-closed-button\" href=\"/\">Return to Main Menu</a></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

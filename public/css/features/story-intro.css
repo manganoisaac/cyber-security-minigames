@@ -1,0 +1,221 @@
+/* ==========================================================================
+   Caught in the Net - One-off story introduction
+   Reuses the WHWL whiteboard asset and handwritten font family.
+   ========================================================================== */
+
+.story-intro-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #b99173;
+  color: #252525;
+}
+
+.story-intro-board {
+  position: relative;
+  flex: 0 0 auto;
+
+  width: 100vw;
+  aspect-ratio: 16 / 9;
+
+  background-image:
+    url("/public/images/what-have-we-learned/whiteboard-background.png");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.story-intro-board__content {
+  position: absolute;
+  top: 8%;
+  left: 7.5%;
+  right: 7.5%;
+  bottom: 15%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-sizing: border-box;
+  padding: 2.1% 6% 1.4%;
+}
+
+.story-intro-header {
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.story-intro-kicker {
+  margin: 0 0 7px;
+
+  font-family: "WHWL Eldring", "Pixel Operator", monospace !important;
+  font-size: clamp(15px, 1.05vw, 20px);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.story-intro-header h1 {
+  margin: 0;
+
+  font-family: "WHWL Eldring", "Pixel Operator", monospace !important;
+  font-size: clamp(38px, 3.5vw, 66px);
+  font-weight: 700;
+  line-height: 0.95;
+}
+
+.story-intro-copy {
+  width: min(1260px, 80vw);
+  margin-top: 2.5%;
+
+  font-family: "WHWL Piacevoli", "Pixel Operator", monospace !important;
+  text-align: left;
+}
+
+.story-intro-copy p {
+  margin: 0 0 1.8%;
+
+  font-family: inherit !important;
+  font-size: clamp(30px, 2vw, 38px);
+  line-height: 1.12;
+}
+
+.story-intro-copy strong {
+  font-family: inherit !important;
+  font-weight: 700;
+}
+
+.story-intro-welcome {
+  margin-top: 2.5%;
+  transform: none;
+
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+
+  text-align: center;
+}
+
+.story-intro-welcome span {
+  font-family: "WHWL Piacevoli", "Pixel Operator", monospace !important;
+  font-size: clamp(26px, 1.8vw, 34px);
+  line-height: 1;
+}
+
+.story-intro-welcome strong {
+  font-family: "WHWL Eldring", "Pixel Operator", monospace !important;
+  font-size: clamp(44px, 3.8vw, 72px);
+  line-height: 1;
+}
+
+.story-intro-footer {
+  position: absolute;
+  right: 1%;
+  bottom: 0;
+}
+
+.story-intro-continue {
+  display: inline-block;
+  padding: 8px 18px;
+
+  font-family: "WHWL Eldring", "Pixel Operator", monospace !important;
+  font-size: clamp(13px, 0.95vw, 18px);
+  font-weight: 700;
+
+  color: #252525;
+  text-decoration: none;
+
+  background: rgba(255, 255, 255, 0.65);
+  border: 2px solid #444;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.story-intro-continue:hover,
+.story-intro-continue:focus-visible {
+  background: rgba(255, 255, 255, 0.92);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+  outline: none;
+}
+
+.story-intro-continue:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   Staged story reveal
+   -------------------------------------------------------------------------- */
+
+@keyframes story-intro-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.story-intro-copy p,
+.story-intro-welcome,
+.story-intro-footer {
+  opacity: 0;
+  animation: story-intro-reveal 0.65s ease forwards;
+}
+
+.story-intro-copy p:nth-child(1) {
+  animation-delay: 0.8s;
+}
+
+.story-intro-copy p:nth-child(2) {
+  animation-delay: 2.8s;
+}
+
+.story-intro-copy p:nth-child(3) {
+  animation-delay: 5s;
+}
+
+.story-intro-welcome {
+  animation-delay: 7.2s;
+}
+
+.story-intro-footer {
+  animation-delay: 8.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-intro-copy p,
+  .story-intro-welcome,
+  .story-intro-footer {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+@media (max-aspect-ratio: 16 / 10) {
+  .story-intro-board__content {
+    padding-top: 1.4%;
+  }
+
+  .story-intro-copy {
+    margin-top: 1.4%;
+  }
+
+  .story-intro-copy p {
+    font-size: clamp(20px, 1.55vw, 28px);
+  }
+}

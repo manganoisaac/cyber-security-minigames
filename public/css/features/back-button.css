@@ -1,22 +1,89 @@
 .ui-back-button {
-  --back-button-width: 110px;
-  --back-button-height: 70px;
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 20;
+  top: 22px;
+  left: 28px;
+  z-index: 50;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
-    url("../../images/Back Arrow.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+
+  width: 42px;
+  height: 50px;
+
+  overflow: hidden;
+
+  font-family: "Pixel Operator Bold", monospace !important;
+  font-weight: normal;
+  line-height: 1;
+
+  color: #5fcf92;
+  text-decoration: none;
+  white-space: nowrap;
+
+  background: none;
   border: 0;
-  width: var(--back-button-width);
-  height: var(--back-button-height);
-  margin: var(--size-3xl);
-  font-size: var(--size-l);
+
+  filter: none;
+  transform: none;
+
+  text-shadow:
+    0 0 3px rgba(70, 220, 120, 0.25),
+    0 0 6px rgba(70, 220, 120, 0.12);
+
+  transition:
+    width 180ms ease,
+    color 120ms ease,
+    text-shadow 120ms ease;
+}
+
+.ui-back-button::before {
+  content: "<";
+
+  flex: 0 0 auto;
+
+  font-size: 38px;
+  line-height: 1;
+}
+
+.ui-back-button::after {
+  content: " BACK";
+
+  font-size: 30px;
+  line-height: 1;
+
+  opacity: 0;
+  transform: translateX(-6px);
+
+  transition:
+    opacity 120ms ease,
+    transform 180ms ease;
+}
+
+.ui-back-button:hover,
+.ui-back-button:focus-visible {
+  width: 150px;
+
+  color: #2bff9c;
+
+  text-shadow:
+    0 0 4px rgba(70, 220, 120, 0.45),
+    0 0 9px rgba(70, 220, 120, 0.25);
+
+  filter: none;
+  transform: none;
+}
+
+.ui-back-button:hover::after,
+.ui-back-button:focus-visible::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ui-back-button:active {
+  filter: none;
+  transform: none;
+}
+
+.digital-investigation-page .ui-back-button {
+  font-family: "Pixel Operator Bold", monospace !important;
 }

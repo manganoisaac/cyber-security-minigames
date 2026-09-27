@@ -6,10 +6,17 @@ import (
 )
 
 templ EncryptionComicPage() {
-	@layouts.Base("Story Comic - Encryption") {
-		@comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-			Title:        "Encryption",
-			ContinueHref: "/encryption",
+	@layouts.Base("Caught in the Net - Encryption") {
+		@comiccomp.ComicPage(comiccomp.ComicData{
+			PanelImages: []string{
+				"/public/images/comics/Game_4/image-1.png",
+				"/public/images/comics/Game_4/image-2.png",
+				"/public/images/comics/Game_4/image-3.png",
+				"/public/images/comics/Game_4/image-4.png",
+				"/public/images/comics/Game_4/image-5.png",
+			},
+			ContinueHref:  "/encryption",
+			ContinueLabel: "Continue",
 		})
 	}
 }

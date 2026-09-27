@@ -32,7 +32,7 @@ func BackButton() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<a class=\"ui-back-button\" href=\"/chapter-select\" aria-label=\"Back to chapter select\">Home</a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<a class=\"ui-back-button\" href=\"/chapter-select\" hx-boost=\"false\" aria-label=\"Back to chapter select\"></a>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

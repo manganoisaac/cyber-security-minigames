@@ -34,9 +34,15 @@ func PrivacyService() IPrivacyService {
 }
 
 func (s *Service) Page(st IPrivacyGameState) templ.Component {
-	posts := st.Posts()
-	postData := privacyutils.PostDataToUI(posts)
-	return pages.PrivacyPage(data.PrivacyProfile, postData.Posts, postData.Clues, data.PrivacyIntro)
+	privacyUI := privacyutils.PostDataToUI(st.Posts())
+	return pages.PrivacyPage(
+		data.PrivacyProfile,
+		privacyUI.Posts,
+		privacyUI.Clues,
+		privacyUI.AnalysedCount,
+		privacyUI.TotalPosts,
+		data.PrivacyIntro,
+	)
 }
 
 // Instructions renders just the instructions modal shown after the player
@@ -47,19 +53,19 @@ func (s *Service) Instructions(st IPrivacyGameState) templ.Component {
 
 func (s *Service) ClickPost(id int, st IPrivacyGameState) []templ.Component {
 	post := st.ClickPost(id)
+	privacyUI := privacyutils.PostDataToUI(st.Posts())
 
-	posts := st.Posts()
-	privacyUI := privacyutils.PostDataToUI(posts)
 	components := []templ.Component{
 		privacy.PostItem(privacyutils.PostToUI(post)),
-		privacy.ClueList(privacyUI.Clues, true),
+		privacy.ClueList(privacyUI.Clues, privacyUI.AnalysedCount, privacyUI.TotalPosts, true),
 	}
-	if st.AllCluesFound(len(privacyUI.Clues)) {
-		components = append(components, ui.Modal(
-			"congratulations you found all of the clues",
+
+	if st.AllPostsAnalysed() {
+		components = append(components, privacy.CompletionModal(
+			"Investigation complete. You analysed every post and identified which details could help an attacker build a profile of Angela.",
 			"/whwl/privacy",
-			true,
 		))
 	}
+
 	return components
 }

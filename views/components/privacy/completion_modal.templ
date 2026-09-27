@@ -1,0 +1,13 @@
+package privacy
+
+import "cyber-security-minigames/views/components/ui"
+
+templ CompletionModal(message string, url string) {
+	<div
+		id="modal-root"
+		class="privacy-modal-root"
+		hx-swap-oob="true"
+	>
+		@ui.Modal(message, url, false)
+	</div>
+}

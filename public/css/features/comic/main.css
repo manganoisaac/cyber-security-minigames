@@ -1,113 +1,220 @@
-.comic__bg {
-  height: 100vh;
+.comic-page {
+  position: relative;
   width: 100vw;
-  /* Letterbox fill. Deliberately the shared page background rather than a
-     colour of its own, so the bars here match every other page. */
-  background-color: var(--page-bg);
-  background-position: center;
-  background-repeat: no-repeat;
-  /* `contain`, not `cover`. The panel IS the content here, so it has to be
-     whole - `cover` scales until the viewport is filled and silently crops
-     the overflow, which loses ~16% of a typical panel on a 16:9 screen, ~36%
-     on an ultrawide, and 48% of Game_2/image-3.png (the one portrait panel
-     among landscape siblings). The trade-off is bars whose size varies per
-     panel, because the source art ranges from 0.92 to 1.81 in aspect ratio;
-     exporting the panels at one consistent ratio would remove them. */
-  background-size: contain;
+  height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f5f1e8;
 }
 
-/* Game 1 */
-.comic__bg--1 {
-  background-image: url("../../../images/comics/Game_1/image-1.png");
+/* Main comic sheet */
+.comic-page__grid {
+  width: min(94vw, 1820px);
+  height: min(84vh, 860px);
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+
+  align-items: center;
+  justify-items: center;
+
+  column-gap: 32px;
+  row-gap: 28px;
+
+  padding: 28px 36px 90px;
+  box-sizing: border-box;
 }
 
-.comic__bg--2 {
-  background-image: url("../../../images/comics/Game_1/image-2.png");
-}
-.comic__bg--3 {
-  background-image: url("../../../images/comics/Game_1/image-3.png");
-}
-.comic__bg--4 {
-  background-image: url("../../../images/comics/Game_1/image-4.png");
-}
-.comic__bg--5 {
-  background-image: url("../../../images/comics/Game_1/image-5.png");
+/*
+  Every panel uses the same height.
+  Width is automatic so the original aspect ratio is preserved.
+*/
+.comic-page__panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  transform: translateY(8px);
+
+  transition:
+    opacity 450ms ease,
+    transform 450ms ease;
 }
 
-/* Game 2 */
-.comic__bg--6 {
-  background-image: url("../../../images/comics/Game_2/image-1.png");
-}
-.comic__bg--7 {
-  background-image: url("../../../images/comics/Game_2/image-2.png");
-}
-.comic__bg--8 {
-  background-image: url("../../../images/comics/Game_2/image-3.png");
+.comic-page__panel.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Game 3 */
-.comic__bg--9 {
-  background-image: url("../../../images/comics/Game_3/image-1.png");
-}
-.comic__bg--10 {
-  background-image: url("../../../images/comics/Game_3/image-2.png");
-}
-.comic__bg--11 {
-  background-image: url("../../../images/comics/Game_3/image-3.png");
+.comic-page__panel img {
+  display: block;
+
+  height: min(40vh, 430px);
+  width: auto;
+  max-width: 100%;
+
+  object-fit: contain;
+
+  outline: 2px solid #111;
+  outline-offset: -2px;
+
+  box-sizing: border-box;
 }
 
-/* Game 4 */
-.comic__bg--12 {
-  background-image: url("../../../images/comics/Game_4/image-1.png");
-}
-.comic__bg--13 {
-  background-image: url("../../../images/comics/Game_4/image-2.png");
-}
-.comic__bg--14 {
-  background-image: url("../../../images/comics/Game_4/image-3.png");
-}
-.comic__bg--15 {
-  background-image: url("../../../images/comics/Game_4/image-4.png");
-}
-.comic__bg--16 {
-  background-image: url("../../../images/comics/Game_4/image-5.png");
+/* Three-panel comics: two on top, one centred underneath. */
+.comic-page__grid:has(.comic-page__panel:nth-child(3):last-child) {
+  grid-template-columns: repeat(4, 1fr);
+  width: min(72vw, 1380px);
 }
 
-/* Game 5 */
-.comic__bg--17 {
-  background-image: url("../../../images/comics/Game_5/image-1.png");
-}
-.comic__bg--18 {
-  background-image: url("../../../images/comics/Game_5/image-2.png");
-}
-.comic__bg--19 {
-  background-image: url("../../../images/comics/Game_5/image-3.png");
-}
-.comic__bg--20 {
-  background-image: url("../../../images/comics/Game_5/image-4.png");
+.comic-page__grid:has(.comic-page__panel:nth-child(3):last-child)
+  .comic-page__panel:nth-child(1) {
+  grid-column: 1 / span 2;
 }
 
-/* Game 6 */
-.comic__bg--21 {
-  background-image: url("../../../images/comics/Game_6/image-1.png");
-}
-.comic__bg--22 {
-  background-image: url("../../../images/comics/Game_6/image-2.png");
-}
-.comic__bg--23 {
-  background-image: url("../../../images/comics/Game_6/image-3.png");
+.comic-page__grid:has(.comic-page__panel:nth-child(3):last-child)
+  .comic-page__panel:nth-child(2) {
+  grid-column: 3 / span 2;
 }
 
-/* Game 7 */
-.comic__bg--24 {
-  background-image: url("../../../images/comics/Game_7/image-1.png");
+.comic-page__grid:has(.comic-page__panel:nth-child(3):last-child)
+  .comic-page__panel:nth-child(3) {
+  grid-column: 2 / span 2;
 }
-.comic__bg--25 {
-  background-image: url("../../../images/comics/Game_7/image-2.png");
+
+.comic-page__grid:has(.comic-page__panel:nth-child(3):last-child)
+  .comic-page__panel img {
+  height: min(36vh, 390px);
 }
-.comic__bg--26 {
-  background-image: url("../../../images/comics/Game_7/image-3.png");
+
+/* Four-panel comics have two rows, so use a slightly smaller panel height. */
+.comic-page__grid:has(.comic-page__panel:nth-child(4):last-child)
+  .comic-page__panel img {
+  height: min(36vh, 390px);
 }
-.comic__bg--27 {
-  background-image: url("../../../images/comics/Game_7/image-4.png");
+
+/* Five-panel comics need the most space while still fitting comfortably. */
+.comic-page__grid:has(.comic-page__panel:nth-child(5):last-child)
+  .comic-page__panel img {
+  height: min(33vh, 355px);
+}
+
+/* Six-panel layout, if used later. */
+.comic-page__grid:has(.comic-page__panel:nth-child(6):last-child)
+  .comic-page__panel img {
+  height: min(30vh, 320px);
+}
+
+/* Four-panel comics should sit as a centred 2 × 2 block. */
+.comic-page__grid:has(.comic-page__panel:nth-child(4):last-child) {
+  grid-template-columns: repeat(2, 1fr);
+  width: min(72vw, 1380px);
+}
+
+/*
+  Five-panel comics:
+  first row = 3 panels
+  second row = 2 panels centred beneath them.
+*/
+.comic-page__grid:has(.comic-page__panel:nth-child(5):last-child) {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.comic-page__grid:has(.comic-page__panel:nth-child(5):last-child)
+  .comic-page__panel:nth-child(1) {
+  grid-column: 1 / span 2;
+}
+
+.comic-page__grid:has(.comic-page__panel:nth-child(5):last-child)
+  .comic-page__panel:nth-child(2) {
+  grid-column: 3 / span 2;
+}
+
+.comic-page__grid:has(.comic-page__panel:nth-child(5):last-child)
+  .comic-page__panel:nth-child(3) {
+  grid-column: 5 / span 2;
+}
+
+.comic-page__grid:has(.comic-page__panel:nth-child(5):last-child)
+  .comic-page__panel:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.comic-page__grid:has(.comic-page__panel:nth-child(5):last-child)
+  .comic-page__panel:nth-child(5) {
+  grid-column: 4 / span 2;
+}
+
+/* Six panels use a normal 3 × 2 layout. */
+.comic-page__grid:has(.comic-page__panel:nth-child(6):last-child) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Continue button — deliberately echoes the WHWL navigation control. */
+.comic-page__continue {
+  position: absolute;
+  right: 4.5%;
+  bottom: 4%;
+
+  min-width: 170px;
+  padding: 14px 24px;
+
+  border: 2px solid #171717;
+  border-radius: 4px;
+
+  background: #f1eee5;
+  color: #171717;
+
+  font-family: "Pixel Operator", monospace;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+
+  box-shadow: 4px 4px 0 #171717;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+
+  transition:
+    opacity 400ms ease,
+    transform 400ms ease,
+    background-color 150ms ease;
+}
+
+.comic-page__continue.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.comic-page__continue:hover {
+  background: #ffffff;
+}
+
+/* Smaller screens keep the same layout but reduce panel height. */
+@media (max-width: 1400px), (max-height: 850px) {
+  .comic-page__panel img {
+    height: min(27vh, 260px);
+  }
+
+  .comic-page__grid {
+    column-gap: 22px;
+    row-gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comic-page__panel,
+  .comic-page__continue {
+    transition: none;
+  }
 }

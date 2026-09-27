@@ -1,156 +1,139 @@
 document.addEventListener("DOMContentLoaded", () => {
     const evidenceFiles = {
         E03: {
-            title: "Internal Project Announcement",
-            content: `METACORTEX INDUSTRIES
-INTERNAL STAFF ANNOUNCEMENT
+            title: "Project HELIOS Development Team Announcement",
+            content: `PROJECT HELIOS DEVELOPMENT TEAM ANNOUNCEMENT
 
 Date: 6 August 2026
 Time: 09:10
-Subject: Project HELIOS Development Team
 
-Metacortex Industries is pleased to confirm the development team for Project HELIOS, our latest internal research and development initiative.
-
-The project team will include:
+Selected Team Members:
 - Angela Bennett
 - Marcus Lee
 - Sophie Carter
-- Daniel Ruiz
-
-The team will begin development activities this month, with further project information to be circulated internally as work progresses.
-
-Please join us in congratulating the selected team members.
-
-Research & Development Management
-Metacortex Industries`
+- Daniel Ruiz`
         },
 
         E04: {
-            title: "Browser History - Eugene's Workstation",
-            content: `BROWSER HISTORY EXPORT
+            title: "Angela Research - Eugene's Workstation",
+            content: `ANGELA RESEARCH - EUGENE'S WORKSTATION
 
-Device: MCX-WS17
-Assigned User: Eugene
+Device: MCX-WS17 - Eugene's Workstation
+User: Eugene
 Date: 19 August 2026
 
-19:18:42 - Search: "Angela Bennett Metacortex"
-19:21:07 - Public/professional page
-19:27:31 - Social page
-19:34:18 - Event/attendee page
-19:39:52 - Social post
-19:46:03 - Metacortex public staff page`
+19:18:42: Search "Angela Bennett Metacortex"
+19:21:07: Viewed public/professional profile
+19:27:31: Viewed social media page
+19:34:18: Viewed event/attendee page
+19:39:52: Viewed social media post
+19:46:03: Viewed Metacortex public staff page`
         },
 
         E08: {
-            title: "Email Message - Angela's Inbox",
-            content: `EMAIL MESSAGE
+            title: "Phishing Email Received - Angela's Inbox",
+            content: `PHISHING EMAIL RECEIVED - ANGELA'S INBOX
 
 To: Angela Bennett
 Sent: 14 October 2026 - 15:36
-Subject: Account Verification Required
+Subject: Project Helios Access Review
+From: David Walker <david.walker@metac0rtex.com.au>
 
-Hi Angela,
+Message:
+Before you head off next week, please confirm your Project Helios repository access by signing in before 4:00pm today.
 
-We need you to confirm your details using the link below.
-
-[LINK TO ACCOUNT VERIFICATION PAGE]
-
-Please complete the verification as soon as possible.
-
-Metacortex Support`
+Displayed Link: https://portal.metacortex.com.au/helios
+Actual Link: https://metacortex-access-review.com/helios`
         },
 
         E09: {
-            title: "Browser Record - Angela's Workstation",
-            content: `BROWSER ACTIVITY RECORD
+            title: "Phishing Link Opened - Angela's Workstation",
+            content: `PHISHING LINK OPENED - ANGELA'S WORKSTATION
 
-Device: MCX-WS04
-Assigned User: Angela Bennett
+Device: MCX-WS04 - Angela's Workstation
 User Account: angela.b
 Date: 14 October 2026
 
-15:41:08 - Navigated to account verification page
-
-Page Title: Metacortex Account Verification
-Previous Page: Angela's webmail session
-Session Duration: 00:02:17`
+15:41:08: Opened link from suspicious email
+Destination: https://metacortex-access-review.com/helios
+Previous Page: Angela's Webmail
+Time on Page: 2 minutes 17 seconds`
         },
 
         E11: {
-            title: "Workstation Session Log - Angela",
-            content: `WORKSTATION SESSION LOG
+            title: "Angela Logged Off - Angela's Workstation",
+            content: `ANGELA BENNETT - WORKSTATION SESSION
 
-Device: MCX-WS04
-Assigned User: Angela Bennett
 Date: 14 October 2026
+User Account: angela.b
+Source Device: MCX-WS04 - Angela's Workstation
 
-17:12:46 - Project repository accessed
-17:16:02 - Email session closed
-17:18:31 - User angela.b logged off`
+17:12:46: Project HELIOS repository accessed
+17:16:02: Email closed
+17:18:31: angela.b logged off`
         },
 
         E12: {
-            title: "Recovered Communication - Eugene's Computer",
+            title: "NURV Source-Code Transfer Plan - Eugene's Computer",
             content: `RECOVERED COMMUNICATION
 
 Date: 14 October 2026
 Time: 20:14
-Remote Contact: G. Winston - NURV Technologies
+Contact: G. Winston - NURV Technologies
 
 G. Winston:
-"Everything is set for 2130. The connection to our server will remain open until the transfer is complete. Send the source-code archive through the internal server as planned, and don't leave anything behind that can be traced back to us."
+Everything is set for 21:30. The connection will remain open until the transfer is complete. Send the source-code archive through the internal server and don't leave any traces. Payment and your position at NURV will be arranged after delivery.
 
 Local User:
-"Understood."
-
-G. Winston:
-"Once delivery is confirmed, the agreed payment will be released and the position at NURV is yours."`
+Understood.`
         },
 
         E13: {
-            title: "Authentication Log - Internal Network",
-            content: `AUTHENTICATION LOG
+            title: "angela.b Login - Eugene's Workstation",
+            content: `AUTHENTICATION LOG - INTERNAL NETWORK
+
 Date: 14 October 2026
+User Account: angela.b
+Source Device: MCX-WS17 - Eugene's Workstation
+Destination: Development Server
 
-18:07:14 - LOGIN SUCCESS
-Account: angela.b
-Source Device: MCX-WS17
-Target: DEV-SRV02
-
-18:09:31 - ACCESS GRANTED
-Account: angela.b
-Resource: Development Server`
+18:07:14: Login successful
+18:09:31: Development Server access granted`
         },
 
         E14: {
-            title: "Network Security Event",
-            content: `NETWORK SECURITY EVENT
+            title: "HELIOS Transfer to NURV Blocked",
+            content: `NETWORK EVENT - DEVELOPMENT SERVER
+
 Date: 14 October 2026
+Source: Development Server
+Destination: NURV Technologies
 
-21:29:58 - OUTBOUND CONNECTION OPENED
-Source: DEV-SRV02
-Destination: NURV External Server
+21:29:58: Connection opened to NURV Technologies
+21:30:02: HELIOS_SOURCE_ARCHIVE.zip transfer started
+21:30:04: Transfer blocked by network defence controls
 
-21:30:02 - FILE TRANSFER STARTED
-File: HELIOS_SOURCE_ARCHIVE.zip
-
-21:30:04 - TRANSFER BLOCKED
-Action: Network defence controls deployed
-Result: Outbound connection terminated
-Status: No data transfer completed`
-        }
+Result: No data successfully transferred`
+        },
     };
 
     // ---------------------------------------------------------
     // EVIDENCE FILE VIEWER
     // ---------------------------------------------------------
 
+    const investigationClock = document.getElementById("investigation-clock");
     const viewer = document.getElementById("evidence-viewer");
     const viewerTitle = document.getElementById("evidence-viewer-title");
     const viewerContent = document.getElementById("evidence-viewer-content");
     const closeViewerButton = document.getElementById("close-evidence-viewer");
     const evidenceButtons = document.querySelectorAll(".timeline-evidence-file");
 
+    const timelineIntroModal = document.getElementById(
+        "timeline-intro-modal"
+    );
+    const continueToTimelineInstructionsButton = document.getElementById(
+        "continue-to-timeline-instructions"
+    );
     const timelineInstructionsModal = document.getElementById(
         "timeline-instructions-modal"
     );
@@ -161,6 +144,35 @@ Status: No data transfer completed`
         "timeline-success-modal"
     );
 
+    function renderEvidenceContent(element, content) {
+        element.textContent = "";
+
+        const lines = content.split("\n");
+
+        lines.forEach((line, index) => {
+            const labelMatch = line.match(/^([A-Za-z][A-Za-z /&'-]{1,40}):\s*(.*)$/);
+
+            if (labelMatch) {
+                const label = document.createElement("strong");
+                label.textContent = `${labelMatch[1]}:`;
+
+                element.appendChild(label);
+
+                if (labelMatch[2]) {
+                    element.appendChild(
+                        document.createTextNode(` ${labelMatch[2]}`)
+                    );
+                }
+            } else {
+                element.appendChild(document.createTextNode(line));
+            }
+
+            if (index < lines.length - 1) {
+                element.appendChild(document.createTextNode("\n"));
+            }
+        });
+    }
+
     function openEvidenceFile(evidenceId) {
         const evidence = evidenceFiles[evidenceId];
 
@@ -169,7 +181,7 @@ Status: No data transfer completed`
         }
 
         viewerTitle.textContent = evidence.title;
-        viewerContent.textContent = evidence.content;
+        renderEvidenceContent(viewerContent, evidence.content);
         viewer.hidden = false;
     }
 
@@ -190,6 +202,11 @@ Status: No data transfer completed`
     });
 
     closeViewerButton.addEventListener("click", closeEvidenceFile);
+
+    continueToTimelineInstructionsButton.addEventListener("click", () => {
+        timelineIntroModal.hidden = true;
+        timelineInstructionsModal.hidden = false;
+    });
 
     beginTimelineButton.addEventListener("click", () => {
         timelineInstructionsModal.hidden = true;
@@ -345,6 +362,29 @@ Status: No data transfer completed`
 
         evidencePool.appendChild(draggedFile);
     });
+
+    function updateInvestigationClock() {
+        if (!investigationClock) {
+            return;
+        }
+
+        const now = new Date();
+        investigationClock.textContent = now.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
+
+    updateInvestigationClock();
+
+    if (window.__caughtInTheNetInvestigationClockInterval) {
+        window.clearInterval(window.__caughtInTheNetInvestigationClockInterval);
+    }
+
+    window.__caughtInTheNetInvestigationClockInterval = window.setInterval(
+        updateInvestigationClock,
+        1000
+    );
 
     // ---------------------------------------------------------
     // CHECK TIMELINE

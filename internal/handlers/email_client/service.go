@@ -2,13 +2,13 @@ package email_client
 
 import (
 	"fmt"
+	"math/rand"
 	"sync"
 
 	"cyber-security-minigames/data"
 	"cyber-security-minigames/types"
 	"cyber-security-minigames/utils/emailtext"
 	"cyber-security-minigames/views/components/email"
-	"cyber-security-minigames/views/components/ui"
 	"cyber-security-minigames/views/pages"
 
 	"github.com/a-h/templ"
@@ -66,22 +66,34 @@ func EmailService() IEmailService {
 }
 
 func (s *Service) Page(st IEmailGameState) templ.Component {
+	emails := append([]types.Email(nil), data.Emails...)
+	if st.Level() == 1 {
+		rand.Shuffle(len(emails), func(i, j int) {
+			emails[i], emails[j] = emails[j], emails[i]
+		})
+	}
+
 	active, _, ok := data.EmailByID(st.ActiveEmail())
-	if !ok || st.Level() >= 2 {
+	if st.Level() >= 2 {
 		active, _, _ = data.PhishingEmail()
+		st.SetActiveEmail(active.ID)
+	} else if !ok && len(emails) > 0 {
+		// Start level 1 on the first message from the shuffled inbox instead of
+		// pre-selecting a fixed message or hinting at the phishing email.
+		active = emails[0]
 		st.SetActiveEmail(active.ID)
 	}
 	intro := ""
 	if st.Level() == 1 {
 		intro = data.InstructionsIntroLevel1
 	}
-	return pages.EmailClientPage(data.Emails, active, st.SelectedPhrasesMap(active.ID), st.Level(), intro, data.InstructionsForLevel(st.Level()), st.Revealed())
+	return pages.EmailClientPage(emails, active, st.SelectedPhrasesMap(active.ID), st.Level(), intro, data.InstructionsForLevel(st.Level()), st.Revealed())
 }
 
 // Instructions renders just the instructions modal shown after the player
 // dismisses the pre-instruction overview. It is swapped into #modal-root.
 func (s *Service) Instructions(st IEmailGameState) templ.Component {
-	return ui.Modal(data.InstructionsForLevel(st.Level()), "", false)
+	return email.EmailModal("Find the Phishing Email", data.InstructionsForLevel(st.Level()), "Begin", "", false)
 }
 
 func (s *Service) Select(st IEmailGameState, em types.Email) []templ.Component {
@@ -108,7 +120,7 @@ func (s *Service) TogglePhrase(st IEmailGameState, em types.Email, phraseIdx int
 
 	correctSet := emailtext.CorrectSet(em)
 	phraseCmp := email.EmailPhrase(phrase, sel, phraseIdx, em.ID, correctSet[phraseIdx], st.Revealed(), false)
-	submitCmp := email.EmailSubmit("Submit", st.SelectedCount(em.ID), true, em.ID)
+	submitCmp := email.EmailSubmit("Submit Selection", st.SelectedCount(em.ID), true, em.ID)
 	return []templ.Component{phraseCmp, submitCmp}, nil
 }
 
@@ -141,7 +153,7 @@ func (s *Service) Check(st IEmailGameState, em types.Email) checkResult {
 		st.SetActiveEmail(em.ID)
 		return checkResult{
 			verdict: fmt.Sprintf("This email is suspicious! %s", em.Reason),
-			url:     "/email-client",
+			url:     "/phishing",
 		}
 	}
 	return checkResult{

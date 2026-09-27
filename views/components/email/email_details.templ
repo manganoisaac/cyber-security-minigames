@@ -5,38 +5,51 @@ import "cyber-security-minigames/utils/emailtext"
 
 templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, revealed bool) {
 	<div class="email-details" id="email-details">
-		<p class="email-details__title">
-			if level >= 2 {
-				@EmailPhrases(email, 0, selectedPhrases, revealed)
-			} else {
-				{ email.Title }
-			}
-		</p>
-		<div class="email-details__content-container">
+		<header class="email-details__header">
+			<div class="email-details__header-icon" aria-hidden="true">✉</div>
+			<div class="email-details__header-text">
+				<p class="email-details__label">OPEN MESSAGE</p>
+				<h2 class="email-details__title">
+					if level >= 2 {
+						@EmailPhrases(email, 0, selectedPhrases, revealed)
+					} else {
+						{ email.Title }
+					}
+				</h2>
+			</div>
+		</header>
+
+		<div class="email-details__metadata">
 			<p class="email-details__to">
-				<b>To: </b>
+				<b>To:</b>
 				if level >= 2 {
 					@EmailPhrases(email, 1, selectedPhrases, revealed)
 				} else {
-					{ email.To }
+					{ " " + email.To }
 				}
 			</p>
+
 			<p class="email-details__from">
-				<b>From: </b>
+				<b>From:</b>
 				if level >= 2 {
 					@EmailPhrases(email, 2, selectedPhrases, revealed)
 				} else {
-					{ email.From }
+					{ " " + email.From }
 				}
 			</p>
+
 			<p class="email-details__description">
+				<b>Subject:</b>
 				if level >= 2 {
 					@EmailPhrases(email, 3, selectedPhrases, revealed)
 				} else {
-					{ email.Subject }
+					{ " " + email.Subject }
 				}
 			</p>
-			<p class="email-details__content">
+		</div>
+
+		<div class="email-details__content-container">
+			<div class="email-details__content">
 				if level >= 2 {
 					@EmailPhrases(email, 4, selectedPhrases, revealed)
 				} else {
@@ -48,14 +61,13 @@ templ EmailDetails(email types.Email, selectedPhrases map[int]bool, level int, r
 						<span>{ phrase }</span>
 					}
 				}
-			</p>
+			</div>
 		</div>
 	</div>
 }
 
 // EmailPhrases renders one field's phrases inline, breaking onto a new line
-// between phrases (not just after the last one) so a multi-sentence field
-// like Content reads as separate lines instead of one run-on block.
+// between phrases so each suspicious unit can be selected independently.
 templ EmailPhrases(email types.Email, field int, selectedPhrases map[int]bool, revealed bool) {
 	for i, phrase := range emailtext.FieldPhrases(email, field) {
 		if i > 0 {

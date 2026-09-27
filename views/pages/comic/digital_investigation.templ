@@ -6,10 +6,15 @@ import (
 )
 
 templ DigitalInvestigationComicPage() {
-	@layouts.Base("Story Comic - Digital Investigation") {
-		@comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-			Title:        "Digital Investigation",
-			ContinueHref: "/digital-investigation",
+	@layouts.Base("Caught in the Net - Digital Investigation") {
+		@comiccomp.ComicPage(comiccomp.ComicData{
+			PanelImages: []string{
+				"/public/images/comics/Game_6/image-1.png",
+				"/public/images/comics/Game_6/image-2.png",
+				"/public/images/comics/Game_6/image-3.png",
+			},
+			ContinueHref:  "/digital-investigation",
+			ContinueLabel: "Continue",
 		})
 	}
 }

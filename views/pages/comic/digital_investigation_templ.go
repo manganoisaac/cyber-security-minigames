@@ -46,16 +46,21 @@ func DigitalInvestigationComicPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = comiccomp.ComicPlaceholder(comiccomp.PlaceholderData{
-				Title:        "Digital Investigation",
-				ContinueHref: "/digital-investigation",
+			templ_7745c5c3_Err = comiccomp.ComicPage(comiccomp.ComicData{
+				PanelImages: []string{
+					"/public/images/comics/Game_6/image-1.png",
+					"/public/images/comics/Game_6/image-2.png",
+					"/public/images/comics/Game_6/image-3.png",
+				},
+				ContinueHref:  "/digital-investigation",
+				ContinueLabel: "Continue",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.Base("Story Comic - Digital Investigation").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.Base("Caught in the Net - Digital Investigation").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

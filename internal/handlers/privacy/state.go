@@ -4,7 +4,6 @@ import (
 	"cyber-security-minigames/data"
 	"cyber-security-minigames/internal/session"
 	"cyber-security-minigames/types"
-	"cyber-security-minigames/utils/privacyutils"
 	"net/http"
 	"sync"
 )
@@ -15,19 +14,17 @@ type IPrivacyGameState interface {
 	session.IState
 	Posts() []types.Post
 	ClickPost(id int) types.Post
-	AllCluesFound(cluesFound int) bool
+	AllPostsAnalysed() bool
 }
 
 type gameState struct {
-	mu            sync.Mutex
-	posts         []types.Post
-	numberOfClues int
+	mu    sync.Mutex
+	posts []types.Post
 }
 
 func newGameState() IPrivacyGameState {
 	return &gameState{
-		posts:         data.GetPostData(),
-		numberOfClues: privacyutils.NumberOfClues(data.GetPostData()),
+		posts: data.GetPostData(),
 	}
 }
 
@@ -53,12 +50,19 @@ func (s *gameState) Reset() {
 func (s *gameState) Posts() []types.Post {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return s.posts
+
+	posts := make([]types.Post, len(s.posts))
+	copy(posts, s.posts)
+	return posts
 }
 
 func (s *gameState) ClickPost(id int) types.Post {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	for i := range s.posts {
 		if s.posts[i].Id == id {
+			s.posts[i].Analysed = true
 			if s.posts[i].Clue != nil {
 				s.posts[i].Clue.AddedToFolder = true
 			}
@@ -68,10 +72,19 @@ func (s *gameState) ClickPost(id int) types.Post {
 	return types.Post{}
 }
 
-func (s *gameState) AllCluesFound(cluesFound int) bool {
-	if s.numberOfClues <= cluesFound {
-		s.Reset()
-		return true
+func (s *gameState) AllPostsAnalysed() bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if len(s.posts) == 0 {
+		return false
 	}
-	return false
+
+	for _, post := range s.posts {
+		if !post.Analysed {
+			return false
+		}
+	}
+
+	return true
 }

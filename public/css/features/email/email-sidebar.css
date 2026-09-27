@@ -1,4 +1,29 @@
 .email-sidebar {
-  width: calc(100% - var(--details-width));
-  overflow-y: scroll;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #fff;
+}
+
+.email-sidebar::-webkit-scrollbar,
+.email-details::-webkit-scrollbar,
+.email-modal__body::-webkit-scrollbar {
+  width: 16px;
+}
+
+.email-sidebar::-webkit-scrollbar-track,
+.email-details::-webkit-scrollbar-track,
+.email-modal__body::-webkit-scrollbar-track {
+  background: #dfdfdf;
+}
+
+.email-sidebar::-webkit-scrollbar-thumb,
+.email-details::-webkit-scrollbar-thumb,
+.email-modal__body::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
 }

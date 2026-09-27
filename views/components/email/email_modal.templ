@@ -1,0 +1,61 @@
+package email
+
+// EmailModal is an instant, email-client-specific popup. It deliberately does
+// not use the shared .modal class, so the global typewriter animation does not
+// run for phishing feedback.
+templ EmailModal(title string, message string, buttonLabel string, url string, replacePage bool) {
+	<div class="email-modal">
+		<div class="email-modal__backdrop"></div>
+		<section class="email-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="email-modal-title">
+			<header class="email-modal__titlebar">
+				<div class="email-modal__titlebar-title">
+					<span class="email-modal__icon" aria-hidden="true">!</span>
+					<span id="email-modal-title">{ title }</span>
+				</div>
+				if url == "" {
+					<button
+						class="email-modal__close"
+						type="button"
+						aria-label="Close"
+						hx-delete="/phishing/modal"
+						hx-target="#modal-root"
+						hx-swap="innerHTML"
+					>×</button>
+				}
+			</header>
+
+			<div class="email-modal__body">
+				<p>{ message }</p>
+			</div>
+
+			<footer class="email-modal__footer">
+				if url == "" {
+					<button
+						class="email-modal__button"
+						type="button"
+						hx-delete="/phishing/modal"
+						hx-target="#modal-root"
+						hx-swap="innerHTML"
+					>{ buttonLabel }</button>
+				} else if replacePage {
+					<button
+						class="email-modal__button"
+						type="button"
+						hx-get={ url }
+						hx-target="body"
+						hx-swap="outerHTML"
+						hx-push-url="true"
+					>{ buttonLabel }</button>
+				} else {
+					<button
+						class="email-modal__button"
+						type="button"
+						hx-get={ url }
+						hx-target="#modal-root"
+						hx-swap="innerHTML"
+					>{ buttonLabel }</button>
+				}
+			</footer>
+		</section>
+	</div>
+}

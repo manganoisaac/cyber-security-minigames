@@ -1,0 +1,21 @@
+package comic
+
+import (
+	comiccomp "cyber-security-minigames/views/components/comic"
+	"cyber-security-minigames/views/layouts"
+)
+
+templ CaseClosedComicPage() {
+	@layouts.Base("Caught in the Net - Case Closed") {
+		@comiccomp.ComicPage(comiccomp.ComicData{
+			PanelImages: []string{
+				"/public/images/comics/Game_7/image-1.png",
+				"/public/images/comics/Game_7/image-2.png",
+				"/public/images/comics/Game_7/image-3.png",
+				"/public/images/comics/Game_7/image-4.png",
+			},
+			ContinueHref:  "/credits",
+			ContinueLabel: "Continue",
+		})
+	}
+}

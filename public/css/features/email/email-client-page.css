@@ -1,22 +1,186 @@
 .email-client-page {
   position: relative;
-  min-height: 100vh;
-  --level-margin-bottom: var(--size-m);
-  --level-font-size: var(--size-m);
-  --title-top-gap: var(--size-xl);
-  background-color: var(--bg);
+  width: 100vw;
+  height: 100vh;
+  min-width: 1100px;
+  min-height: 720px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 76% 16%, rgba(255,255,255,.06), transparent 24%),
+    linear-gradient(135deg, #008c8c 0%, #007b7b 55%, #006f6f 100%);
+  color: #000;
+  font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
+}
+
+.email-client-page *,
+.email-modal,
+.email-modal * {
+  box-sizing: border-box;
+  font-family: Tahoma, "MS Sans Serif", Arial, sans-serif !important;
+  letter-spacing: normal;
+}
+
+.email-client-page .ui-back-button {
+  font-family: "Pixel Operator", monospace !important;
+}
+
+.email-client-page__level-badge {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  z-index: 8;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  box-shadow: 2px 3px 0 rgba(0,0,0,.22);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Instant phishing-specific popup. It intentionally avoids the shared .modal
+   class so the global typewriter script never touches it. */
+.email-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding-top: var(--title-top-gap);
+  justify-content: center;
 }
 
-.email-client-page * {
-  font-family: sans-serif;
+.email-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .48);
+  backdrop-filter: blur(2px);
 }
 
-.email-client-page__level {
-  margin-bottom: var(--level-margin-bottom);
-  font-size: var(--level-font-size);
-  color: var(--text-muted);
+.email-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(720px, calc(100vw - 80px));
+  max-height: min(760px, calc(100vh - 80px));
+  overflow: hidden;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  box-shadow:
+    inset 1px 1px 0 #dfdfdf,
+    inset -1px -1px 0 #808080,
+    7px 9px 0 rgba(0,0,0,.25);
+}
+
+.email-modal__titlebar {
+  min-height: 30px;
+  margin: 2px;
+  padding: 3px 4px 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.email-modal__titlebar-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.email-modal__icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff3a6;
+  color: #000080;
+  border: 1px solid #000;
+  font-weight: 700;
+}
+
+.email-modal__close {
+  width: 24px;
+  height: 22px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  color: #000;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.email-modal__body {
+  max-height: min(560px, calc(100vh - 220px));
+  overflow-y: auto;
+  margin: 14px 16px 8px;
+  padding: 20px 22px;
+  background: #fff;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.email-modal__body p {
+  margin: 0;
+  color: #111;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.55;
+  user-select: text;
+}
+
+.email-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 16px 14px;
+}
+
+.email-modal__button {
+  min-width: 130px;
+  min-height: 34px;
+  padding: 5px 16px;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  outline: 1px dotted #000;
+  outline-offset: -6px;
+}
+
+.email-modal__button:hover,
+.email-modal__button:active,
+.email-modal__close:hover,
+.email-modal__close:active {
+  filter: none;
+  transform: none;
+}
+
+.email-modal__button:active,
+.email-modal__close:active {
+  border-top-color: #000;
+  border-left-color: #000;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
 }

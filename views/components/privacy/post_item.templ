@@ -4,17 +4,17 @@ import "cyber-security-minigames/types"
 import "strconv"
 import "cyber-security-minigames/utils/avatar"
 
-// PostItem is one post in the feed. The whole card is the click target that
-// collects it; the comment/share/like row is scenery, so the counts read like
-// a real feed without giving the player a second thing to click.
+// PostItem is one post in the feed. The post itself is scenery; ANALYSE opens
+// the multiple-choice activity. A correctly analysed post is then swapped back
+// in by HTMX with its completed state.
 templ PostItem(post types.PostUI) {
 	<article
-		class={ "post-item", templ.KV("post-item--collected", post.AddedToFolder) }
-		hx-post={ "/privacy/clickpost/" + strconv.Itoa(post.Id) }
-		hx-trigger="click, keyup[key=='Enter']"
-		hx-swap="outerHTML"
-		role="button"
-		tabindex="0"
+		id={ "privacy-post-" + strconv.Itoa(post.Id) }
+		class={
+			"post-item",
+			templ.KV("post-item--analysed", post.Analysed),
+			templ.KV("post-item--collected", post.AddedToFolder),
+		}
 	>
 		if post.Context != "" {
 			<p class="post-item__context">{ post.Context }</p>
@@ -26,27 +26,53 @@ templ PostItem(post types.PostUI) {
 			<p class="post-item__meta">
 				<span class="post-item__author">{ post.Author }</span>
 				<span class="post-item__handle">{ post.Handle } · { post.Posted }</span>
-				if post.AddedToFolder {
+				if post.Analysed {
 					<span class="post-item__badge">
 						@postIcon("M5 12l5 5L19 7")
-						Added to clues
+						Analysed
 					</span>
 				}
 			</p>
 			<p class="post-item__content">{ post.Content }</p>
-			<div class="post-item__actions" aria-hidden="true">
-				<span class="post-item__action">
-					@postIcon("M4 5h16v11H9l-5 4z")
-					@postCount(post.Comments)
-				</span>
-				<span class="post-item__action">
-					@postIcon("M4 11V9a2 2 0 0 1 2-2h13M16 4l3 3-3 3M20 13v2a2 2 0 0 1-2 2H5M8 20l-3-3 3-3")
-					@postCount(post.Shares)
-				</span>
-				<span class="post-item__action">
-					@postIcon("M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z")
-					@postCount(post.Likes)
-				</span>
+			<div class="post-item__footer">
+				<div class="post-item__actions" aria-hidden="true">
+					<span class="post-item__action">
+						@postIcon("M4 5h16v11H9l-5 4z")
+						@postCount(post.Comments)
+					</span>
+					<span class="post-item__action">
+						@postIcon("M4 11V9a2 2 0 0 1 2-2h13M16 4l3 3-3 3M20 13v2a2 2 0 0 1-2 2H5M8 20l-3-3 3-3")
+						@postCount(post.Shares)
+					</span>
+					<span class="post-item__action">
+						@postIcon("M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z")
+						@postCount(post.Likes)
+					</span>
+				</div>
+
+				<button
+					class="post-item__analyse-button"
+					type="button"
+					if post.Analysed {
+						disabled
+					}
+					data-privacy-analyse
+					data-post-id={ strconv.Itoa(post.Id) }
+					data-correct-option={ strconv.Itoa(post.CorrectOption) }
+					data-feedback={ post.AnalysisFeedback }
+				>
+					if post.Analysed {
+						ANALYSED
+					} else {
+						ANALYSE
+					}
+				</button>
+			</div>
+
+			<div class="post-item__analysis-data" hidden>
+				for _, option := range post.AnalysisOptions {
+					<span data-analysis-option>{ option }</span>
+				}
 			</div>
 		</div>
 	</article>

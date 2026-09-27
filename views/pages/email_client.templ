@@ -6,18 +6,26 @@ import "cyber-security-minigames/views/components/ui"
 import "cyber-security-minigames/types"
 
 templ EmailClientPage(emails []types.Email, active types.Email, selectedPhrases map[int]bool, level int, intro string, instructions string, revealed bool) {
-	@layouts.Base("Cyber Security Minigames") {
-		<section class="email-client-page">
+	@layouts.Base("CyberMail - MetaCortex Industries") {
+		<main class="email-client-page">
 			@ui.BackButton()
-			<h1 class="email-client__title">CyberMail</h1>
-			<p class="email-client-page__level">Level { level }</p>
+
+			<div class="email-client-page__level-badge">
+				if level == 1 {
+					LEVEL 1 - IDENTIFY THE PHISHING EMAIL
+				} else {
+					LEVEL 2 - ANALYSE THE PHISHING EMAIL
+				}
+			</div>
+
 			@email.EmailClient(emails, active, selectedPhrases, level, revealed)
-		</section>
+		</main>
+
 		<div id="modal-root">
 			if level == 1 && intro != "" {
-				@ui.ModalStep(intro, "/email-client/instructions")
+				@email.EmailModal("Phishing & Social Engineering", intro, "Continue", "/phishing/instructions", false)
 			} else if instructions != "" {
-				@ui.Modal(instructions, "", false)
+				@email.EmailModal("Analyse the Phishing Email", instructions, "Begin", "", false)
 			}
 		</div>
 	}

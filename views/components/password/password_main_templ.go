@@ -8,12 +8,9 @@ package password
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import (
-	"cyber-security-minigames/types"
-	"cyber-security-minigames/views/components/ui"
-)
+import "cyber-security-minigames/views/components/ui"
 
-func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions int, modalText string, isOverview bool) templ.Component {
+func PasswordMain() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -34,91 +31,17 @@ func PasswordMain(view types.PasswordView, guesses []types.Guess, numPositions i
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"password__container\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"password-game\" id=\"password-game\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"password password--" + view.String()}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
+		templ_7745c5c3_Err = ui.BackButton().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<main class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<!-- =====================================================\n\t\t     PHASE 1 - OFFICE INVESTIGATION\n\t\t====================================================== --><section class=\"password-game__phase password-game__phase--office\" id=\"password-phase-office\"><img class=\"password-game__scene-image\" src=\"/public/images/password/office.png\" alt=\"Eugene's office\"><div class=\"password-game__office-hotspots\" aria-label=\"Search Eugene's office for clues\"><button class=\"password-game__office-hotspot password-game__office-hotspot--jersey\" type=\"button\" data-clue-id=\"jersey\" aria-label=\"Inspect the framed jersey\"></button> <button class=\"password-game__office-hotspot password-game__office-hotspot--dog\" type=\"button\" data-clue-id=\"rufus\" aria-label=\"Inspect the dog photograph\"></button> <button class=\"password-game__office-hotspot password-game__office-hotspot--drawing\" type=\"button\" data-clue-id=\"mia\" aria-label=\"Inspect the child's drawing\"></button> <button class=\"password-game__office-hotspot password-game__office-hotspot--calendar\" type=\"button\" data-clue-id=\"april9\" aria-label=\"Inspect the calendar\"></button> <button class=\"password-game__office-hotspot password-game__office-hotspot--drawer\" type=\"button\" data-clue-id=\"birthday\" aria-label=\"Inspect the open desk drawer\"></button></div><button class=\"password-game__notebook-icon\" id=\"password-notebook-icon\" type=\"button\" aria-label=\"Open case notes\"><img src=\"/public/images/password/Notepad Icon.png\" alt=\"\"> <span>CASE NOTES</span> <strong id=\"password-notebook-count\">0 / 5</strong></button></section><!-- =====================================================\n\t\t     PHASE 2 - PASSWORD RECONSTRUCTION\n\t\t====================================================== --><section class=\"password-game__phase password-game__phase--login\" id=\"password-phase-login\" hidden><img class=\"password-game__scene-image\" src=\"/public/images/password/login.png\" alt=\"Metacortex employee portal login screen\"><div class=\"password-game__login-controls\" aria-label=\"Password reconstruction\"><div class=\"password-game__password-slots\" id=\"password-slots\"><button class=\"password-game__password-slot\" type=\"button\" data-slot-index=\"0\" aria-label=\"Password part 1\"></button> <button class=\"password-game__password-slot\" type=\"button\" data-slot-index=\"1\" aria-label=\"Password part 2\"></button> <button class=\"password-game__password-slot\" type=\"button\" data-slot-index=\"2\" aria-label=\"Password part 3\"></button></div><button class=\"password-game__login-button\" id=\"password-login-button\" type=\"button\" disabled>LOGIN</button><p class=\"password-game__login-status\" id=\"password-login-status\">Match all three password parts to enable login.</p></div><aside class=\"password-game__phase2-notebook\" aria-label=\"Case notes\"><img src=\"/public/images/password/Notepad.png\" alt=\"Case notes notebook\"><div class=\"password-game__phase2-clues\" id=\"password-phase2-clues\"></div></aside></section><!-- =====================================================\n\t\t     ZOOMED CLUE VIEW\n\t\t====================================================== --><div class=\"password-game__zoom\" id=\"password-zoom\" hidden><button class=\"password-game__zoom-backdrop\" id=\"password-zoom-backdrop\" type=\"button\" aria-label=\"Return to office\"></button><div class=\"password-game__zoom-frame\" id=\"password-zoom-frame\"><img class=\"password-game__zoom-image\" id=\"password-zoom-image\" src=\"\" alt=\"\"> <button class=\"password-game__zoom-target\" id=\"password-zoom-target\" type=\"button\" aria-label=\"Select password clue\"></button></div></div><!-- =====================================================\n\t\t     CASE NOTES OVERLAY\n\t\t====================================================== --><div class=\"password-game__notebook-overlay\" id=\"password-notebook-overlay\" hidden><button class=\"password-game__notebook-backdrop\" id=\"password-notebook-backdrop\" type=\"button\" aria-label=\"Close case notes\"></button><div class=\"password-game__notebook-large\" role=\"dialog\" aria-modal=\"true\" aria-label=\"Case notes\"><img src=\"/public/images/password/Notepad.png\" alt=\"Case notes notebook\"><div class=\"password-game__notebook-lines\" id=\"password-notebook-lines\"></div><p class=\"password-game__notebook-help\">Click outside the notebook to return to the office.</p></div></div><!-- =====================================================\n\t\t     GAME MODAL\n\t\t====================================================== --><div class=\"password-game__modal\" id=\"password-game-modal\" hidden><div class=\"password-game__modal-backdrop\"></div><section class=\"password-game__modal-dialog\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"password-modal-title\"><p class=\"password-game__modal-eyebrow\" id=\"password-modal-eyebrow\">PASSWORD INVESTIGATION</p><h1 id=\"password-modal-title\">Passwords &amp; Social Engineering</h1><div class=\"password-game__modal-content\" id=\"password-modal-content\"></div><div class=\"password-game__modal-actions\"><button class=\"password-game__modal-button\" id=\"password-modal-primary\" type=\"button\">Continue</button></div></section></div><script src=\"/public/js/password-game.js\"></script></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(templ.CSSClasses(templ_7745c5c3_Var2).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/password/password_main.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if view == types.PasswordOffice {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<a class=\"password__back-arrow\" href=\"/\">Back</a> <img src=\"../../public/images/password/office.png\" class=\"password__image\" alt=\"\"> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<img src=\"../../public/images/password/desk.png\" class=\"password__image\" alt=\"\"> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if view != types.PasswordOffice {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<a class=\"password__back-arrow\" href=\"/password/changeview/0\">Back</a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		switch view {
-		case types.PasswordDesk:
-			templ_7745c5c3_Err = ObjectContainer(3, 3, types.PasswordNone).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		default:
-			templ_7745c5c3_Err = ObjectContainer(0, 3, types.PasswordDesk).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- @Guess(guesses, numPositions) --><img class=\"password__notebook\" src=\"../../../public/images/password/Notepad Icon.png\" alt=\"\" hx-get=\"/password/gethints\" hx-swap=\"afterend\"></main></div><!-- <div id=\"modal-root\" hx-preserve=\"true\"> -->")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if isOverview == true {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div id=\"modal-root\" hx-preserve=\"true\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = ui.Modal(modalText, "/password/instructions", false).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div id=\"modal-root\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = ui.Modal(modalText, "", false).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 		}
 		return nil
 	})
