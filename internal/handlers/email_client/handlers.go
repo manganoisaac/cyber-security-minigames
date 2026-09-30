@@ -14,6 +14,7 @@ import (
 // IEmailHandler is the HTTP handler contract for the email minigame.
 type IEmailHandler interface {
 	Page(w http.ResponseWriter, r *http.Request)
+	Analysis(w http.ResponseWriter, r *http.Request)
 	Instructions(w http.ResponseWriter, r *http.Request)
 	Select(w http.ResponseWriter, r *http.Request)
 	Phrase(w http.ResponseWriter, r *http.Request)
@@ -33,6 +34,17 @@ func NewHandler(svc IEmailService) IEmailHandler {
 }
 
 func (h *emailHandler) Page(w http.ResponseWriter, r *http.Request) {
+	st := stateForRequest(r)
+	st.Reset()
+
+	h.svc.Page(st).Render(r.Context(), w)
+}
+
+func (h *emailHandler) Analysis(w http.ResponseWriter, r *http.Request) {
+	// The analysis phase is loaded internally by HTMX, but the browser URL
+	// should remain /phishing so that a normal refresh always starts a new game.
+	w.Header().Set("HX-Replace-Url", "/phishing")
+
 	h.svc.Page(stateForRequest(r)).Render(r.Context(), w)
 }
 

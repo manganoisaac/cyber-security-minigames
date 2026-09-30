@@ -20,8 +20,10 @@ func NewHandler(svc IPrivacyService) IPrivacyHandler {
 }
 
 func (h *privacyHandler) Page(w http.ResponseWriter, r *http.Request) {
-	h.svc.Page(stateForRequest(r)).Render(r.Context(), w)
+	st := stateForRequest(r)
+	st.Reset()
 
+	h.svc.Page(st).Render(r.Context(), w)
 }
 
 func (h *privacyHandler) Instructions(w http.ResponseWriter, r *http.Request) {

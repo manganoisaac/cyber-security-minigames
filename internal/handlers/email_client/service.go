@@ -153,7 +153,7 @@ func (s *Service) Check(st IEmailGameState, em types.Email) checkResult {
 		st.SetActiveEmail(em.ID)
 		return checkResult{
 			verdict: fmt.Sprintf("This email is suspicious! %s", em.Reason),
-			url:     "/phishing",
+			url:     "/phishing/analysis",
 		}
 	}
 	return checkResult{
