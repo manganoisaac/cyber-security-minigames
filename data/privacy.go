@@ -3,11 +3,17 @@ package data
 import "cyber-security-minigames/types"
 
 // PrivacyInstructions is shown in the modal when the Online Privacy game starts.
-const PrivacyInstructions = "Read every post on Angela's profile. Select ANALYSE and decide what useful personal information, if any, the post reveals. Some posts are harmless and do not expose anything significant. Analyse all 10 posts to complete the investigation."
+const PrivacyInstructions = `Read all 10 posts on Angela's profile. Select ANALYSE on each post and decide what useful personal information, if any, it reveals. Some posts contain information an attacker could use, while others do not reveal anything significant.
+
+Use the feedback after each answer to understand why the information matters. Analyse all 10 posts to complete the investigation.`
 
 // PrivacyIntro is the pre-instruction overview shown before PrivacyInstructions.
 // It frames what the player is about to learn.
-const PrivacyIntro = "Online Privacy - Every post adds to your digital footprint. On their own the details people share can seem harmless, but combined they may reveal where you work, who you know, your routines and when you'll be away. Eugene built a picture of Angela from information she shared publicly. Analyse each post and decide what, if anything, it reveals - then see how much a stranger could learn."
+const PrivacyIntro = `Online privacy is about controlling how much information about you is available to other people. Every public post, profile or interaction contributes to your digital footprint (the trail of information you leave behind online).
+
+A single detail may seem harmless, but information from different posts and websites can be combined to reveal where you work, who you know, your interests, routines, travel plans and other personal details. Attackers can use this information to make social-engineering attacks more believable.
+
+Eugene has been researching Angela using information she shared publicly. Analyse her profile and see how much a stranger could learn.`
 
 // PrivacyProfile is the account whose feed the player reads through.
 var PrivacyProfile = types.SocialProfile{

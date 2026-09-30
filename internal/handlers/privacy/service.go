@@ -4,7 +4,6 @@ import (
 	"cyber-security-minigames/data"
 	"cyber-security-minigames/utils/privacyutils"
 	"cyber-security-minigames/views/components/privacy"
-	"cyber-security-minigames/views/components/ui"
 	"cyber-security-minigames/views/pages"
 	"sync"
 
@@ -48,7 +47,7 @@ func (s *Service) Page(st IPrivacyGameState) templ.Component {
 // Instructions renders just the instructions modal shown after the player
 // dismisses the pre-instruction overview. It is swapped into #modal-root.
 func (s *Service) Instructions(st IPrivacyGameState) templ.Component {
-	return ui.Modal(data.PrivacyInstructions, "", false)
+	return privacy.InstructionsModal(data.PrivacyInstructions)
 }
 
 func (s *Service) ClickPost(id int, st IPrivacyGameState) []templ.Component {

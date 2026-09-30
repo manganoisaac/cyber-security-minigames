@@ -449,3 +449,18 @@ body.privacy-analysis-open {
   filter: none;
   transform: none;
 }
+
+.privacy-modal__heading {
+  margin: 0 0 18px;
+
+  font-family: "Pixel Operator Bold", "Pixel Operator", monospace;
+  font-size: 1.6rem;
+  font-weight: normal;
+  line-height: 1.2;
+
+  color: #ffffff;
+}
+
+.privacy-modal-root .modal__text {
+  white-space: pre-line;
+}

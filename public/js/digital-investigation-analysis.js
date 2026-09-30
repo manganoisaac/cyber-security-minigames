@@ -1410,7 +1410,7 @@ Result: No data successfully transferred`
     });
 
     evidenceList.addEventListener("dragover", (event) => {
-        if (!draggedFromSlot) {
+        if (!draggedFromSlot || !draggedEvidenceId) {
             return;
         }
 
@@ -1419,7 +1419,26 @@ Result: No data successfully transferred`
     });
 
     evidenceList.addEventListener("drop", (event) => {
-        if (!draggedFromSlot) {
+        if (!draggedFromSlot || !draggedEvidenceId) {
+            return;
+        }
+
+        event.preventDefault();
+
+        emptyCorrelationSlot(draggedFromSlot);
+    });
+
+    workingTheoryList.addEventListener("dragover", (event) => {
+        if (!draggedFromSlot || !draggedTheoryId) {
+            return;
+        }
+
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+    });
+
+    workingTheoryList.addEventListener("drop", (event) => {
+        if (!draggedFromSlot || !draggedTheoryId) {
             return;
         }
 

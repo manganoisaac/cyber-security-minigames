@@ -1,5 +1,7 @@
 package email
 
+import "strings"
+
 // EmailModal is an instant, email-client-specific popup. It deliberately does
 // not use the shared .modal class, so the global typewriter animation does not
 // run for phishing feedback.
@@ -25,7 +27,9 @@ templ EmailModal(title string, message string, buttonLabel string, url string, r
 			</header>
 
 			<div class="email-modal__body">
-				<p>{ message }</p>
+				for _, paragraph := range strings.Split(message, "\n\n") {
+					<p>{ paragraph }</p>
+				}
 			</div>
 
 			<footer class="email-modal__footer">
