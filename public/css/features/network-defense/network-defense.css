@@ -29,7 +29,7 @@
   --nd-enemy-body-size: 38px;
   --nd-enemy-hpbar-width: 32px;
   --nd-enemy-hpbar-height: 5px;
-  --nd-legend-swatch-size: 16px;
+  --nd-legend-swatch-size: 28px;
   --nd-projectile-size: 8px;
 
   /* Radii, borders and the small gaps that fall below the --size-* scale. */
@@ -56,8 +56,8 @@
   --nd-modal-max-height: 85vh;
 
   /* Size Overrides for the game-specific UI elements that fall below the --size-* scale. */
-  --size-xs: 0.75rem;
-  --size-s: 0.95rem;
+  --size-xs: 0.85rem;
+  --size-s: 1.05rem;
   --size-m: 1.1rem;
   --size-l: 1.4rem;
   --size-xl: 1.7rem;
@@ -406,24 +406,14 @@
 
 .network-defense-battlefield__footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: stretch;
   gap: var(--size-s);
   margin-top: var(--size-s);
 }
 
-.network-defense-legend {
-  display: flex;
-  flex-direction: column;
-  gap: var(--nd-hairline-gap);
-  font-size: var(--size-xs);
-  color: var(--text-muted);
-}
-
 .network-defense-upcoming {
-  flex-basis: 100%;
-  margin-top: var(--size-xs);
+  flex: 1;
+  margin: 0;
   padding: var(--size-s) var(--size-m);
   border-left: var(--nd-callout-accent-width) solid var(--nd-warning);
   border-radius: var(--nd-cell-radius);
@@ -431,6 +421,56 @@
   font-size: var(--size-m);
   font-weight: 700;
   color: var(--text);
+}
+
+.network-defense-launch-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* New legend box underneath the live log. */
+.network-defense-tile-key {
+  position: absolute;
+  left: calc(100% + var(--size-l));
+  bottom: 0;
+
+  width: var(--nd-telemetry-column);
+  box-sizing: border-box;
+}
+
+.network-defense-tile-key h3 {
+  font-size: var(--size-l);
+  margin-bottom: var(--size-s);
+}
+
+.network-defense-tile-key__item {
+  display: flex;
+  align-items: center;
+  gap: var(--size-s);
+  margin-top: var(--size-xs);
+  font-size: var(--size-s);
+  color: var(--text-muted);
+}
+
+.network-defense-tile-key__swatch {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--nd-cell-radius);
+}
+
+.network-defense-tile-key__swatch--path {
+  background: var(--bg-selected);
+  border: var(--nd-hairline) solid var(--bg-selected);
+}
+
+.network-defense-tile-key__swatch--buildable {
+  background: var(--bg-light);
+  border: var(--nd-hairline) dashed var(--text-muted);
+}
+
+.network-defense-panel--battlefield {
+  position: relative;
 }
 
 /* Cleared while a wave is running - without this the styled callout would

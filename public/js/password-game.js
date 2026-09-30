@@ -129,10 +129,10 @@
         eyebrow: "PASSWORDS & SOCIAL ENGINEERING",
         title: "Why personal information matters",
         html: `
-          <p>People often build passwords from things that are easy to remember: names, birthdays, pets and meaningful numbers.</p>
-          <p>That can make a password easier for someone else to guess. Social engineering often begins by collecting personal information before an attacker ever tries to log in.</p>
-          <p>In this activity, you will investigate Eugene's office and see how ordinary personal details can be combined into a password.</p>
-        `,
+      <p>Passwords are one of the most common ways of protecting accounts, but a password is only useful if it is difficult for someone else to predict. People often build passwords from things that are easy to remember, such as names, birthdays, pets, interests and meaningful numbers.</p>
+      <p>Attackers may collect personal information from social media, workplaces, conversations or other sources and use it to guess passwords or make other attacks more convincing. This is one way social engineering can help an attacker get around security without directly attacking the technology.</p>
+      <p>In this activity, you will investigate Eugene's office and see how ordinary personal details can be combined into a predictable password.</p>
+    `,
         button: "Continue",
         onPrimary: showPhaseOneInstructions
       });

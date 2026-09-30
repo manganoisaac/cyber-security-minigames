@@ -4,6 +4,7 @@ import (
 	"cyber-security-minigames/data"
 	"cyber-security-minigames/internal/session"
 	"cyber-security-minigames/types"
+	"math/rand/v2"
 	"net/http"
 	"sync"
 )
@@ -22,9 +23,19 @@ type gameState struct {
 	posts []types.Post
 }
 
+func shuffledPosts() []types.Post {
+	posts := data.GetPostData()
+
+	rand.Shuffle(len(posts), func(i, j int) {
+		posts[i], posts[j] = posts[j], posts[i]
+	})
+
+	return posts
+}
+
 func newGameState() IPrivacyGameState {
 	return &gameState{
-		posts: data.GetPostData(),
+		posts: shuffledPosts(),
 	}
 }
 
@@ -44,7 +55,7 @@ func stateForRequest(r *http.Request) IPrivacyGameState {
 func (s *gameState) Reset() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	s.posts = data.GetPostData()
+	s.posts = shuffledPosts()
 }
 
 func (s *gameState) Posts() []types.Post {

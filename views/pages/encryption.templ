@@ -181,14 +181,19 @@ templ Encryption() {
 			<h2 id="encryption-intro-title">What is Encryption?</h2>
 
 			<p>
-				Encryption protects information by transforming readable data, called
-				<strong>plaintext</strong>, into unreadable <strong>ciphertext</strong>
-				using an encryption algorithm and a key.
+				Encryption protects the <strong>confidentiality</strong> of information by
+				transforming readable data, called <strong>plaintext</strong>, into unreadable
+				<strong>ciphertext</strong> using an encryption algorithm and a key. It is
+				widely used to protect sensitive information both when it is stored on devices
+				and when it is transmitted across networks.
 			</p>
 
 			<p>
-				To recover the original information, the correct key is used to decrypt
-				the ciphertext back into plaintext.
+				To recover the original information, the appropriate key is used to
+				<strong>decrypt</strong> the ciphertext back into plaintext. Without that key,
+				properly encrypted information should be extremely difficult to read, which is
+				why protecting encryption keys is an important part of keeping encrypted data
+				secure.
 			</p>
 
 			<div class="encryption-intro__flow" aria-label="Encryption and decryption process">
@@ -204,9 +209,11 @@ templ Encryption() {
 			</div>
 
 			<p>
-				In this activity, the real encryption process is simplified into a word
-				puzzle. Your goal is to discover the correct key and reveal the hidden
-				message.
+				In this activity, the real encryption process is simplified into a five-letter
+				word puzzle so you can see the relationship between <strong>ciphertext</strong>,
+				a <strong>key</strong> and <strong>plaintext</strong>. Real cryptographic keys
+				are not ordinary five-letter words — they are typically long, randomly
+				generated values designed to be extremely difficult to guess.
 			</p>
 
 			<div class="game-modal__actions">
@@ -242,8 +249,14 @@ templ Encryption() {
 					<div class="game-modal__body">
 						<h2 id="instructions-title">Recover the decryption key</h2>
 						<p>
-							An encrypted message has been recovered from Eugene's computer.
-							Crack the five-letter cybersecurity key to reveal the intercepted transmission.
+							An encrypted message has been recovered from Eugene's computer. You have
+							<strong>six attempts</strong> to identify the five-letter cybersecurity key
+							and reveal the intercepted transmission.
+						</p>
+
+						<p>
+							Enter a five-letter guess using your keyboard or the on-screen keyboard, then
+							press <strong>ENTER</strong>.
 						</p>
 
 						<div class="instructions-rules">
@@ -262,12 +275,13 @@ templ Encryption() {
 						</div>
 
 						<p class="game-modal__note">
-							<strong>Hint:</strong> All possible decryption keys are five-letter words related to computers or cybersecurity.
+							<strong>Hint:</strong> All possible keys are five-letter words related to
+							computers or cybersecurity.
 						</p>
 
 						<p class="game-modal__note">
-							Every new best result increases the amount of plaintext recovered.
-							Progress never goes backwards.
+							Each time you achieve a better match, more of the plaintext is recovered on
+							the right. Your best decryption progress is kept even if a later guess is worse.
 						</p>
 
 						<div class="game-modal__actions">

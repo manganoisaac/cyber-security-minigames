@@ -1,0 +1,24 @@
+package privacy
+
+templ InstructionsModal(message string) {
+	<div class="modal">
+		<div class="modal__backdrop" aria-label="Close"></div>
+
+		<div class="modal__dialog" role="dialog" aria-modal="true">
+			<h2 class="privacy-modal__heading">HOW TO INVESTIGATE</h2>
+
+			<div class="modal__text-container">
+				<p class="modal__text">{ message }</p>
+			</div>
+
+			<button
+				class="modal__button"
+				hx-delete="/privacy/modal"
+				hx-target="#modal-root"
+				hx-swap="innerHTML"
+			>
+				Okay
+			</button>
+		</div>
+	</div>
+}

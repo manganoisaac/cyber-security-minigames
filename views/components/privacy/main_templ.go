@@ -54,15 +54,20 @@ func Main(profile types.SocialProfile, posts []types.PostUI, clues []types.ClueU
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div><div class=\"privacy-analysis-modal\" id=\"privacy-analysis-modal\" hidden><div class=\"privacy-analysis-modal__backdrop\" data-privacy-analysis-close></div><section class=\"privacy-analysis-modal__dialog\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"privacy-analysis-title\"><header class=\"privacy-analysis-modal__header\"><div><p class=\"privacy-analysis-modal__eyebrow\">POST ANALYSIS</p><h2 id=\"privacy-analysis-title\">What does this post reveal?</h2></div><button class=\"privacy-analysis-modal__close\" type=\"button\" aria-label=\"Close analysis\" data-privacy-analysis-close>×</button></header><div class=\"privacy-analysis-modal__body\"><blockquote class=\"privacy-analysis-modal__post\" id=\"privacy-analysis-post\"></blockquote><p class=\"privacy-analysis-modal__question\">Which piece of useful personal information does this post reveal?</p><div class=\"privacy-analysis-modal__options\" id=\"privacy-analysis-options\"></div><p class=\"privacy-analysis-modal__feedback\" id=\"privacy-analysis-feedback\" hidden aria-live=\"polite\"></p></div><footer class=\"privacy-analysis-modal__footer\"><button class=\"privacy-analysis-modal__continue\" id=\"privacy-analysis-continue\" type=\"button\" hidden>Continue</button></footer></section></div></div><div id=\"modal-root\" class=\"privacy-modal-root\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div><div class=\"privacy-analysis-modal\" id=\"privacy-analysis-modal\" hidden><div class=\"privacy-analysis-modal__backdrop\" data-privacy-analysis-close></div><section class=\"privacy-analysis-modal__dialog\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"privacy-analysis-title\"><header class=\"privacy-analysis-modal__header\"><div><p class=\"privacy-analysis-modal__eyebrow\">POST ANALYSIS</p><h2 id=\"privacy-analysis-title\">What does this post reveal?</h2></div><button class=\"privacy-analysis-modal__close\" type=\"button\" aria-label=\"Close analysis\" data-privacy-analysis-close>×</button></header><div class=\"privacy-analysis-modal__body\"><blockquote class=\"privacy-analysis-modal__post\" id=\"privacy-analysis-post\"></blockquote><p class=\"privacy-analysis-modal__question\">Which piece of useful personal information does this post reveal?</p><div class=\"privacy-analysis-modal__options\" id=\"privacy-analysis-options\"></div><p class=\"privacy-analysis-modal__feedback\" id=\"privacy-analysis-feedback\" hidden aria-live=\"polite\"></p></div><footer class=\"privacy-analysis-modal__footer\"><button class=\"privacy-analysis-modal__continue\" id=\"privacy-analysis-continue\" type=\"button\" hidden>Continue</button></footer></section></div></div><div id=\"modal-root\" class=\"privacy-modal-root\"><div class=\"modal\"><div class=\"modal__backdrop\" aria-label=\"Close\"></div><div class=\"modal__dialog\" role=\"dialog\" aria-modal=\"true\"><h2 class=\"privacy-modal__heading\">ONLINE PRIVACY</h2><div class=\"modal__text-container\"><p class=\"modal__text\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = ui.ModalStep(intro, "/privacy/instructions").Render(ctx, templ_7745c5c3_Buffer)
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(intro)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/privacy/main.templ`, Line: 101, Col: 35}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><script src=\"/public/js/privacy-analysis.js\"></script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</p></div><button class=\"modal__button\" hx-get=\"/privacy/instructions\" hx-target=\"#modal-root\" hx-swap=\"innerHTML\">Okay</button></div></div></div><script src=\"/public/js/privacy-analysis.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
