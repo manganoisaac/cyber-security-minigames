@@ -8,3 +8,6 @@
 .venv/
 __pycache__/
 scripts/build/
+
+# Local development/build artifacts
+tmp/
